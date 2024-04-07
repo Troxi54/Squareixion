@@ -1,0 +1,123 @@
+@import "variables.css";
+
+.no-transition {
+    transition: none !important;
+}
+
+.frame {
+    background-color: black;
+    border: 5px solid white;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, .75), 0 0 10px rgba(255, 255, 255, .75);
+    border-radius: 5px;
+}
+
+.frame-noglow {
+    background-color: black;
+    border: 3px solid white;
+}
+
+.block {
+    display: block;
+}
+
+.column {
+    position: absolute;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.column-flex {
+    flex-direction: column;
+}
+
+.upgrade {
+    width: 100px;
+    aspect-ratio: 1 / 1;
+}
+
+.absolute,
+.upgrades-container {
+    position: absolute;
+}
+
+.white-text {
+    color: var(--basic-color-text);
+}
+.dark-text {
+    color: var(--dark-color);
+}
+.darker-text {
+    color: var(--darker-color);
+}
+
+span.size-175 {
+    font-size: 175%;
+}
+span.size-150 {
+    font-size: 150%;
+}
+span.size-125 {
+    font-size: 125%;
+}
+span.size-75 {
+    font-size: 75%;
+}
+span.size-50 {
+    font-size: 50%;
+}
+span.bold {
+    font-weight: bold;
+}
+
+.star {
+    width: 1px;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+}
+
+.damage {
+    color: red;
+}
+
+.prestige {
+    color: rgb(0, 255, 255);
+}
+
+.upgrades-container {
+    width: 100%;
+    height: 35%;
+    top: calc(65% - 3px);
+    justify-content: start;
+    border-bottom: 0px;
+    gap: 10px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+
+.upgrades-container::-webkit-scrollbar {
+    height: 8px;
+    border: 2px solid rgb(255, 255, 255);
+    border-left: 0px;
+    border-right: 0px;
+    background-color: black;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.upgrades-container::before,
+.upgrades-container::after {
+    content: "";
+}
+
+.upgrade {
+    width: 75px;
+    aspect-ratio: 1 / 1;
+    transition: none;
+    flex-shrink: 0;
+}
+
+.upgrade:active {
+    background-color: var(--darker-color-2);
+}

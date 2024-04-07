@@ -1,0 +1,45 @@
+@import "variables.css";
+
+* {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+body {
+    background-color: rgb(0, 0, 0);
+    overflow: auto;
+    
+}
+
+div {
+    display: flex;
+}
+
+button {
+    display: flex;
+    overflow: hidden;
+    border: 2px solid white;
+    background-color: black;
+    transition: 100ms;
+    transition-property: background-color;
+}
+
+button:hover {
+    background-color: var(--darkerer-color);
+}
+
+p {
+    font-family: sans-serif;
+    color: var(--white-color);
+}
+
+::-webkit-scrollbar {
+    border: 2px solid rgb(255, 255, 255);
+    background-color: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+}

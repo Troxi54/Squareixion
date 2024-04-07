@@ -1,0 +1,29 @@
+.cube {
+    min-width: 10px;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    transition: linear 100ms;
+    transition-property: background-color;
+    cursor: url('../images/sword.png'), auto;
+}
+
+div.cube:active {
+    transition: linear 0ms;
+    background-color: rgb(255, 100, 100);
+}
+
+.cube.common {
+    background-color: rgb(200, 200, 200);
+}
+
+.common-text {
+    color: rgb(200, 200, 200);
+}
+
+.cube.uncommon {
+    background-color: rgb(222, 255, 207);
+}
+
+.uncommon-text {
+    color: rgb(222, 255, 207);
+}

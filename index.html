@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <title>Squareixion</title>
+        <meta charset="utf-8">
+
+        <script src="js/bignumber.js-master/bignumber.js"></script>
+        <script src="js/bignumber.js-master/MoreBNFunctions.js"></script>
+
+        <script src="js/Consts.js"></script>
+        <script src="js/UsefulFunctions.js"></script>
+        <script src="js/Cube.js"></script>
+        <script src="js/main.js"></script>
+
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/font.css">
+        <link rel="stylesheet" href="css/element_selectors.css">
+        <link rel="stylesheet" href="css/classes.css">
+        <link rel="stylesheet" href="css/ids.css">
+        <link rel="stylesheet" href="css/cubes.css">
+    </head>
+    <body>
+        <div id="wrapper">
+            
+            <div id="main-content">
+                <div id="prestige-area" class="column">
+                    <div id="prestige-div" class="frame column-flex">
+                        <p id="prestige-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
+                        <button id="prestige-button">
+                            <p id="prestige-button-text">You can earn 1 prestige point</p>
+                        </button>
+                    </div>
+                    <div id="prestige-upgrades-div" class="frame column-flex">
+                        <p id="prestige-upgrades-info" class="absolute"></p>
+                        <p id="prestige-upgrades-name">Upgrades</p>
+                        <div class="upgrades-container frame-noglow">
+                            
+                            <button id="prestige-upgrade-1" class="upgrade frame-noglow"></button>
+                            <button id="prestige-upgrade-2" class="upgrade frame-noglow"></button>
+                            <button id="prestige-upgrade-2" class="upgrade frame-noglow"></button>
+                            <div class="upgrades-container-space"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cube-area" class="column">
+                    <div id="cube-info-div" class="frame">
+                        <p id="cube-info-text"></p>
+                    </div>
+                    <div class="cube"></div>
+                </div>
+                
+                
+            </div>
+            <div id="background"></div>
+        </div>
+    </body>
+</html>
