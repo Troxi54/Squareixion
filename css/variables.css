@@ -1,7 +1,10 @@
 :root {
     --white-color: #ffffff;
     --dark-color: #d1d1d1;
+    --dark-color-2: #bebebe;
     --darker-color: #868686;
-    --darker-color-2: rgb(50, 50, 50);
+    --darker-color-2: rgb(40, 40, 40);
     --darkerer-color: rgb(25, 25, 25);
+
+    --cube-color: rgb(0, 0, 0);
 }

@@ -22,16 +22,18 @@ function add_zeros(num, zeros = 1)
     return str;
 }
 
-function abb(num, acc = 2, absolute = false)
+function abb(num, acc, absolute = false)
 {
     if (num instanceof BigNumber === false) throw new Error(`The number is not BigNumber! The type is ${ typeof num }`);
     if (absolute && num.lt(BigNumber('0e0'))) num = BigNumber('0e0');
-    const postFixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qn', 'Sx', 'Sp', 'Oc', 'No'],
-        log = num.log(BigNumber('1e3')).abs().floor()
-        postFix = postFixes[num.lt(setting.to_exp) ? log.toNumber() : 0];
-    if (postFix != '') { num = num.div(BigNumber('1e3').topow(log)) }
-    const str = acc <= 0 && num.lt(setting.to_exp) ? 
-            num.toFixed(acc) : num.ge(setting.to_exp) ? num.toExponential(acc) : num.toFixed(acc);
+    const default_acc = 2,
+          postFixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qn', 'Sx', 'Sp', 'Oc', 'No'],
+          log = num.log(BigNumber('1e3')).abs().floor()
+          postFix = postFixes[num.lt(setting.to_exp) ? log.toNumber() : 0]
+          numm = num;
+    if (postFix != '') { num = num.div(BigNumber('1e3').topow(log)); }
+    if (acc === undefined || numm.ge(setting.int_to_float)) { acc = default_acc } ;
+    let str = numm.ge(setting.to_exp) ? num.toExponential(acc) : num.toFixed(acc);
     return (str + postFix).replace(/[+]/, '');
 }
 
@@ -45,40 +47,59 @@ function save()
 {
     if (setting.save)
     {
-        localStorage.setItem('Data', JSON.stringify(player));
+        console.log(player)
+        console.log(JSON.stringify(player))
+        localStorage.setItem('Data', (JSON.stringify(player)));
     }
 }
 function load()
 {
     let data = localStorage.getItem('Data');
-    data = JSON.parse(data);
-    for (let p in data)
+    if (data)
     {
-        if (data.hasOwnProperty(p))
+        data = JSON.parse((data));
+        for (let p in data)
         {
-            if (typeof data[p] === 'string')
+            if (data.hasOwnProperty(p))
             {
-                if (data[p].includes('e+') || data[p].includes('e-'))
+                if (typeof data[p] === 'string')
                 {
-                    data[p] = BigNumber(data[p]);
-                }
-            }
-            else if (typeof data[p] === 'object')
-            {
-                for (let i = 0; i < data[p].length; ++i)
-                {
-                    for (let j in data[p][i])
+                    if (data[p].includes('e+') || data[p].includes('e-'))
                     {
-                        if (data[p][i][j].includes('e+') || data[p][i][j].includes('e-'))
-                        {
-                            data[p][i][j] = BigNumber(data[p][i][j]);
-                        }
+                        data[p] = BigNumber(data[p]);
                     }
+                }
+                if (p === "upgrades")
+                {
+                    let upgrades = player.upgrades;
+                    for (let container in upgrades)
+                    {
+                        upgrades[container].forEach(function(upgrade, index)
+                        {
+                            console.log(upgrade)
+                            upgrade.setBoughtTimes(BigNumber(data['upgrades'][container][index].bought_times));
+                        });
+                    }
+                    data['upgrades'] = upgrades;
                 }
             }
         }
     }
     return data;
+}
+
+function loadToPlayer()
+{
+    let data = load();
+    console.log(data)
+    if (data)
+    {
+        console.log('y')
+        for (let property in data)
+        {
+            player[property] = data[property];
+        }
+    }
 }
 
 function setFPS(set)
@@ -98,3 +119,17 @@ function getLoopIntervalBN()
 function intervalS() { return getLoopIntervalBN().div(BigNumber('1e3')); }
 
 function getLoopInterval() { return getLoopIntervalBN().toNumber(); }
+
+function numToTime(num)
+{
+    if (typeof num === 'number')
+    {
+        const array = ['s', 'ms'],
+              log = Math.floor(Math.log10(num) / Math.log10(1e3));
+        return num / 1e3 ** log + array[array.length - log - 1];
+    }
+    else
+    {
+        throw Error(`Your value is not number. The type of value is ${typeof num}`)
+    }
+}

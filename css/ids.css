@@ -38,52 +38,9 @@
 }
 
 #prestige-area {
-    width: 500px;
-    height: 100%;
     transform: translateX(-125%);
-    gap: 50px;
 }
 
-#prestige-div {
-    width: 400px;
-    aspect-ratio: 1.42 / 1;
-    gap: 5px;
-}
-
-#prestige-info {
-    font-size: 22px;
-}
-
-#prestige-button {
-    width: 85%;
-    aspect-ratio: 6 / 1;
-}
-
-#prestige-button-text {
-    font-size: 19px;
-    color: var(--darker-color);
-}
-
-#prestige-button:active > #prestige-button-text:not(.prestige-button-text-cannot) {
-    color: rgb(255, 255, 255);
-}
-
-#prestige-button:active > .prestige-button-text-cannot {
-    color: rgb(255, 0, 0);
-}
-
-#prestige-upgrades-div {
-    width: 400px;
-    aspect-ratio: 1.42 / 1;
-    position: relative;
-}
-
-#prestige-upgrades-info {
-    font-size: 22px;
-    top: 0%;
-}
-
-#prestige-upgrades-name {
-    font-size: 30px;
-    top: 50%;
+#light-area {
+    transform: translateX(125%);
 }

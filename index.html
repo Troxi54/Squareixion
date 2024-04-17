@@ -10,6 +10,8 @@
         <script src="js/Consts.js"></script>
         <script src="js/UsefulFunctions.js"></script>
         <script src="js/Cube.js"></script>
+        <script src="js/Upgrades.js"></script>
+        <script src="js/Automation.js"></script>
         <script src="js/main.js"></script>
 
         <link rel="stylesheet" href="css/variables.css">
@@ -21,24 +23,38 @@
     </head>
     <body>
         <div id="wrapper">
-            
             <div id="main-content">
-                <div id="prestige-area" class="column">
-                    <div id="prestige-div" class="frame column-flex">
-                        <p id="prestige-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
-                        <button id="prestige-button">
-                            <p id="prestige-button-text">You can earn 1 prestige point</p>
+                <div id="prestige-area" class="column area">
+                    <div id="prestige-div" class="frame column-flex layer-div">
+                        <p id="prestige-info" class="layer-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
+                        <button id="prestige-button" class="button layer-button">
+                            <p id="prestige-button-text" class="layer-button-text">You can earn 0 prestige point</p>
                         </button>
                     </div>
-                    <div id="prestige-upgrades-div" class="frame column-flex">
-                        <p id="prestige-upgrades-info" class="absolute"></p>
-                        <p id="prestige-upgrades-name">Upgrades</p>
-                        <div class="upgrades-container frame-noglow">
-                            
-                            <button id="prestige-upgrade-1" class="upgrade frame-noglow"></button>
-                            <button id="prestige-upgrade-2" class="upgrade frame-noglow"></button>
-                            <button id="prestige-upgrade-2" class="upgrade frame-noglow"></button>
-                            <div class="upgrades-container-space"></div>
+                    <div id="prestige-upgrades-div" class="frame column-flex layer-upgrades-div">
+                        <p id="prestige-upgrades-info" class="absolute layer-upgrades-info"></p>
+                        <p id="prestige-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                        <div id="prestige-upgrades-container" class="upgrades-container frame-noglow">
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -46,7 +62,36 @@
                     <div id="cube-info-div" class="frame">
                         <p id="cube-info-text"></p>
                     </div>
-                    <div class="cube"></div>
+                    <button class="cube"></button>
+                </div>
+                <div id="light-area" class="column area">
+                    <div id="light-div" class="frame column-flex layer-div">
+                        <p id="light-info" class="layer-info"><span class="light size-150 bold">Light</span><br><br>Light resets everything <br>before, but gives light points <br>to buy cooler upgrades.</p>
+                        <button id="light-button" class="button layer-button">
+                            <p id="light-button-text" class="layer-button-text">You can earn 0 light point</p>
+                        </button>
+                    </div>
+                    <div id="light-upgrades-div" class="frame column-flex layer-upgrades-div">
+                        <p id="light-upgrades-info" class="absolute layer-upgrades-info"></p>
+                        <p id="light-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                        <div id="light-upgrades-container" class="upgrades-container frame-noglow layer-upgrades-container">
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 

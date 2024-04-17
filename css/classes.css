@@ -36,7 +36,10 @@
 }
 
 .absolute,
-.upgrades-container {
+.upgrades-container,
+.upgrade-name,
+.upgrade-info,
+.upgrade-cost {
     position: absolute;
 }
 
@@ -48,6 +51,12 @@
 }
 .darker-text {
     color: var(--darker-color);
+}
+.darkerer-text {
+    color: var(--darkerer-color);
+}
+.darker-2-text {
+    color: var(--darker-color-2);
 }
 
 span.size-175 {
@@ -69,6 +78,14 @@ span.bold {
     font-weight: bold;
 }
 
+.positive {
+    color: rgb(0, 255, 0);
+}
+
+.negative {
+    color: rgb(255, 0, 0);
+}
+
 .star {
     width: 1px;
     aspect-ratio: 1 / 1;
@@ -82,6 +99,61 @@ span.bold {
 .prestige {
     color: rgb(0, 255, 255);
 }
+
+.light {
+    color: rgb(255, 255, 0);
+}
+
+.area {
+    width: 500px;
+    height: 100%;
+    gap: 50px
+}
+
+.layer-div {
+    width: 400px;
+    aspect-ratio: 1.42 / 1;
+    gap: 5px;
+}
+
+.layer-info {
+    font-size: 22px;
+}
+
+.layer-button {
+    width: 85%;
+    aspect-ratio: 6 / 1;
+}
+
+.layer-button-text {
+    font-size: 19px;
+    color: var(--darker-color);
+}
+
+.layer-button:active > .layer-button-text:not(.layer-button-text-cannot) {
+    color: rgb(255, 255, 255);
+}
+
+.layer-button:active > .layer-button-text-cannot {
+    color: rgb(255, 0, 0);
+}
+
+.layer-upgrades-div {
+    width: 400px;
+    aspect-ratio: 1.42 / 1;
+    position: relative;
+}
+
+.layer-upgrades-info {
+    font-size: 22px;
+    top: 0%;
+}
+
+.layer-upgrades-name {
+    font-size: 30px;
+    top: 50%;
+}
+
 
 .upgrades-container {
     width: 100%;
@@ -112,12 +184,33 @@ span.bold {
 }
 
 .upgrade {
-    width: 75px;
+    width: 85px;
     aspect-ratio: 1 / 1;
     transition: none;
     flex-shrink: 0;
+    flex-direction: column;
+    position: relative;
 }
 
 .upgrade:active {
     background-color: var(--darker-color-2);
+}
+
+.upgrade-name {
+    font-size: 10px;
+    top: 10%;
+    transform: translateY(-50%);
+}
+
+.upgrade-info {
+    font-size: .65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    text-wrap: wrap;
+}
+
+.upgrade-cost {
+    font-size: 10px;
+    top: 80%;
+    transform: translateY(-50%);
 }

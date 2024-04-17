@@ -1,29 +1,60 @@
+@import "variables.css";
+
 .cube {
+    border: none;
+    background-color: rgb(var(--cube-color));
     min-width: 10px;
     max-width: 500px;
     aspect-ratio: 1 / 1;
     transition: linear 100ms;
-    transition-property: background-color;
+    transition-property: color;
     cursor: url('../images/sword.png'), auto;
+    color: var(--cube-color);
 }
 
-div.cube:active {
-    transition: linear 0ms;
+button.cube:active {
+    transition: none;
     background-color: rgb(255, 100, 100);
+    --cube-color: 255, 100, 100;
 }
 
-.cube.common {
-    background-color: rgb(200, 200, 200);
+.cube-text {
+    color: var(--cube-color);
 }
 
-.common-text {
-    color: rgb(200, 200, 200);
+.cube.basic,
+.cube-text.basic-text {
+    --cube-color: 200, 200, 200;   
+}
+.cube.warrior,
+.cube-text.warrior-text {
+    --cube-color: 222, 255, 207;
 }
 
-.cube.uncommon {
-    background-color: rgb(222, 255, 207);
+.cube.assassin,
+.cube-text.assassin-text {
+    --cube-color: 244, 255, 143;
 }
 
-.uncommon-text {
-    color: rgb(222, 255, 207);
+.cube.ninja,
+.cube-text.ninja-text {
+    --cube-color: 255, 140, 64;
+}
+
+.cube.dark-warrior {
+    --cube-color: 48, 48, 48;
+    box-shadow: 0 0 25px 3px var(--cube-color, .5);
+}
+
+.cube-text.dark-warrior-text {
+    --cube-color: 48, 48, 48;
+}
+
+.cube.light-warrior {
+    --cube-color: 255, 255, 255;
+    box-shadow: 0 0 25px 3px rgba(var(--cube-color), .5);
+}
+
+.cube-text.light-warrior-text {
+    --cube-color: 255, 255, 255;
 }
