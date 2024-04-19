@@ -59,7 +59,7 @@ function load()
     {
         console.log('y')
         save();
-        data = localStorage.getItem('Data');
+        data = btoa(data);
     }
     if (data)
     {
