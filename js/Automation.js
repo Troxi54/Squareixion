@@ -16,7 +16,6 @@ class Auto {
         {
             if (Date.now() >= this.lastLoop + this.rate() * 1e3)
             {
-                console.log(this.rate())
                 this.lambda();
                 this.lastLoop = Date.now()
             }

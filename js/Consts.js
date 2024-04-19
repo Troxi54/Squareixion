@@ -29,4 +29,13 @@ const setting = {
 unlocks = {
     prestige: BigNumber('4e0'),
     light: BigNumber('3e1')
+}
+,
+events = {
+    isCubeHeld: false
 };
+
+player.isUnlocked = {
+    prestige: false,
+    light: false,
+}

@@ -161,11 +161,16 @@ main_functions = {
         }
     },
     updates: {  // update HTML
+        stage()
+        {
+            fs.update(elements.stage, `<span class="darker-text">Stage:</span> ${ abb_abs_int(player.stage) }`);
+        },
         cubeInfo()
         {
             fs.update(elements.cube_info, `<span class="white-text">Rank: </span><span class="cube-text ${ get.cube_style + setting.cube_text_plus_style }">${ get.cube_name }</span><br>
                                            <span class="white-text">HP: ${ abb_abs(player.cube_hp) }/${ abb_abs(get.cube_total_hp) } </span><br>
                                            <span class="damage">Damage:</span> ${ abb(get.damage) }`);
+            this.stage();
         },
         prestigeButtonInfo()
         {
@@ -203,6 +208,7 @@ main_functions = {
         },
         updateAll()
         {
+            this.stage();
             this.cubeInfo();
             this.prestigeButtonInfo();
             this.prestigeAmount();
@@ -220,6 +226,8 @@ main_functions = {
         {
             gameFunctions.damageCube();
         })
+        elements.cube.addEventListener('mousedown', ()=>events.isCubeHeld = true); elements.cube.addEventListener('touchstart', ()=>events.isCubeHeld = true);
+        elements.cube.addEventListener('mouseup', ()=>events.isCubeHeld = false); elements.cube.addEventListener('touchend', ()=>events.isCubeHeld = false);
         elements.prestige_button.addEventListener('click', function()
         {
             fs.reset(
@@ -227,6 +235,7 @@ main_functions = {
                 () => player.stage.ge(unlocks.prestige),
                 function()
                 {
+                    player.isUnlocked.prestige = true;
                     changeValue('prestige_points', player.prestige_points.plus(get.prestige_points));
                     gameFunctions.resetCube();
                 }
@@ -239,12 +248,14 @@ main_functions = {
                 () => player.stage.ge(unlocks.light),
                 function()
                 {
+                    player.isUnlocked.light = true;
                     changeValue('light_points', player.light_points.plus(get.light_points));
                     player.upgrades.prestige_upgrades.forEach(function(upgr, index)
                     {
                        upgr.setBoughtTimes(BigNumber('0e0'));
                     });
                     changeValue('prestige_points', BigNumber('0e0'));
+                    
                     gameFunctions.resetCube();
                 }
             );
@@ -255,9 +266,11 @@ main_functions = {
         {
             let star = document.createElement('div');
             star.classList.add('star');
-            star.style.left = "calc(" + Math.random() * 100 + '% - 1px)';
-            star.style.top = "calc(" + Math.random() * 100 + '% - 1px)';
-            star.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, .5)`;
+            const rand = Math.random() * 255;
+            star.style.backgroundColor = `rgb(${rand}, ${rand}, ${rand}, .5)`;
+            star.style.width = `${rand / 100}px`
+            star.style.left = "calc(" + Math.random() * 100 + `%)`;
+            star.style.top = "calc(" + Math.random() * 100 + `%)`;
             elements.star_container.append(star);
         },
         spawnCube()
@@ -364,12 +377,17 @@ function mainLoop()
         save();
         nosave.lastSave = Date.now();
     }
+    if (events.isCubeHeld && player.isUnlocked.light)
+    {
+        gameFunctions.damageCube();
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function()
 {
     elements = {
         wrapper: document.querySelector('#wrapper'),
+        stage: document.querySelector('#stage'),
         cube: document.querySelector('.cube'),
         cube_info: document.querySelector('#cube-info-text'),
         star_container: document.querySelector('#background'),

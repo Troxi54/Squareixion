@@ -3,8 +3,7 @@
 .cube {
     border: none;
     background-color: rgb(var(--cube-color));
-    min-width: 10px;
-    max-width: 500px;
+    
     aspect-ratio: 1 / 1;
     transition: linear 100ms;
     transition-property: color;
@@ -19,7 +18,7 @@ button.cube:active {
 }
 
 .cube-text {
-    color: var(--cube-color);
+    color: rgb(var(--cube-color));
 }
 
 .cube.basic,

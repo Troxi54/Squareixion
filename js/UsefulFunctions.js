@@ -47,17 +47,23 @@ function save()
 {
     if (setting.save)
     {
-        console.log(player)
-        console.log(JSON.stringify(player))
-        localStorage.setItem('Data', (JSON.stringify(player)));
+        localStorage.setItem('Data', btoa(JSON.stringify(player)));
     }
 }
 function load()
 {
     let data = localStorage.getItem('Data');
+    let isValid = false;
+    try { JSON.parse(data); isValid = true } catch { isValid = false; }
+    if ( isValid )
+    {
+        console.log('y')
+        save();
+        data = localStorage.getItem('Data');
+    }
     if (data)
     {
-        data = JSON.parse((data));
+        data = JSON.parse(atob(data));
         for (let p in data)
         {
             if (data.hasOwnProperty(p))
@@ -76,7 +82,6 @@ function load()
                     {
                         upgrades[container].forEach(function(upgrade, index)
                         {
-                            console.log(upgrade)
                             upgrade.setBoughtTimes(BigNumber(data['upgrades'][container][index].bought_times));
                         });
                     }
@@ -91,10 +96,8 @@ function load()
 function loadToPlayer()
 {
     let data = load();
-    console.log(data)
     if (data)
     {
-        console.log('y')
         for (let property in data)
         {
             player[property] = data[property];
