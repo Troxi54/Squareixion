@@ -89,16 +89,6 @@ class Upgrade {
     }
 }
 
-player.upgrades = {
-    prestige_upgrades: [
-        new Upgrade(1, 1, '1e0', '4e0', '2e0', 'damage', 'prestige_points'),
-        new Upgrade(1, 2, '3e0', '1e1', '4e0', 'damage', 'prestige_points'),
-        new Upgrade(1, 3, '5e0', '2.5e1', '8e0', 'damage', 'prestige_points'),
-        new Upgrade(1, 4, '5e6', '5e3', '2e0', 'light_points', 'prestige_points'),
-    ],
-    light_upgrades: [
-        new Upgrade(2, 1, '1e0', '2e0', '2.5e1', 'damage', 'light_points'),
-        new Upgrade(2, 2, '1e0', '2e0', '5e0', 'prestige_points', 'light_points'),
-        new Upgrade(2, 3, '1e0', '3e0', '2e0', function(){ return `<span class="positive">Autoclicker</span> and <span class="positive">${ abb_abs_int(this.effect_scaling) }x</span> its speed <br><span class="darker-text">Currently: ${this.bought_times.le(0) ? 'no' : numToTime(this.effect.toNumber() * 1e3)}</span> <br><br><span class="size-125">`; }, 'light_points', 10, function(eff){return BigNumber(setting.autoclickers_start).div(eff).times(this.effect_scaling)}),
-    ]
-}
+
+
+player = getDefaultPlayerValues();

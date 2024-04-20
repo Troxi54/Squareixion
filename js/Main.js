@@ -1,12 +1,3 @@
-// setting default player values {
-    player.stage = BigNumber('1e0');
-    player.cube_hp = BigNumber('0e0');
-    player.prestige_points = BigNumber('0e0');
-    player.prestige_points_base = BigNumber('2e0');
-    player.light_points = BigNumber('0e0')
-    // don't even try to change names
-//}
-
 // setting player values, that was not supposed to be saved {
     nosave.damage_multi = BigNumber('1e0');
     nosave.prestige_points_multi = BigNumber('1e0');

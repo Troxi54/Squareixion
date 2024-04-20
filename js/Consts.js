@@ -34,8 +34,3 @@ unlocks = {
 events = {
     isCubeHeld: false
 };
-
-player.isUnlocked = {
-    prestige: false,
-    light: false,
-}
