@@ -6,6 +6,7 @@
     justify-content: center;
     user-select: none;
     touch-action: manipulation;
+    outline: 0;
 }
 
 body {

@@ -17,7 +17,8 @@ const hps = [
 ]
 
 const hps_scalings = [
-    [hps.length.toString(), '5.65e1'],
+    [hps.length.toString(), '5.65e0'],
+    ['3e1', '5.65e1'],
     ['1e2', '1.5675e2'],
 ]
 
@@ -28,4 +29,6 @@ const cubes = [
     new Cube("Ninja"),
     new Cube("Dark Warrior"),
     new Cube("Light Warrior"),
+    new Cube("Dark Defender"),
+    new Cube("Light Defender"),
 ]

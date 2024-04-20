@@ -14,6 +14,7 @@ let elements = {},
     gameFunctions = {};
 
 const setting = {
+    game_name: "Squareixion",
     save: true,
     auto_save: 10,
     update_time_s: BigNumber('1e-0'),
@@ -32,5 +33,12 @@ unlocks = {
 }
 ,
 events = {
-    isCubeHeld: false
+    isCubeHeld: false,
+    isPrestigeHeld: false,
+    isLightHeld: false
+}
+,
+hotkeys = {
+    prestige: 'p',
+    light: 'l'
 };

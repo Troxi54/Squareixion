@@ -47,18 +47,16 @@ function save()
 {
     if (setting.save)
     {
-        console.log('y')
         if (player != getDefaultPlayerValues())
         {
-            console.log('y2')
-            localStorage.setItem('Data', btoa(JSON.stringify(player)));
+            localStorage.setItem(setting.game_name, btoa(JSON.stringify(player)));
         }
             
     }
 }
 function load()
 {
-    let data = localStorage.getItem('Data');
+    let data = localStorage.getItem(setting.game_name);
     let isValid = false;
     try { JSON.parse(data); isValid = true } catch { isValid = false; }
     if ( isValid )

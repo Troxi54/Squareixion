@@ -57,3 +57,21 @@ button.cube:active {
 .cube-text.light-warrior-text {
     --cube-color: 255, 255, 255;
 }
+
+.cube.dark-defender {
+    --cube-color: 125, 0, 0;
+    box-shadow: 0 0 25px 3px rgba(var(--cube-color), .5);
+}
+
+.cube-text.dark-defender-text {
+    --cube-color: 125, 0, 0;
+}
+
+.cube.light-defender {
+    --cube-color: 0, 255, 255;
+    box-shadow: 0 0 25px 3px rgba(var(--cube-color), .5);
+}
+
+.cube-text.light-defender-text {
+    --cube-color: 0, 255, 255;
+}

@@ -87,15 +87,10 @@ main_functions = {
             const index = Math.floor((player.stage.toNumber() - 1) / setting.cube_name_postfixes.length);
             this.cube_stat = cubes[index < cubes.length - 1 ? index : cubes.length - 1];
 
-            let hp = gameFunctions.getCubeHP(BigNumber('0e0'));
             
-            this.cube_total_hp = hp;
-
-            const st = player.stage.toNumber(), postfixes = setting.cube_name_postfixes.length;
-            this.cube_name = this.cube_stat.name + ( player.stage.gt(cubes.length * postfixes) ? ` ${ abb_abs_int(player.stage.minus(BigNumber((cubes.length - 1) * postfixes))) }`
-                                        : setting.cube_name_postfixes[ st - Math.floor((st - 1) / postfixes) * postfixes - 1 ] );
-            
-            this.cube_style = this.cube_stat.name.toLowerCase().replace(/ /g, '-');
+            this.cube_total_hp = gameFunctions.getCubeHP(BigNumber('0e0'));
+            this.cube_name = gameFunctions.getCubeName(player.stage);
+            this.cube_style = gameFunctions.getCubeStyleName(player.stage);
         },
         cube_stat: new Cube(),
         cube_total_hp: BigNumber('0e0'),
@@ -165,7 +160,10 @@ main_functions = {
         },
         prestigeButtonInfo()
         {
-            fs.update(elements.prestige_button_text, `You can earn <span class="prestige">${ abb_abs(get.prestige_points) }</span> prestige points`);
+            fs.update(elements.prestige_button_text, get.prestige_points.le(BigNumber('0e0')) ? `Required square: <span class=
+                                                                                                    "cube-text ${ gameFunctions.getCubeStyleName(unlocks.prestige) + setting.cube_text_plus_style }">
+                                                                                                                              ${gameFunctions.getCubeName(unlocks.prestige)}</span>`
+                                                                    : `You can earn <span class="prestige">${ abb_abs(get.prestige_points) }</span> prestige points`);
             if (get.prestige_points.le(BigNumber('0e0'))) { elements.prestige_button_text.classList.add('layer-button-text-cannot'); }
             else { elements.prestige_button_text.classList.remove('layer-button-text-cannot'); }
         },
@@ -182,7 +180,10 @@ main_functions = {
         },
         lightButtonInfo()
         {
-            fs.update(elements.light_button_text, `You can earn <span class="light">${ abb_abs(get.light_points) }</span> light points`);
+            fs.update(elements.light_button_text, get.light_points.le(BigNumber('0e0')) ? `Required square: <span class=
+                                                                                              "cube-text ${ gameFunctions.getCubeStyleName(unlocks.light) + setting.cube_text_plus_style }">
+                                                                                                                                      ${gameFunctions.getCubeName(unlocks.light)}</span>`
+                                                                                           : `You can earn <span class="light">${ abb_abs(get.light_points) }</span> light points`);
             if (get.light_points.le(BigNumber('0e0'))) { elements.light_button_text.classList.add('layer-button-text-cannot'); }
             else { elements.light_button_text.classList.remove('layer-button-text-cannot'); }
         },
@@ -218,39 +219,20 @@ main_functions = {
             gameFunctions.damageCube();
         })
         elements.cube.addEventListener('mousedown', ()=>events.isCubeHeld = true); elements.cube.addEventListener('touchstart', ()=>events.isCubeHeld = true);
-        elements.cube.addEventListener('mouseup', ()=>events.isCubeHeld = false); elements.cube.addEventListener('touchend', ()=>events.isCubeHeld = false);
+        document.body.addEventListener('mouseup', ()=>events.isCubeHeld = false); document.body.addEventListener('touchend', ()=>events.isCubeHeld = false);
+        document.body.addEventListener('mouseleave', ()=>events.isCubeHeld = false);
         elements.prestige_button.addEventListener('click', function()
         {
-            fs.reset(
-                1, 
-                () => player.stage.ge(unlocks.prestige),
-                function()
-                {
-                    player.isUnlocked.prestige = true;
-                    changeValue('prestige_points', player.prestige_points.plus(get.prestige_points));
-                    gameFunctions.resetCube();
-                }
-            );
+            gameFunctions.prestige();
         })
+        document.addEventListener('keydown', (k)=>{if (k.key === hotkeys.prestige) events.isPrestigeHeld = true}); 
+        document.addEventListener('keyup', (k)=>{if (k.key === hotkeys.prestige) events.isPrestigeHeld = false});
         elements.light_button.addEventListener('click', function()
         {
-            fs.reset(
-                2, 
-                () => player.stage.ge(unlocks.light),
-                function()
-                {
-                    player.isUnlocked.light = true;
-                    changeValue('light_points', player.light_points.plus(get.light_points));
-                    player.upgrades.prestige_upgrades.forEach(function(upgr, index)
-                    {
-                       upgr.setBoughtTimes(BigNumber('0e0'));
-                    });
-                    changeValue('prestige_points', BigNumber('0e0'));
-                    
-                    gameFunctions.resetCube();
-                }
-            );
+           gameFunctions.light();
         })
+        document.addEventListener('keydown', (k)=>{if (k.key === hotkeys.light) events.isLightHeld = true}); 
+        document.addEventListener('keyup', (k)=>{if (k.key === hotkeys.light) events.isLightHeld = false});
     },
     gameFunctions: {
         spawnStar()
@@ -312,6 +294,22 @@ main_functions = {
             }
             return hp;
         },
+        getCubeName(stage)
+        {
+            const index = Math.floor((stage.toNumber() - 1) / setting.cube_name_postfixes.length),
+                  cube_stat = cubes[index < cubes.length - 1 ? index : cubes.length - 1],
+                  st = stage.toNumber(), 
+                  postfixes = setting.cube_name_postfixes.length;
+
+            return cube_stat.name + ( stage.gt(cubes.length * postfixes) ? ` ${ abb_abs_int(stage.minus(BigNumber((cubes.length - 1) * postfixes))) }`
+                                : setting.cube_name_postfixes[ st - Math.floor((st - 1) / postfixes) * postfixes - 1 ] );
+        },
+        getCubeStyleName(stage)
+        {
+            const index = Math.floor((stage.toNumber() - 1) / setting.cube_name_postfixes.length),
+                  cube_stat = cubes[index < cubes.length - 1 ? index : cubes.length - 1];
+            return cube_stat.name.toLowerCase().replace(/ /g, '-');
+        },
         damageCube()
         {
             player.cube_hp = player.cube_hp.minus(get.damage);
@@ -334,6 +332,38 @@ main_functions = {
                 gameFunctions.spawnCube();
             }
             updates.cubeInfo();
+        },
+        prestige()
+        {
+            fs.reset(
+                1, 
+                () => player.stage.ge(unlocks.prestige),
+                function()
+                {
+                    player.isUnlocked.prestige = true;
+                    changeValue('prestige_points', player.prestige_points.plus(get.prestige_points));
+                    gameFunctions.resetCube();
+                }
+            );
+        },
+        light()
+        {
+            fs.reset(
+                2, 
+                () => player.stage.ge(unlocks.light),
+                function()
+                {
+                    player.isUnlocked.light = true;
+                    changeValue('light_points', player.light_points.plus(get.light_points));
+                    player.upgrades.prestige_upgrades.forEach(function(upgr, index)
+                    {
+                       upgr.setBoughtTimes(BigNumber('0e0'));
+                    });
+                    changeValue('prestige_points', BigNumber('0e0'));
+                    
+                    gameFunctions.resetCube();
+                }
+            );
         },
         updateCubePart()
         {
@@ -371,6 +401,14 @@ function mainLoop()
     if (events.isCubeHeld && player.isUnlocked.light)
     {
         gameFunctions.damageCube();
+    }
+    if (events.isPrestigeHeld)
+    {
+        gameFunctions.prestige();
+    }
+    if (events.isLightHeld)
+    {
+        gameFunctions.light();
     }
 }
 
