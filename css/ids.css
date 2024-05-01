@@ -19,7 +19,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    gap: 100px;
 }
 
 #currencies-place {
@@ -33,10 +32,11 @@
 
 #currencies-place {
     z-index: 100;
+    pointer-events: none;
+    gap: 50px;
 }
 
-#stage {
-    z-index: 100;
+#currencies-place > * {
     font-size: 3vh;
 }
 
@@ -56,14 +56,61 @@
 }
 
 #prestige-area {
-    justify-content: start;
-    gap: 50px;
     transform: translateX(-125%);
 }
-#prestige-area::before { content: ""; height: 37px; }
 
 #light-area {
-    justify-content: start;
     transform: translateX(125%);
 }
-#light-area::before { content: ""; height: 37px; }
+
+#minicube-area {
+    transform: translateX(225%);
+}
+
+#minicube-info {
+    font-size: 30px;
+    line-height: 50px;
+}
+
+#minicube-place {
+    position: relative;
+    width: 300px;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(25, 25, 25);
+    border: none;
+}
+
+#master-area {
+    justify-content: center;
+    flex-direction: row;
+    transform: translate(-40%, 150%);
+    height: 500px;
+    width: 1000px;
+}
+#master-area:before { content:none; }
+
+#master-button {
+    border-color: red;
+}
+
+#master-button-text {
+    font-size: 19px;
+}
+
+#master-button:active > #master-button-text:not(.layer-button-text-cannot) {
+    color: rgb(255, 50, 50);
+}
+
+#master-milestones {
+    position: relative;
+}
+
+#master-milestones > * {
+    position: absolute;
+}
+
+#master-milestones-info {
+    top: 0%;
+    font-size: 22px;
+}
+

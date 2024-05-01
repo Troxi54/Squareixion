@@ -7,9 +7,10 @@ class Auto {
         this.work = work;
 
         this.lastLoop = 0;
-        this.do();
+
         this.lastLoop = Date.now();
     }
+    isWork() { return this.work && this.condition(); }
     do()
     {
         if (this.work && this.condition())
@@ -22,7 +23,3 @@ class Auto {
         }
     }
 }
-
-nosave.Autoclickers = [
-    new Auto(()=>player.upgrades.light_upgrades[2].bought_times.ge(1), function(){gameFunctions.damageCube();}, ()=>player.upgrades.light_upgrades[2].effect.toNumber())
-];

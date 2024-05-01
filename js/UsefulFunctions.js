@@ -22,18 +22,33 @@ function add_zeros(num, zeros = 1)
     return str;
 }
 
-function abb(num, acc, absolute = false)
+function floor(num, acc) { return Math.floor(num * 10 ** acc) / 10 ** acc; }
+
+function abb(num, acc = 2, absolute = false) // pretty bad
 {
-    if (num instanceof BigNumber === false) throw new Error(`The number is not BigNumber! The type is ${ typeof num }`);
-    if (absolute && num.lt(BigNumber('0e0'))) num = BigNumber('0e0');
+    if (typeof num === 'number') { num = new Decimal(num); }
+    if (num instanceof Decimal === false) throw new Error(`The value is not Decimal! The type of your value is ${ typeof num }`);
+    if (absolute && num.lt(new Decimal('0e0'))) num = new Decimal('0e0');
     const default_acc = 2,
           postFixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qn', 'Sx', 'Sp', 'Oc', 'No'],
-          log = num.log(BigNumber('1e3')).abs().floor()
-          postFix = postFixes[num.lt(setting.to_exp) ? log.toNumber() : 0]
+          log = num.neq(new Decimal(0)) ? Decimal.abs(num).log(new Decimal('1e3')).abs().floor() : new Decimal(0)
+          postFix = postFixes[num.lt(settings.to_exp) ? log.toNumber() : 0]
           numm = num;
-    if (postFix != '') { num = num.div(BigNumber('1e3').topow(log)); }
-    if (acc === undefined || numm.ge(setting.int_to_float)) { acc = default_acc } ;
-    let str = numm.ge(setting.to_exp) ? num.toExponential(acc) : num.toFixed(acc);
+    if (postFix != '') { num = num.div(new Decimal('1e3').pow(log)); }
+    if (acc === undefined || numm.gte(settings.int_to_float)) { acc = default_acc; }
+    let e = new Decimal(num.e);
+    if (Decimal.gte(e, new Decimal('1e3')))
+    {
+        if (Decimal.gte(e, settings.to_exp))
+        {
+            return ('e' + floor(e, acc)).replace(/[+]/, '');
+        }
+        let loge = Decimal.abs(e).log(new Decimal('1e3')).abs().floor();
+        postFix = postFixes[e.lt(settings.to_exp) ? loge.toNumber() : 0];
+        e = e.div(new Decimal('1e3').pow(loge)).toNumber();
+        return ('e' + floor(e, acc) + postFix).replace(/[+]/, '');
+    }
+    let str = numm.gte(settings.to_exp) ? num.toExponential(acc) : num.toFixed(acc);
     return (str + postFix).replace(/[+]/, '');
 }
 
@@ -45,23 +60,31 @@ function abb_abs_int(num) { return abb(num, 0, true); }
 
 function save()
 {
-    if (setting.save)
+    if (settings.save)
     {
         if (player != getDefaultPlayerValues())
         {
-            localStorage.setItem(setting.game_name, btoa(JSON.stringify(player)));
+            let Player = {};
+            for (const prop in player) Player[prop] = player[prop]
+            for (let prop in Player)
+            {
+                if (Player[prop] instanceof Decimal)
+                {
+                    Player[prop] = Player[prop].toExponential();
+                }
+            }
+            localStorage.setItem(settings.game_name, btoa(JSON.stringify(Player)));
         }
             
     }
 }
 function load()
 {
-    let data = localStorage.getItem(setting.game_name);
+    let data = localStorage.getItem(settings.game_name);
     let isValid = false;
     try { JSON.parse(data); isValid = true } catch { isValid = false; }
     if ( isValid )
     {
-        console.log('y')
         save();
         data = btoa(data);
     }
@@ -76,7 +99,7 @@ function load()
                 {
                     if (data[p].includes('e+') || data[p].includes('e-'))
                     {
-                        data[p] = BigNumber(data[p]);
+                        data[p] = new Decimal(data[p]);
                     }
                 }
                 if (p === "upgrades")
@@ -86,7 +109,7 @@ function load()
                     {
                         upgrades[container].forEach(function(upgrade, index)
                         {
-                            upgrade.setBoughtTimes(BigNumber(data['upgrades'][container][index].bought_times));
+                            upgrade.setBoughtTimes(new Decimal(data['upgrades'][container][index].bought_times));
                         });
                     }
                     data['upgrades'] = upgrades;
@@ -109,36 +132,6 @@ function loadToPlayer()
     }
 }
 
-function getDefaultPlayerValues()
-{
-    let Player = {};
-    Player.upgrades = {
-        prestige_upgrades: [
-            new Upgrade(1, 1, '1e0', '4e0', '2e0', 'damage', 'prestige_points'),
-            new Upgrade(1, 2, '3e0', '1e1', '4e0', 'damage', 'prestige_points'),
-            new Upgrade(1, 3, '5e0', '2.5e1', '8e0', 'damage', 'prestige_points'),
-            new Upgrade(1, 4, '5e6', '5e3', '2e0', 'light_points', 'prestige_points'),
-        ],
-        light_upgrades: [
-            new Upgrade(2, 1, '1e0', '2e0', '2.5e1', 'damage', 'light_points'),
-            new Upgrade(2, 2, '1e0', '2e0', '5e0', 'prestige_points', 'light_points'),
-            new Upgrade(2, 3, '1e0', '3e0', '2e0', function(){ return `<span class="positive">Autoclicker</span> and <span class="positive">${ abb_abs_int(this.effect_scaling) }x</span> its speed <br><span class="darker-text">Currently: ${this.bought_times.le(0) ? 'no' : numToTime(this.effect.toNumber() * 1e3)}</span> <br><br><span class="size-125">`; }, 'light_points', 10, function(eff){return BigNumber(setting.autoclickers_start).div(eff).times(this.effect_scaling)}),
-        ]
-    }
-    Player.stage = BigNumber('1e0');
-    Player.cube_hp = BigNumber('0e0');
-    Player.prestige_points = BigNumber('0e0');
-    Player.prestige_points_base = BigNumber('2e0');
-    Player.light_points = BigNumber('0e0');
-
-    Player.isUnlocked = {
-        prestige: false,
-        light: false,
-    };
-
-    return Player;
-}
-
 function setFPS(set)
 {
     let thisLoop = new Date();
@@ -150,10 +143,10 @@ function setFPS(set)
 
 function getLoopIntervalBN()
 {
-    return setting.update_time_s.times(BigNumber('1e3')).div((
-        setFPS(false) == 0 ? BigNumber(setFPS()) : BigNumber('1e0').times(BigNumber('6e1'))));
+    return settings.update_time_s.times(new Decimal('1e3')).div((
+        setFPS(false) == 0 ? new Decimal(setFPS()) : new Decimal('1e0').times(new Decimal('6e1'))));
 }
-function intervalS() { return getLoopIntervalBN().div(BigNumber('1e3')); }
+function intervalS() { return getLoopIntervalBN().div(new Decimal('1e3')); }
 
 function getLoopInterval() { return getLoopIntervalBN().toNumber(); }
 

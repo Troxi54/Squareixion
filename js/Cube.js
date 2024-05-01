@@ -1,6 +1,4 @@
 class Cube {
-    name = ""
-
     constructor(name)
     {
         this.name = name;

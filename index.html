@@ -4,13 +4,13 @@
         <title>Squareixion</title>
         <meta charset="utf-8">
 
-        <script src="js/bignumber.js-master/bignumber.js"></script>
-        <script src="js/bignumber.js-master/MoreBNFunctions.js"></script>
+        <script src="js/break_eternity.js"></script>
 
         <script src="js/Consts.js"></script>
         <script src="js/UsefulFunctions.js"></script>
         <script src="js/Cube.js"></script>
         <script src="js/Upgrades.js"></script>
+        <script src="js/Milestones.js"></script>
         <script src="js/Automation.js"></script>
         <script src="js/Main.js"></script>
 
@@ -19,41 +19,47 @@
         <link rel="stylesheet" href="css/classes.css">
         <link rel="stylesheet" href="css/ids.css">
         <link rel="stylesheet" href="css/cubes.css">
+        <link rel="stylesheet" href="css/mini_cubes.css">
     </head>
     <body>
         <div id="wrapper">
             <div id="main-content">
                 <div id="currencies-place">
                     <p id="stage">hi</p>
+                    <p id="master"></p>
                 </div>
-                
                 <div id="prestige-area" class="column area">
-                    <div id="prestige-div" class="frame column-flex layer-div">
+                    <div id="prestige-div" class="frame basic-frame column-flex layer-div">
                         <p id="prestige-info" class="layer-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
                         <button id="prestige-button" class="button layer-button">
                             <p id="prestige-button-text" class="layer-button-text">You can earn 0 prestige point</p>
                         </button>
                     </div>
-                    <div id="prestige-upgrades-div" class="frame column-flex layer-upgrades-div">
+                    <div id="prestige-upgrades-div" class=" frame basic-frame column-flex layer-upgrades-div">
                         <p id="prestige-upgrades-info" class="absolute layer-upgrades-info"></p>
                         <p id="prestige-upgrades-name" class="layer-upgrades-name">Upgrades</p>
-                        <div id="prestige-upgrades-container" class="upgrades-container frame-noglow">
-                            <button class="button upgrade frame-noglow">
+                        <div id="prestige-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
-                            <button class="button upgrade frame-noglow">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
-                            <button class="button upgrade frame-noglow">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
-                            <button class="button upgrade frame-noglow">
+                            <button class="button upgrade frame-noglow basic-frame">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
@@ -62,37 +68,95 @@
                     </div>
                 </div>
                 <div id="cube-area" class="column">
-                    <div id="cube-info-div" class="frame">
+                    <div id="cube-info-div" class=" frame basic-frame">
                         <p id="cube-info-text"></p>
                     </div>
                     <button class="cube"></button>
                 </div>
                 <div id="light-area" class="column area">
-                    <div id="light-div" class="frame column-flex layer-div">
-                        <p id="light-info" class="layer-info"><span class="light size-150 bold">Light</span><br><br><span class="size-75" style="line-height: 4px;">Light resets everything before, but gives light<br> points to buy cooler upgrades. Light also<br> alows you to hold squares to damage them.</span></p>
+                    <div id="light-div" class=" frame basic-frame column-flex layer-div">
+                        <p id="light-info" class="layer-info"><span class="light size-150 bold">Light</span><br><br><span class="size-75" style="line-height: 4px;">Light resets everything before, but gives light<br> points to buy cooler upgrades. Light also<br> allows you to hold squares to damage them.</span></p>
                         <button id="light-button" class="button layer-button">
                             <p id="light-button-text" class="layer-button-text">You can earn 0 light point</p>
                         </button>
                     </div>
-                    <div id="light-upgrades-div" class="frame column-flex layer-upgrades-div">
+                    <div id="light-upgrades-div" class=" frame basic-frame column-flex layer-upgrades-div">
                         <p id="light-upgrades-info" class="absolute layer-upgrades-info"></p>
                         <p id="light-upgrades-name" class="layer-upgrades-name">Upgrades</p>
-                        <div id="light-upgrades-container" class="upgrades-container frame-noglow layer-upgrades-container">
-                            <button class="button upgrade frame-noglow">
+                        <div id="light-upgrades-container" class="upgrades-container frame-noglow basic-frame layer-upgrades-container">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
-                            <button class="button upgrade frame-noglow">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
-                            <button class="button upgrade frame-noglow">
+                            <button class="button upgrade frame-noglow basic-frame">
                                 <p class="upgrade-name"></p>
                                 <p class="upgrade-info"></p>
                                 <p class="upgrade-cost"></p>
                             </button>
+                            <button class="button upgrade frame-noglow basic-frame">
+                                <p class="upgrade-name"></p>
+                                <p class="upgrade-info"></p>
+                                <p class="upgrade-cost"></p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="minicube-area" class="column area">
+                    <div id="minicube" class=" frame basic-frame column-flex">
+                        <p id="minicube-info"></p>
+                    </div>
+                    <button id="minicube-place" class="button" onclick="gameFunctions.miniCube(event, true)">
+
+                    </button>
+                </div>
+                <div id="master-area" class="area">
+                    <div id="master-div" class="frame master-frame column-flex layer-div">
+                        <p id="master-info" class="layer-info master-dark-2"><span class="master size-150 bold">Master</span><br><br><span class="size-75" style="line-height: -1000px;">Master resets everything before, but <br>increases master level to unlock new abilities.<br> First master level unlocks master milestones.</span></p>
+                        <button id="master-button" class="button layer-button">
+                            <p id="master-button-text" class="master-dark">You can increase master level</p>
+                        </button>
+                    </div>
+                    <div id="master-milestones" class="frame master-frame column-flex">
+                        <p id="master-milestones-info" class="master bold"><span class="size-150">Master level 71081</span></p>
+                        <div id="master-milestones-container" class="frame-noglow master-frame milestone-container">
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
+                            <div class="milestone frame-noglow master-frame">
+                                <p class="milestone-requirement"></p>
+                                <p class="milestone-info"></p>
+                            </div>
                         </div>
                     </div>
                 </div>

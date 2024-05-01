@@ -13,19 +13,20 @@ body {
     background-color: rgb(0, 0, 0);
     overflow: auto;
 }
+
 body::-webkit-scrollbar-track-piece {
     background-color: var(--darkerer-color);
 }
 body::-webkit-scrollbar-thumb {
     background-color: var(--darker-color);
 }
-body::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background-color: var(--dark-color-2);
 }
-body::-webkit-scrollbar-thumb:active {
+::-webkit-scrollbar-thumb:active {
     background-color: var(--white-color);
 }
-body::-webkit-scrollbar-corner {
+::-webkit-scrollbar-corner {
     background-color: var(--darker-color);
 }
 
