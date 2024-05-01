@@ -105,11 +105,11 @@ function load()
                 if (p === "upgrades")
                 {
                     let upgrades = player.upgrades;
-                    for (let container in upgrades)
+                    for (let container in data.upgrades)
                     {
-                        upgrades[container].forEach(function(upgrade, index)
+                        data.upgrades[container].forEach(function(upgrade, index)
                         {
-                            upgrade.setBoughtTimes(new Decimal(data['upgrades'][container][index].bought_times));
+                            upgrade.bought_times = (new Decimal(upgrades[container][index].bought_times));
                         });
                     }
                     data['upgrades'] = upgrades;
