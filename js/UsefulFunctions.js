@@ -97,10 +97,10 @@ function load()
             {
                 if (typeof data[p] === 'string')
                 {
-                    if (data[p].includes('e+') || data[p].includes('e-') || /\d/.test(data[p]))
+                    if (data[p].includes('e') || /\d/.test(data[p]))
                     {
-                        const value = new Decimal(data[p]);
-                        if (value != NaN && value != undefined && value != Infinity)
+                        const value = new Decimal(data[p]).toNumber();
+                        if (value != NaN && value != undefined)
                         {
                             data[p] = new Decimal(data[p]);
                         } 
