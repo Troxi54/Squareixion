@@ -150,7 +150,7 @@ fs = {
             'damage' : 'damage',
             'prestige_points' : 'PP',
             'light_points' : 'LP',
-            'mini_cubes' : 'MC'
+            'mini_cubes' : 'MS'
         }
         return array[currencyName];
     },
@@ -360,7 +360,7 @@ main_functions = {
         },
         miniCubesInfo()
         {
-            fs.update(elements.minicube_info, `<span class="darker-text">Mini cubes: </span>${ abb_abs(player.mini_cubes) }<br>
+            fs.update(elements.minicube_info, `<span class="darker-text">Mini squares: </span>${ abb_abs(player.mini_cubes) }<br>
                                                ${ abb_abs(get.mc_pp) }x <span class="prestige">prestige points</span><br>
                                                ${ abb_abs(get.mc_lp) }x <span class="light">light points</span>`);
         },
@@ -688,6 +688,7 @@ document.addEventListener("DOMContentLoaded", function()
 
     player = getDefaultPlayerValues();
     loadToPlayer();
+    
 
 
     fs.setUpgradesHTML();

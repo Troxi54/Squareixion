@@ -27,7 +27,7 @@ function floor(num, acc) { return Math.floor(num * 10 ** acc) / 10 ** acc; }
 function abb(num, acc = 2, absolute = false) // pretty bad
 {
     if (typeof num === 'number') { num = new Decimal(num); }
-    if (num instanceof Decimal === false) throw new Error(`The value is not Decimal! The type of your value is ${ typeof num }`);
+    if (num instanceof Decimal === false) throw new Error(`The value is not Decimal! The type of your value is ${ typeof num } and your value is ${ num }`);
     if (absolute && num.lt(new Decimal('0e0'))) num = new Decimal('0e0');
     const default_acc = 2,
           postFixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qn', 'Sx', 'Sp', 'Oc', 'No'],
@@ -97,9 +97,17 @@ function load()
             {
                 if (typeof data[p] === 'string')
                 {
-                    if (data[p].includes('e+') || data[p].includes('e-'))
+                    if (data[p].includes('e+') || data[p].includes('e-') || /\d/.test(data[p]))
                     {
-                        data[p] = new Decimal(data[p]);
+                        const value = new Decimal(data[p]);
+                        if (value != NaN && value != undefined && value != Infinity)
+                        {
+                            data[p] = new Decimal(data[p]);
+                        } 
+                        else 
+                        {
+                            console.warn(`Load value failed: value is ${value}`);
+                        }
                     }
                 }
                 if (p === "upgrades")
