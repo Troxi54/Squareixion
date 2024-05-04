@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 1, 1, 1],
+    game_version: [0, 1, 1, ''],
     save: true,
     auto_save: 10,
     update_time_s: new Decimal('1e0'),

@@ -254,7 +254,7 @@ main_functions = {
     updates: {  // update HTML
         version()
         {
-            fs.update(elements.version, `<span class="white-text">v${settings.game_version[0]}.${settings.game_version[1]}</span><span class="darker-text">.${settings.game_version[2]}</span><span class="darker-2-text">.${settings.game_version[3]}</span>`)
+            fs.update(elements.version, `<span class="white-text">v${settings.game_version[0]}.${settings.game_version[1]}</span><span class="darker-text">${settings.game_version[2] ? '.' + settings.game_version[2] : ''}</span><span class="darker-2-text">${settings.game_version[3] ? '.' + settings.game_version[3] : ''}</span>`);
         },
         stage()
         {
