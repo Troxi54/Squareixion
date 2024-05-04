@@ -16,8 +16,8 @@ const hps = [
 
 const hps_scalings = [
     [hps.length.toString(), '5.65e0'],
-    ['3e1', '5.65e1'],
-    ['1e2', '1.5675e2'],
+    ['3e1', '1.591e1'],
+    ['1e2', '7.713e1'],
 ]
 
 const cubes = [
@@ -29,4 +29,10 @@ const cubes = [
     new Cube("Light Warrior"),
     new Cube("Dark Defender"),
     new Cube("Light Defender"),
+    new Cube("Planet Destroyer"),
+    new Cube("Planet Defender"),
+    new Cube("Galactic Destroyer"),
+    new Cube("Galactic Defender"),
+    new Cube("Universe Defender"),
+    new Cube("Universe Destroyer"),
 ]

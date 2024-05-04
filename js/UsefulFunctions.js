@@ -70,12 +70,12 @@ function save()
             {
                 if (Player[prop] instanceof Decimal)
                 {
-                    Player[prop] = Player[prop].toExponential();
+                    Player[prop] = Player[prop].toString();
                 }
             }
             localStorage.setItem(settings.game_name, btoa(JSON.stringify(Player)));
+            console.log('Succesfully saved')
         }
-            
     }
 }
 function load()
@@ -106,21 +106,21 @@ function load()
                         } 
                         else 
                         {
-                            console.warn(`Load value failed: value is ${value}`);
+                            console.warn(`Load value failed: value is ${value} for ${p}`);
                         }
                     }
                 }
                 if (p === "upgrades")
                 {
-                    let upgrades = player.upgrades;
+                    let upgrades = data.upgrades;
+                    data.upgrades = player.upgrades;
                     for (let container in data.upgrades)
                     {
                         data.upgrades[container].forEach(function(upgrade, index)
                         {
-                            upgrade.bought_times = (new Decimal(upgrades[container][index].bought_times));
+                            upgrade.bought_times = new Decimal(upgrades[container][index].bought_times);
                         });
                     }
-                    data['upgrades'] = upgrades;
                 }
             }
         }
@@ -136,6 +136,20 @@ function loadToPlayer()
         for (let property in data)
         {
             player[property] = data[property];
+        }
+    }
+}
+
+function fixValues()
+{
+    for (let property in player)
+    {
+        if (player[property] instanceof Decimal)
+        {
+            if (player[property].isNan())
+            {
+                player[property] = new Decimal(0)
+            }
         }
     }
 }
@@ -160,6 +174,7 @@ function getLoopInterval() { return getLoopIntervalBN().toNumber(); }
 
 function numToTime(num)
 {
+    if (num instanceof Decimal) { num = num.toNumber(); }
     if (typeof num === 'number')
     {
         const array = ['s', 'ms'],

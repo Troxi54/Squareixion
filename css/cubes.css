@@ -75,3 +75,63 @@ button.cube:active {
 .cube-text.light-defender-text {
     --cube-color: 0, 255, 255;
 }
+
+.cube.planet-destroyer {
+    --cube-color: 134, 81, 0;
+    box-shadow: 0 0 25px 3px rgba(var(--cube-color), .5);
+}
+
+.cube-text.planet-destroyer-text {
+    --cube-color: 134, 81, 0;
+}
+
+.cube.planet-defender {
+    --cube-color: 123, 100, 255;
+    box-shadow: 0 0 25px 3px rgba(var(--cube-color), .5);
+}
+
+.cube-text.planet-defender-text {
+    background: linear-gradient(to right, rgb(123, 100, 255) 0%, rgb(64, 30, 255) 50%, rgb(123, 100, 255) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.cube.galactic-destroyer {
+    --cube-color: 63, 63, 63;
+    box-shadow: 0 0 35px 10px rgba(var(--cube-color), .5);
+}
+
+.cube-text.galactic-destroyer-text {
+    background: linear-gradient(to right, rgb(124, 87, 87) 0%, rgb(51, 21, 21) 50%, rgb(124, 87, 87) 100%);
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.galactic-defender {
+    --cube-color: 255, 255, 0;
+    box-shadow: 0 0 35px 10px rgba(var(--cube-color), .5);
+}
+
+.cube-text.galactic-defender-text {
+    background: linear-gradient(to right, rgb(255, 255, 0) 0%, rgb(0, 255, 255) 25%, rgb(158, 14, 253) 50%, rgb(0, 255, 255) 75%, rgb(255, 255, 0) 100%);
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.universe-defender {
+    --cube-color: 225, 0, 255;
+    box-shadow: 0 0 35px 10px rgba(var(--cube-color), .5);
+}
+
+.cube-text.universe-defender-text {
+    background: linear-gradient(to right, rgb(225, 0, 255) 0%, rgb(25, 0, 255) 25%, rgb(158, 14, 253) 50%, rgb(25, 0, 255) 75%, rgb(225, 0, 255) 100%);
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.universe-destroyer {
+    --cube-color: 25, 10, 10;
+    box-shadow: 0 0 50px 25px rgba(var(--cube-color), 1);
+}
+
+.cube-text.universe-destroyer-text {
+    background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(25, 0, 255) 25%, rgb(53, 53, 53) 50%, rgb(25, 0, 255) 75%, rgb(255, 0, 0) 100%);
+    background-clip: text; -webkit-text-fill-color: transparent;
+}

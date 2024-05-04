@@ -53,6 +53,22 @@
     cursor: not-allowed;
 }
 
+.lock-frame, .unlock-frame {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.unlock-frame {
+    display: none;
+}
+
+.lock-info {
+    font-size: 22px;
+    text-wrap: wrap;
+}
+
 .absolute,
 .layer-info,
 .layer-button,
@@ -188,7 +204,6 @@
     top: 50%;
 }
 
-
 .upgrades-container {
     width: 100%;
     height: 35%;
@@ -253,7 +268,7 @@
     height: 65%;
     top: calc(100% - 70% - 3px);
     display: block;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 

@@ -1,5 +1,5 @@
 class Upgrade {
-    constructor(tier = 1, number, start_cost, cost_scaling, effect_scaling, multiplies_what, costs_what, buyable_times = Infinity, effectl = (eff)=>eff)
+    constructor(tier = 1, number, start_cost, cost_scaling, effect_scaling, multiplies_what, costs_what, buyable_times = Infinity, effectl = (eff)=>eff, show = ()=>true)
     {
         this.tier = tier;
         this.number = number;
@@ -12,6 +12,7 @@ class Upgrade {
         this.costs_what_lambda = () => player[costs_what];
         this.buyable_times = buyable_times;
         this.effectl = effectl;
+        this.show = show;
 
         this.buy_condition = () => this.costs_what_lambda().gte(this.cost);
         this.takes_currency = true;
@@ -46,6 +47,11 @@ class Upgrade {
     }
     updateHTML()
     {
+        if (!this.show())
+        {
+            this.upgrade_html.button.hide();
+        }
+        else if (this.upgrade_html.button.is(':hidden')) fs.animateAppearance(this.upgrade_html.button, true);
         fs.update( this.upgrade_html.name, `<span class="size-125">Upgrade ${this.number}</span> <br><br>`);
         fs.update( this.upgrade_html.info,
             (typeof this.multiplies_what === 'function' ? this.multiplies_what() :
@@ -54,9 +60,9 @@ class Upgrade {
         fs.update( this.upgrade_html.cost, `Cost: <span class="${ this.buy_condition() && this.timesCan() ? 'positive' : 'negative' }">${ !this.timesCan() ? 'maxed' : abb_abs_int(this.cost)} ${ this.timesCan() ? fs.abbCurrency(this.costs_what) : ''}</span></span>`);
         if (this.buy_condition() && this.timesCan())
         {
-            this.upgrade_html.button.classList.remove('button-cannot')
+            this.upgrade_html.button.removeClass('button-cannot')
         }
-        else this.upgrade_html.button.classList.add('button-cannot')
+        else this.upgrade_html.button.addClass('button-cannot')
     }
     buy(lambda = ()=>{})
     {
@@ -68,31 +74,34 @@ class Upgrade {
             this.updateEffect();
             if (this.takes_currency) changeValue(this.costs_what, player[this.costs_what].minus(cost));
             if (this.multiplies_what === "damage") { get.updateDamage(); updates.cubeInfo(); }
-            if (this.multiplies_what === "prestige_points") { get.updatePrestigePoints(); }
-            if (this.multiplies_what === "light_points") { get.updateLightPoints(); }
+            if (this.multiplies_what === "prestige_points") { get.updatePrestigePoints(); updates.prestigeButtonInfo(); }
+            if (this.multiplies_what === "light_points") { get.updateLightPoints(); updates.prestigeButtonInfo(); }
             if (this.multiplies_what === "mini_cubes") { get.updateMiniCube(); }
             lambda();
         }
     }
     buy_max(lambda = ()=>{})
     {
-        let l10 = 0;
-        while (player[this.costs_what].gte(this.updateCost(new Decimal('1e1').pow(l10).minus(1))))++l10;++l10;
-        while (--l10 + 1)
+        if (this.timesCan() && this.buy_condition())
         {
-            while(this.timesCan() && player[this.costs_what].gte(this.updateCost(new Decimal('1e1').pow(l10).minus(1))))
+            let l10 = 0;
+            while (player[this.costs_what].gte(this.updateCost(new Decimal('1e1').pow(l10).minus(1))))++l10;++l10;
+            while (--l10 + 1)
             {
-                if (this.takes_currency) player[this.costs_what] = player[this.costs_what].minus(this.cost);
-                this.bought_times = this.bought_times.plus(new Decimal('1e1').pow(l10));
+                while(this.timesCan() && player[this.costs_what].gte(this.updateCost(new Decimal('1e1').pow(l10).minus(1))))
+                {
+                    if (this.takes_currency) player[this.costs_what] = player[this.costs_what].minus(this.cost);
+                    this.bought_times = this.bought_times.plus(new Decimal('1e1').pow(l10));
+                }
             }
+            this.updateCost();
+            this.updateEffect();
+            changeValue(this.costs_what, player[this.costs_what]);
+            if (this.multiplies_what === "damage") { get.updateDamage(); updates.cubeInfo(); }
+            if (this.multiplies_what === "prestige_points") { get.updatePrestigePoints(); updates.prestigeButtonInfo(); }
+            if (this.multiplies_what === "light_points") { get.updateLightPoints(); updates.lightButtonInfo(); }
+            if (this.multiplies_what === "mini_cubes") { get.updateMiniCube(); }
+            lambda();
         }
-        this.updateCost();
-        this.updateEffect();
-        changeValue(this.costs_what, player[this.costs_what]);
-        if (this.multiplies_what === "damage") { get.updateDamage(); updates.cubeInfo(); }
-        if (this.multiplies_what === "prestige_points") { get.updatePrestigePoints(); }
-        if (this.multiplies_what === "light_points") { get.updateLightPoints(); }
-        if (this.multiplies_what === "mini_cubes") { get.updateMiniCube(); }
-        lambda();
     }
 }

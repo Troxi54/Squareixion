@@ -10,6 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
+    game_version: [0, 1, 1, 1],
     save: true,
     auto_save: 10,
     update_time_s: new Decimal('1e0'),
@@ -19,14 +20,15 @@ const settings = {
     cube_text_plus_style: "-text",
     cube_name_postfixes: ['-', '', '+', '++' ],
     cube_size_start: 50,
-    autoclickers_start: 16
+    autoclickers_start: 16,
+    unlock_content_transition: 1000
 }
 ,
 unlocks = {
     prestige: new Decimal('4e0'),
     light: new Decimal('3e1'),
-    mini_cubes: new Decimal('6e1'),
-    master: new Decimal('1e2'),
+    mini_cubes: new Decimal('5e1'),
+    master: new Decimal('7.5e1'),
 }
 ,
 events = {
