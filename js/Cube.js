@@ -18,6 +18,7 @@ const hps_scalings = [
     [hps.length.toString(), '5.65e0'],
     ['3e1', '1.591e1'],
     ['1e2', '7.713e1'],
+    ['2.5e2', '1.0639e2'],
 ]
 
 const cubes = [

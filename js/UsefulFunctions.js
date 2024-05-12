@@ -1,3 +1,15 @@
+function restartGame()
+{
+    get.updateCubeStat();
+    gameFunctions.spawnCube(true);
+    get.updateAll();
+    fs.setUpgradesHTML();
+    fs.setMilestonesHTML();
+    
+    gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
+    updates.updateAll();
+}
+
 function add_zeros(num, zeros = 1)
 {
     let str = num.toString();
@@ -74,13 +86,12 @@ function save()
                 }
             }
             localStorage.setItem(settings.game_name, btoa(JSON.stringify(Player)));
-            console.log('Succesfully saved')
+            console.log('Succesfully saved');
         }
     }
 }
-function load()
+function load(data = localStorage.getItem(settings.game_name))
 {
-    let data = localStorage.getItem(settings.game_name);
     let isValid = false;
     try { JSON.parse(data); isValid = true } catch { isValid = false; }
     if ( isValid )
@@ -128,9 +139,9 @@ function load()
     return data;
 }
 
-function loadToPlayer()
+function loadToPlayer(data_)
 {
-    let data = load();
+    let data = load(data_);
     if (data)
     {
         for (let property in data)
@@ -168,7 +179,6 @@ function getLoopIntervalBN()
     return settings.update_time_s.times(new Decimal('1e3')).div((
         setFPS(false) == 0 ? new Decimal(setFPS()) : new Decimal('1e0').times(new Decimal('6e1'))));
 }
-function intervalS() { return getLoopIntervalBN().div(new Decimal('1e3')); }
 
 function getLoopInterval() { return getLoopIntervalBN().toNumber(); }
 
@@ -185,4 +195,51 @@ function numToTime(num)
     {
         throw Error(`Your value is not number. The type of value is ${typeof num}`)
     }
+}
+let textFile = null,
+    makeTextFile = function(text) 
+    {
+        var data = new Blob([text], {type: 'text/plain'});
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        return textFile;
+    },
+    downloadFile = function(text, filename)
+    {
+        const link = document.createElement('a')
+
+        link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+        link.setAttribute('download', filename || 'data.json')
+        link.style.display = 'none'
+
+        document.body.appendChild(link)
+
+        link.click()
+
+        document.body.removeChild(link)
+        link.remove();
+    }
+
+function openFileExplorer() 
+{
+    document.getElementById('import-file-input').click();
+}
+let file;
+function handleFileSelection(event) 
+{
+    const selectedFiles = event.target.files,
+          file = selectedFiles[0];
+    if (file.type === 'text/plain')
+    {
+        selectedFiles[0].text().then((t) => 
+        { 
+            loadToPlayer(t);
+            restartGame();
+        });
+    }
+    else console.warn('Your save file is invalid')
 }

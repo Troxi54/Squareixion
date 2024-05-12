@@ -52,12 +52,10 @@ class Upgrade {
             this.upgrade_html.button.hide();
         }
         else if (this.upgrade_html.button.is(':hidden')) fs.animateAppearance(this.upgrade_html.button, true);
-        fs.update( this.upgrade_html.name, `<span class="size-125">Upgrade ${this.number}</span> <br><br>`);
+        fs.update( this.upgrade_html.name, `<span class="size-125">Upgrade ${this.number}</span><br><br>`);
         fs.update( this.upgrade_html.info,
-            (typeof this.multiplies_what === 'function' ? this.multiplies_what() :
-            `Multiplies your <br>${ fs.abbCurrency(this.multiplies_what) } by <span class="positive">${ abb_abs_int(this.effect_scaling) }</span>
-                                <br><span class="darker-text">Currently: ${abb_abs_int(this.effect)}x</span> <br><br><span class="size-125">`));
-        fs.update( this.upgrade_html.cost, `Cost: <span class="${ this.buy_condition() && this.timesCan() ? 'positive' : 'negative' }">${ !this.timesCan() ? 'maxed' : abb_abs_int(this.cost)} ${ this.timesCan() ? fs.abbCurrency(this.costs_what) : ''}</span></span>`);
+            (typeof this.multiplies_what === 'function' ? this.multiplies_what() : `Multiplies your <br>${ fs.abbCurrency(this.multiplies_what) } by <span class="positive">${ abb_abs_int(this.effect_scaling) }</span><br><span class="darker-text">Currently: ${abb_abs_int(this.effect)}x</span><br><br>`));
+        fs.update( this.upgrade_html.cost, `Cost: <span class="${ this.buy_condition() && this.timesCan() ? 'positive' : 'negative' }">${ !this.timesCan() ? 'maxed' : abb_abs_int(this.cost)} ${ !this.timesCan() ? '': fs.abbCurrency(this.costs_what)}</span>`);
         if (this.buy_condition() && this.timesCan())
         {
             this.upgrade_html.button.removeClass('button-cannot')

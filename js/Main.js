@@ -1,5 +1,3 @@
-
-
 function changeValue(name, value)
 {
     player[name] = value;
@@ -61,8 +59,12 @@ fs = {
                 })
                 upgrade.on("contextmenu", function(e)
                 {
-                    upgrade.blur();
-                    e.preventDefault();
+                    if (e.cancelable)
+                    {
+                        upgrade.blur();
+                        e.preventDefault();
+                    }
+                         
                     upgr_cont[i].buy();
                 })
             }
@@ -127,12 +129,19 @@ fs = {
         }
         return effect;
     },
-    animateAppearance(element, animate)
+    animateAppearance(element, animate = true, duration = settings.unlock_content_transition)
     {
         element.css('opacity', '0');
         element.show();
-        if (animate) element.animate({'opacity': '1'}, settings.unlock_content_transition);
+        if (animate) element.animate({'opacity': '1'}, duration);
         else element.css('opacity', '1');
+    },
+    animateDisappearance(element, animate = true, duration = settings.unlock_content_transition)
+    {
+        element.css('opacity', '1');
+        if (animate) element.animate({'opacity': '0'}, duration);
+        else element.css('opacity', '0');
+        setTimeout(()=>{ element.hide(); }, duration);
     }
 }
 
@@ -254,7 +263,7 @@ main_functions = {
     updates: {  // update HTML
         version()
         {
-            fs.update(elements.version, `<span class="white-text">v${settings.game_version[0]}.${settings.game_version[1]}</span><span class="darker-text">${settings.game_version[2] ? '.' + settings.game_version[2] : ''}</span><span class="darker-2-text">${settings.game_version[3] ? '.' + settings.game_version[3] : ''}</span>`);
+            fs.update(elements.version, `<span class="white-text">v${settings.game_version[0]}.${settings.game_version[1]}${settings.game_version[2] ? '.' + settings.game_version[2] : ''}${settings.game_version[3] ? '.' + settings.game_version[3] : ''}</span>`);
         },
         stage()
         {
@@ -376,50 +385,139 @@ main_functions = {
     buys: {
     },
     add_events() {
+        elements.settings_button.on('click', function()
+        {
+            if (!nosave.settingsVisible) elements.settings.show();
+            else elements.settings.hide();
+            nosave.settingsVisible =! nosave.settingsVisible;
+        })
+
+        elements.save.on('click', function()
+        {
+            save();
+            nosave.lastSave = Date.now();
+        });
+
+        elements.export_text.on('click', function()
+        {
+            const save = localStorage.getItem(settings.game_name);
+            navigator.clipboard.writeText(save);
+        })
+
+        elements.export_file.on('click', function()
+        {
+            const save = localStorage.getItem(settings.game_name);
+            downloadFile(save, settings.savefile_name);
+        })
+
+        elements.import_text.on('click', function()
+        {
+            const text = prompt('Paste your text here. Your current save will be overwritten.');
+            if (text)
+            {
+                loadToPlayer(text);
+                restartGame();
+            }
+        })
+
+        elements.import_file.on('click', openFileExplorer);
+
+        elements.reset_cube.on('click', function()
+        {
+            gameFunctions.resetCube();
+        })
+
+        elements.reset.on('click', function()
+        {
+            const text = prompt('This will delete all of your progress. Type in "Yes" to confirm');
+            if (text === 'Yes')
+            {
+                loadToPlayer(btoa(JSON.stringify(getDefaultPlayerValues())));
+                restartGame();
+            }
+        })
+
+        elements.change_star_count.on('click', function()
+        {
+            const text = prompt(`Type in how many stars you want to see in the background (minimum: ${settings.star_min}, maximum: ${settings.star_max}, default: ${settings.star_count})`),
+                  number = Number(text);
+            if (text !== null && number !== NaN)
+            {
+                if (number >= settings.star_min && number <= settings.star_max)
+                {
+                    elements.star_context.clearRect(0, 0, elements.star_container[0].clientWidth, elements.star_container[0].clientHeight)
+                    gameFunctions.spawnStars(number)
+                }
+            }
+        })
+
+        elements.discord.on('click', function()
+        {
+            window.open('https://discord.gg/YT8R2szHXX');
+        })
+
         elements.cube.on('click', function()
         {
             gameFunctions.damageCube();
         })
         elements.cube.on('contextmenu', function(e)
         {
-            elements.cube.blur();
-            e.preventDefault();
+            if (e.cancelable)
+            {
+                elements.cube.blur();
+                e.preventDefault();
+            }
             gameFunctions.damageCube();
         })
-        elements.cube.on('mousedown', ()=>events.isCubeHeld = true); elements.cube.on('touchstart', ()=>events.isCubeHeld = true);
-        $(document.body).on('mouseup', ()=>events.isCubeHeld = false); $(document.body).on('touchend', ()=>events.isCubeHeld = false);
-        $(document.body).on('mouseleave', ()=>events.isCubeHeld = false);
+        elements.cube.on('mousedown', function(){ events.isCubeHeld = true; }); elements.cube.on('touchstart', function(){ events.isCubeHeld = true; });
+        $(document.body).on('mouseup', function(){ events.isCubeHeld = false; }); $(document.body).on('touchend', function(){ events.isCubeHeld = false; });
+        $(document.body).on('mouseleave', function(){ events.isCubeHeld = false; });
 
-        elements.prestige_button.on('click', function()
-        {
-            gameFunctions.prestige();
-        })
-        $(document).on('keyup', (k)=>{ if (k.key === hotkeys.prestige) gameFunctions.prestige(); });
+        elements.prestige_button.on('click', gameFunctions.prestige);
+        elements.light_button.on('click', gameFunctions.light);
+        elements.master_button.on('click', gameFunctions.master);
 
-        elements.light_button.on('click', function()
+        $(document).on('keyup', function(k)
         {
-           gameFunctions.light();
-        })
-        $(document).on('keyup', (k)=>{if (k.key === hotkeys.light) gameFunctions.light(); });
-        
-        
-        elements.master_button.on('click', function()
-        {
-            gameFunctions.master();
-        })
-        $(document).on('keyup', (k)=>{ if (k.key === hotkeys.master) gameFunctions.master(); })
+            switch (k.key)
+            {
+                case hotkeys.prestige:
+                    gameFunctions.prestige();
+                    break;
+                case hotkeys.light:
+                    gameFunctions.light();
+                    break;
+                case hotkeys.master:
+                    gameFunctions.master();
+                    break;
+            }
+        });
     },
+    
     gameFunctions: {
+        starCanvas()
+        {
+            elements.star_container[0].width = elements.star_container[0].clientWidth;
+            elements.star_container[0].height = elements.star_container[0].clientHeight;
+        },
         spawnStar()
         {
-            let star = document.createElement('div');
-            star.addClass('star');
-            const rand = Math.random() * 255;
-            star.style.backgroundColor = `rgb(${rand}, ${rand}, ${rand}, .5)`;
-            star.style.width = `${rand / 100}px`
-            star.style.left = "calc(" + Math.random() * 100 + `%)`;
-            star.style.top = "calc(" + Math.random() * 100 + `%)`;
-            elements.star_container.append(star);
+            const rand = Math.random() * 255,
+                  color = `rgb(${rand}, ${rand}, ${rand}, .5)`,
+                  size = rand / 255,
+                  left = Math.random() * elements.star_container[0].clientWidth,
+                  top = Math.random() * elements.star_container[0].clientHeight;
+            elements.star_context.fillStyle = color;
+            elements.star_context.strokeStyle = color;
+            elements.star_context.fillRect(left, top, size, size);
+            elements.star_context.strokeRect(left, top, size, size);
+        },
+        spawnStars(count)
+        {
+            for (let i = 0; i < count; i+=1)
+            {
+                this.spawnStar();
+            }
         },
         spawnCube(setHP = true)
         {
@@ -450,11 +548,11 @@ main_functions = {
             {
                 hps_scalings.forEach(function(scaling, index)
                 {
-                    const els = () => { if (stage.gte(new Decimal(scaling[0])))
-                                        {
-                                            hp = hp.times(new Decimal(scaling[1]).pow(stage.minus(new Decimal(scaling[0]))));
-                                        } 
-                                      }
+                    const els = function(){ if (stage.gte(new Decimal(scaling[0])))
+                                            {
+                                                hp = hp.times(new Decimal(scaling[1]).pow(stage.minus(new Decimal(scaling[0]))));
+                                            } 
+                                          }
                     if (index < hps_scalings.length - 1)
                     {
                         if (stage.gte(new Decimal(hps_scalings[index + 1][0])))
@@ -627,12 +725,11 @@ main_functions = {
             {
                 element.hide();
             }
-            function hide_and_show(element, condition, lambda = ()=>{})
+            function hide_and_show(element, condition)
             {
                 if (condition)
                 {
                     if (element.is(':hidden')) show(element);
-                    lambda();
                 }
                 else hide(element)
             }
@@ -663,6 +760,10 @@ main_functions = {
             hide_and_show(elements.master_area, player.isUnlocked.minicubes);
             hide_and_show(elements.master_milestones_div, player.isUnlocked.master);
         },
+        hideELements()
+        {
+            elements.settings.hide();
+        }
     }
 };
 
@@ -693,41 +794,51 @@ $(document).ready(function()
 {
     elements = {
         wrapper: $('#wrapper'),
-        version: $('#version'),
+            version: $('#version'),
+            star_container: $('#background'),
+            
         stage: $('#stage'),
-        master: $('#master'),
+            master: $('#master'),
         cube: $('.cube'),
-        cube_info: $('#cube-info-text'),
-        star_container: $('#background'),
+            cube_info: $('#cube-info-text'),
+        settings_button: $('#settings-button'),
+            settings: $('#settings'),
+                save: $('#save'),
+                export_text: $('#export-via-text'),
+                export_file: $('#export-via-file'),
+                import_text: $('#import-via-text'),
+                import_file: $('#import-via-file'),
+                reset_cube: $('#reset-cube'),
+                reset: $('#reset'),
+                change_star_count: $('#change-star-count'),
+                discord: $('#discord'),
         prestige_locked_div: $('#prestige-div-locked'), prestige_locked_info: $('#prestige-locked'),
-        prestige_unlocked_div: $('#prestige-div-unlocked'),
-        prestige_button: $('#prestige-button'),
-        prestige_button_text: $('#prestige-button-text'),
-        prestige_upgrades_div: $('#prestige-upgrades-div'),
-        prestige_points_amount: $('#prestige-upgrades-info'),
-        prestige_upgrades: $('#prestige-upgrades-container button'),
+            prestige_unlocked_div: $('#prestige-div-unlocked'),
+            prestige_button: $('#prestige-button'),
+                prestige_button_text: $('#prestige-button-text'),
+            prestige_upgrades_div: $('#prestige-upgrades-div'),
+                prestige_points_amount: $('#prestige-upgrades-info'),
         light_locked_div: $('#light-div-locked'), light_locked_info: $('#light-locked'),
-        light_unlocked_div: $('#light-div-unlocked'),
-        light_div: $('#light-div'),
-        light_button: $('#light-button'),
-        light_button_text: $('#light-button-text'),
-        light_upgrades_div: $('#light-upgrades-div'),
-        light_points_amount: $('#light-upgrades-info'),
+            light_unlocked_div: $('#light-div-unlocked'),
+            light_div: $('#light-div'),
+            light_button: $('#light-button'),
+                light_button_text: $('#light-button-text'),
+            light_upgrades_div: $('#light-upgrades-div'),
+                light_points_amount: $('#light-upgrades-info'),
         minicube_locked_div: $('#minicube-div-locked'), minicube_locked_info: $('#minicube-locked'),
-        minicube_unlocked_div: $('#minicube-div-unlocked'),
-        minicube_div: $('#minicube-area'),
-        minicube_place: $('#minicube-place'),
-        minicube_info_div: $('#minicube-info-div'),
-        minicube_info: $('#minicube-info'),
+            minicube_unlocked_div: $('#minicube-div-unlocked'),
+            minicube_div: $('#minicube-area'),
+            minicube_place: $('#minicube-place'),
+            minicube_info_div: $('#minicube-info-div'),
+            minicube_info: $('#minicube-info'),
         master_area: $('#master-area'),
-        master_locked_div: $('#master-div-locked'), master_locked_info: $('#master-locked'),
-        master_unlocked_div: $('#master-div-unlocked'),
-        master_div: $('#master-div'),
-        master_button: $('#master-button'),
-        master_button_text: $('#master-button-text'),
-        master_text: $('#master-milestones-info'),
-        master_milestones_div: $('#master-milestones-div'),
-        master_milestones: $('#master-milestones-container div')
+            master_locked_div: $('#master-div-locked'), master_locked_info: $('#master-locked'),
+            master_unlocked_div: $('#master-div-unlocked'),
+            master_div: $('#master-div'),
+            master_button: $('#master-button'),
+                master_button_text: $('#master-button-text'),
+            master_text: $('#master-milestones-info'),
+            master_milestones_div: $('#master-milestones-div'),
     };  
 
     setNosaveValues();
@@ -744,11 +855,13 @@ $(document).ready(function()
     fs.setUpgradesHTML();
     fs.setMilestonesHTML();
     
+    gameFunctions.hideELements();
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
     updates.updateAll();
 
-    for (let i = 0; i < settings.star_count; ++i) gameFunctions.spawnStar();
-
+    elements.star_context = elements.star_container[0].getContext('2d');
+    gameFunctions.starCanvas();
+    gameFunctions.spawnStars(settings.star_count);
     // place for console logs
     //
 

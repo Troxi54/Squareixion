@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="eng">
     <head>
-        <title>Squareixion</title>
         <meta charset="utf-8">
+        <title>Squareixion</title>
+        <meta name="description" content="Squareixion - remake of the Cubixion">
+        <meta name="keywords" content="square, squareixion, the squareixion, cube, cubixion, the cubixion, incremental, incremental game">
+        <meta name="author" content="Troxi">
 
         <script type="text/javascript" src="js/jquery.js"></script>
         <script src="js/break_eternity.js"></script>
@@ -24,6 +27,7 @@
         <link rel="stylesheet" href="css/mini_cubes.css">
     </head>
     <body>
+        <canvas id="background"></canvas>
         <div id="wrapper">
             <div id="main-content">
                 <div id="currencies-place">
@@ -180,11 +184,45 @@
                         </div>
                     </div>
                 </div>
+                <!--<div id="giantcube-area" class="column area">
+                    
+                </div>-->
+                
                 <div id="footer">
-                    <p id="version"></p>
+                    <div id="footer-left">
+                        <button id="settings-button" class="button">
+                            <img id="settings-icon" class="icon" src="images/settings.png">
+                        </button>
+                        <div id="footer-line"></div>
+                        <p id="version"></p>
+                        <div id="settings" class="frame-noglow">
+                            <button id="save" class="s-button"><p>Save</p></button>
+                            <div class="settings-column">
+                                <div class="settings-row">
+                                    <button id="export-via-file" class="s-button"><p>Export via file</p></button>
+                                    <button id="export-via-text" class="s-button"><p>Export via text</p></button>
+                                </div>
+                                <div class="settings-row">
+                                    <button id="import-via-file" class="s-button">
+                                        <p>Import via file</p>
+                                        <input type="file" id="import-file-input" style="display: none;" onchange="handleFileSelection(event)">
+                                    </button>
+                                    <button id="import-via-text" class="s-button"><p>Import via text</p></button>
+                                </div>
+                            </div>
+                            <div class="settings-column">
+                                <button id="reset-cube" class="s-button"><p>Reset square</p></button>
+                                <button id="reset" class="s-button"><p>Reset</p></button>
+                            </div>
+                            <button id="change-star-count" class="s-button"><p>Change star count</p></button>
+                            <button id="discord" class="s-button">
+                                <p>Discord</p>
+                                <img id="discord-icon" class="icon" src="images/discord.png">
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="background"></div>
         </div>
     </body>
 </html>

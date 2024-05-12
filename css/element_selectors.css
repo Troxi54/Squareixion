@@ -1,12 +1,14 @@
 @import "variables.css";
 
 * {
+    font-family: sans-serif;
     text-align: center;
     align-items: center;
     justify-content: center;
     user-select: none;
     touch-action: manipulation;
     outline: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -34,23 +36,7 @@ div {
     display: flex;
 }
 
-.button {
-    display: flex;
-    overflow: hidden;
-    border: 2px solid white;
-    background-color: black;
-    transition: 100ms;
-    transition-property: background-color;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: var(--darkerer-color);
-}
-
 p {
-    font-family: sans-serif;
-    font-weight: 100;
     color: var(--white-color);
     pointer-events: none;
 }
