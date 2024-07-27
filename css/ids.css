@@ -5,6 +5,12 @@
     position: relative;
     width: 1864px;
     height: 908px;
+    overflow: visible;
+}
+
+.wrapper-when-intro {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 #footer {
@@ -74,28 +80,59 @@
     top: 0%;
     width: 100%;
     height: 100%;
-    background-color: transparent;
+    background-image: url("../images/background.jpg");
+    background-repeat: repeat;
     z-index: -5;
     pointer-events: none;
+}
+
+#background:not(.body-collapse-realm):after {
+    content: '';
+    display: flex;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
 #main-content {
     align-items: center;
     width: 100%;
     height: 100%;
+    
+    position: relative;
+    display: none;
+}
+
+#frame, #frame-2 {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+#frame-text {
+    font-size: 10vh;
 }
 
 #currencies-place {
+    opacity: 0;
     left: 0%;
     top: 0%;
     position: fixed;
     width: 100%;
     height: 10%;
     display: flex;
-}
-
-#currencies-place {
-    z-index: 100;
+    z-index: 1000;
     pointer-events: none;
     gap: 5vh;
 }
@@ -107,6 +144,7 @@
 #cube-area {
     width: 400px;
     height: 900px;
+    transform: translateX(0px);
 }
 
 #cube-info-div {
@@ -114,21 +152,22 @@
     height: 150px;
 }
 
-#cube-info-text {
+#cube-info-text,
+#giantcube-info-text {
     font-size: 25px;
     line-height: 40px;
 }
 
 #prestige-area {
-    transform: translateX(-125%);
+    transform: translateX(-625px);
 }
 
 #light-area {
-    transform: translateX(125%);
+    transform: translateX(625px);
 }
 
 #minicube-area {
-    transform: translateX(225%);
+    transform: translateX(1125px);
 }
 
 #minicube-info {
@@ -147,7 +186,7 @@
 #master-area {
     justify-content: center;
     flex-direction: row;
-    transform: translate(-40%, 150%);
+    transform: translate(-400px, 750px);
     height: 500px;
     width: 1000px;
 }
@@ -165,6 +204,10 @@
     color: rgb(255, 50, 50);
 }
 
+#master-button:hover {
+    background-color: rgb(25, 0, 0);
+}
+
 #master-milestones {
     position: relative;
 }
@@ -179,9 +222,9 @@
 }
 
 #giantcube-area {
-    height: 1000px;
-    width: 500px;
-    transform: translate(-80%, 125%);
+    height: 600px;
+    width: 1000px;
+    transform: translate(-400px, 1248px);
 }
 
 #settings {
@@ -246,13 +289,377 @@
     width: 20vh;
 }
 
-#discord {
+#links {
     margin-top: auto;
+}
+
+#discord, #roblox {
     gap: 1vh;
 }
 
-#discord-icon {
+#discord-icon, #roblox-icon {
     object-fit: scale-down;
     height: 2.5vh;
     width: initial;
+}
+
+#giantcube-info-div {
+    width: 400px;
+    height: 150px;
+}
+
+#giantcube-info-text {
+    text-wrap: nowrap;
+}
+
+#giga-area {
+    transform: translate(325px, 1125px);
+}
+
+#neon-area {
+    transform: translate(800px, 1125px);
+    width: 1000px;
+    height: 450px;
+}
+
+#neon-info-div {
+    position: relative;
+    height: 400px;
+    aspect-ratio:unset;
+}
+
+#neon-info {
+    font-size: 30px;
+    line-height: 44px;
+}
+
+#neon-spawn {
+    position: absolute;
+    width: 90%;
+    height: 20%;
+    top: 75%;
+}
+
+#neon-button-text {
+    font-size: 23px;
+}
+
+#collapse-layer-area {
+    transform: translate(800px, 625px);
+}
+
+#collapse-layer-area.when-animation {
+    z-index: 11;
+}
+
+#collapse-button {
+    border-color: rgb(0, 13, 189);
+}
+
+#collapse-button:hover {
+    background-color: rgb(0, 1.71, 25);
+}
+
+
+#collapse-button-text {
+    font-size: 19px;
+}
+
+#collapse-button:active > #collapse-button-text:not(.layer-button-text-cannot) {
+    color: rgb(38, 0, 255);
+}
+
+#portal, #portal-2 {
+    position: absolute;
+    width: 200px;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    border: solid 15px rgba(0, 13, 189);
+    background: radial-gradient(rgba(0, 0, 0, .25), rgba(0, 13, 189, .25));
+    box-shadow: inset 0 0 10px rgba(0, 13, 189, .75), 0 0 10px rgba(0, 13, 189, .75);
+}
+
+#portal { transform: translate(1150px, 625px); }
+#portal-2 { transform: translate(-625px, 0px); }
+
+#portal:active, #portal-2:active {
+    background: radial-gradient(rgba(0, 0, 0, .5), rgba(0, 13, 189, .5));
+}
+
+#intro {
+    background-attachment: fixed;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/introBg.jpg');
+    background-size: 495px;
+    z-index: 8;
+    left: 0%;
+    top: 0%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation-name: intro;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+#intro::before {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0, 1), rgb(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    content: '';
+    display: flex;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    z-index: -999;
+}
+
+#intro * {
+    font-family:"Inconsolata", monospace;
+}
+
+@keyframes intro {
+    0% {
+        background-position-x: 0%;
+        background-position-y: 0%;
+    }
+    100% {
+        background-position-x: 495px;
+        background-position-y: 278.4375px;
+    }
+}
+
+#title {
+    color: white;
+    text-shadow: 0 0 10px rgb(150, 150, 150, 1);
+    position: absolute;
+    top: 0%;
+    margin-top: 50px;
+    font-size: 11vmin;
+    margin-bottom: 0px;
+    line-height: 5vmin;
+}
+
+#title-info {
+    text-shadow: 0 0 3px rgb(150, 150, 150, 1);
+    font-size: .4em;
+    margin-top: 0;
+}
+
+#title-info-2 {
+    position: absolute;
+    font-size: clamp(0px, 10vw, 3em);
+}
+
+#play-location {
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    top: 650px;
+}
+
+#play-buttons {
+    position: absolute;
+    top: 80%;
+    gap: 4.62vh 150px;
+    flex-flow: row wrap;
+    padding-bottom: 25px;
+}
+
+#play-with, #play-without {
+    top: 50%;
+    box-shadow: 0 0 25px 10px rgb(150, 150, 150, .25), inset 0 0 25px 10px rgb(150, 150, 150, .25);
+    border: clamp(0px, 1vw, 4px) solid white;
+    max-width: 450px;
+    width: 50vw;
+    aspect-ratio: 3 / 1;
+}
+
+#play-with *, #play-without * {
+    color: white;
+    font-size: clamp(0px, 5vw, 40px);
+}
+
+#changelog {
+    background-color: black;
+    box-shadow: 0 0 25px 10px rgb(150, 150, 150, .125);
+    position: absolute;
+    width: 693px;
+    height: 357px;
+    border: solid 5px white;
+    top: 307px;
+}
+
+#changelog-title {
+    color: white;
+    position: absolute;
+    top: 0%;
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+#changelogs {
+    top: 18%;
+    left: 5%;
+    position: absolute;
+    width: 95%;
+    height: 82%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-items: start;
+    justify-content: start;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#changelogs * {
+    text-align: start;
+}
+
+#collapse-area {
+    width: 1000px;
+}
+
+#collapse-milestones-container::-webkit-scrollbar {
+    border-left-color: inherit;
+}
+
+#collapse-milestones-container::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0 10px;
+}
+
+#cm-1 {
+    border-color: rgb(0, 13, 189);
+}
+
+#cm-1:hover {
+    background-color: rgb(0, 2, 26)
+}
+
+#cmr-1 {
+    color: rgb(0, 13, 189);
+}
+
+#cmi-1 {
+    color: rgb(30, 37, 138);
+    font-size: .9em;
+}
+
+#cm-2 {
+    border-color: rgb(0, 140, 255);
+}
+
+#cm-2:hover {
+    background-color: rgb(0, 19, 35)
+}
+
+#cmr-2 {
+    color: rgb(0, 140, 255);
+}
+
+#cmi-2 {
+    color: rgb(0, 129, 189);
+    font-size: .9em;
+}
+
+#collapse-milestones-info {
+    position: absolute;
+    top: 5%;
+}
+#collapse-milestones-container {
+    position: absolute;
+    top: 30%;
+}
+
+#cm-3 {
+    border-color: rgb(0, 255, 255);
+}
+
+#cm-3:hover {
+    background-color: rgb(0, 35, 35)
+}
+
+#cmr-3 {
+    color: rgb(0, 255, 255);
+}
+
+#cmi-3 {
+    color: rgb(51, 136, 175);
+    font-size: .9em;
+}
+
+#cm-4 {
+    border-color: rgb(182, 255, 255);
+}
+
+#cm-4:hover {
+    background-color: rgb(25, 35, 35)
+}
+
+#cmr-4 {
+    color: rgb(182, 255, 255);
+}
+
+#cmi-4 {
+    color: rgb(103, 147, 150);
+    font-size: .8em;
+}
+
+#cm-5 {
+    border-color: rgb(255, 255, 255);
+}
+
+#cm-5:hover {
+    background-color: rgb(35, 35, 35)
+}
+
+#cmr-5 {
+    color: rgb(255, 255, 255);
+}
+
+#cmi-5 {
+    color: rgb(153, 153, 153);
+    font-size: .9em;
+}
+
+#galaxy-area {
+    transform: translate(685px);
+}
+
+#galaxy-button {
+    border-color: rgb(140, 0, 255);
+}
+
+#galaxy-button-text {
+    font-size: 19px;
+    color: rgb(74, 0, 134);
+}
+
+#galaxy-button:hover {
+    background-color: rgb(14, 0, 25);
+}
+
+#galaxy-button:active > #galaxy-button-text:not(.layer-button-text-cannot) {
+    color: rgb(140, 0, 255);
+}
+
+#cm-6 {
+    border-color: rgb(140, 0, 255);
+}
+
+#cm-6:hover {
+    background-color: rgb(19, 0, 35)
+}
+
+#cmr-6 {
+    color: rgb(140, 0, 255);
+}
+
+#cmi-6 {
+    color: rgb(74, 0, 134);
+    font-size: .9em;
 }

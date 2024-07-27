@@ -10,28 +10,30 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 1, 2, ''],
-    savefile_name: "SquareixionSave",
+    game_version: [0, 2, '', ''],
+    savefile_name: "Squareixion save",
+    fps: 40,
     save: true,
-    auto_save: 10,
-    update_time_s: new Decimal('1e0'),
-    to_exp: new Decimal('1e30'),
-    int_to_float: new Decimal('1e3'),
-    star_count: 500,
-    star_min: 0,
-    star_max: 10000,
-    cube_text_plus_style: "-text",
+    auto_save: 10, // save interval
+    //int_to_float: N('1e3'), // starting from this integers are float in abb() function
+    //star_count: 500, // how many stars spawn in the background
+    //star_min: 0, // minimum of star count
+    //star_max: 10000, // maximum of star count
+    cube_text_plus_style: "-text", // what adds to the end of square name to get style for text
     cube_name_postfixes: ['-', '', '+', '++' ],
     cube_size_start: 50,
-    autoclickers_start: 16,
-    unlock_content_transition: 1000
+    unlock_content_transition: 1000,
+    intro: true
 }
 ,
 unlocks = {
-    prestige: new Decimal('4e0'),
-    light: new Decimal('2.6e1'),
-    mini_cubes: new Decimal('5e1'),
-    master: new Decimal('7.5e1'),
+    prestige: N('4e0'),
+    light: N('2.6e1'),
+    mini_cubes: N('4e1'),
+    master: N('7.8e1'),
+    giga_squares: N('1.25e2'),
+    collapse: N('1.05e5'),
+    galaxy: N('1e7'),
 }
 ,
 events = {
@@ -43,7 +45,24 @@ times = {
 }
 ,
 hotkeys = {
-    prestige: 'p',
-    light: 'l',
-    master: 'm'
+    prestige: 'Digit1', // 1
+    light: 'Digit2', // 2
+    master: 'Digit3', // 3
+    collapse: 'Digit4' // 4
 };
+let normal_realm_music = [
+    "audio/music/Cosmic Dream.mp3",
+    "audio/music/Cosmic Symphony.mp3",
+    "audio/music/Fun in the Game.mp3",
+    "audio/music/Science is Interesting.mp3",
+    "audio/music/Space Adventures.mp3",
+    "audio/music/Square World.mp3",
+    "audio/music/Squareixion's Mystery.mp3",
+    "audio/music/Squares.mp3",
+    "audio/music/Cubixion.mp3",
+    "audio/music/Infinite Growth.mp3",
+    "audio/music/Evolution.mp3",
+],
+collapse_realm_music = [
+    "audio/music/Starstruck Love.mp3"
+];

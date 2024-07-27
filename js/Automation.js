@@ -10,16 +10,16 @@ class Auto {
 
         this.lastLoop = Date.now();
     }
-    isWork() { return this.work && this.condition(); }
+    isWorking() { return this.work && this.condition(); }
     do()
     {
-        if (this.work && this.condition())
+        if (this.isWorking() && Date.now() >= this.lastLoop + this.rate())
         {
-            if (Date.now() >= this.lastLoop + this.rate() * 1e3)
-            {
-                this.lambda();
-                this.lastLoop = Date.now()
-            }
+            this.lambda((Date.now() - this.lastLoop) / this.rate());
+            this.lastLoop = Date.now();
+        }
+        else if (!this.isWorking()) {
+            this.lastLoop = Date.now();
         }
     }
 }

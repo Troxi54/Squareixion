@@ -1,7 +1,8 @@
 class Cube {
-    constructor(name)
+    constructor(name, start_at)
     {
         this.name = name;
+        this.start_at = start_at;
     }
 }
 
@@ -15,10 +16,7 @@ const hps = [
 ]
 
 const hps_scalings = [
-    [hps.length.toString(), '5.65e0'],
-    ['3e1', '1.591e1'],
-    ['1e2', '7.713e1'],
-    ['2.5e2', '1.0639e2'],
+    [hps.length.toString(), '2e2']
 ]
 
 const cubes = [
@@ -36,4 +34,30 @@ const cubes = [
     new Cube("Galactic Defender"),
     new Cube("Universe Defender"),
     new Cube("Universe Destroyer"),
+    new Cube("Earth god"),
+    new Cube("Water god", 72),
+    new Cube("Wind god", 100),
+    new Cube("Fire god", 168),
+    new Cube("Time god", 250),
+    new Cube("God of Electricity", 500),
+    new Cube("Quadruple Square", N('1e3')),
+    new Cube("Hexadecimal Square", N('2.5e3')),
+    new Cube("64-Square", N('5e3')),
+    new Cube("Agressive Square", N('1e4')),
+    new Cube("Peaceful Square", N('5e4')),
+    new Cube("Hidden Square", N('1e6')),
+    new Cube("Golden Square", N('1e7')),
+    new Cube("Amethyst Square", N('1e8')),
+    new Cube("Premium Square", N('1e9')),
+    new Cube("Basic Cube", N('1e10')),
+    new Cube("Square of Defense", N('1e11')),
+    new Cube("Square of Offense", N('1e12')),
+    new Cube("Neutral Square", N('1e13')),
+    new Cube("Collapse Square", N('1e14')),
+    new Cube("Rainbow Square", N('1e15')),
+    new Cube("Infinite Square", N('1e16')),
 ]
+
+cubes.forEach(function(cube, indexx){
+    cube.start_at = N(!cube.start_at ? indexx * settings.cube_name_postfixes.length : cube.start_at).plus(1);
+})

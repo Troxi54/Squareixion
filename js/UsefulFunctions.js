@@ -3,65 +3,65 @@ function restartGame()
     get.updateCubeStat();
     gameFunctions.spawnCube(true);
     get.updateAll();
+    
+    let music = nosave.play_music;
+    nosave = {};
+    setNosaveValues();
+    nosave.play_music = music;
+
     fs.setUpgradesHTML();
+    for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
     fs.setMilestonesHTML();
     
+    get.updateGcHP();
+    gameFunctions.spawnGCube(true);
+
+    fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `yes` : `no`}`);
+    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `yes` : `no`}`)
+
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
-    updates.updateAll();
-}
 
-function add_zeros(num, zeros = 1)
-{
-    let str = num.toString();
-    const search = str.search(/[.]/);
-
-    if (search === -1)
-    {
-        str += ".";
-        for (i = 0; i < zeros; ++i)
-        {
-            str += "0";
-        }
-    }
-    else if (search > -1)
-    {
-        if (str.length - search > zeros)
-        {
-            str = str.substr(0, search + zeros + 1);
-        }
-    }
+    gameFunctions.afkGenerators();
     
-    return str;
 }
 
 function floor(num, acc) { return Math.floor(num * 10 ** acc) / 10 ** acc; }
 
-function abb(num, acc = 2, absolute = false) // pretty bad
+function abb(num, acc = 2, absolute = false)
 {
-    if (typeof num === 'number') { num = new Decimal(num); }
-    if (num instanceof Decimal === false) throw new Error(`The value is not Decimal! The type of your value is ${ typeof num } and your value is ${ num }`);
-    if (absolute && num.lt(new Decimal('0e0'))) num = new Decimal('0e0');
-    const default_acc = 2,
-          postFixes = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qn', 'Sx', 'Sp', 'Oc', 'No'],
-          log = num.neq(new Decimal(0)) ? Decimal.abs(num).log(new Decimal('1e3')).abs().floor() : new Decimal(0)
-          postFix = postFixes[num.lt(settings.to_exp) ? log.toNumber() : 0]
-          numm = num;
-    if (postFix != '') { num = num.div(new Decimal('1e3').pow(log)); }
-    if (acc === undefined || numm.gte(settings.int_to_float)) { acc = default_acc; }
-    let e = new Decimal(num.e);
-    if (Decimal.gte(e, new Decimal('1e3')))
+    if (!num && num !== 0) return;
+    else if (num instanceof Decimal) if (!num.toNumber() && num.toNumber() !== 0) return;
+    if (num instanceof Decimal === false) 
     {
-        if (Decimal.gte(e, settings.to_exp))
-        {
-            return ('e' + floor(e, acc)).replace(/[+]/, '');
-        }
-        let loge = Decimal.abs(e).log(new Decimal('1e3')).abs().floor();
-        postFix = postFixes[e.lt(settings.to_exp) ? loge.toNumber() : 0];
-        e = e.div(new Decimal('1e3').pow(loge)).toNumber();
-        return ('e' + floor(e, acc) + postFix).replace(/[+]/, '');
+        if (!typeof num === 'number') console.warn(`The value is not Decimal! The type of your value is ${ typeof num } and your value is ${ num }`);
+        num = N(num);
+    };
+    if (absolute && num.lt(N('0e0'))) num = N('0e0');
+    // taken and edited from: https://lngi-incremental.glitch.me
+    const abbs = ['', 'k', 'M', 'B', 'T', 'Q', 'q', 'S', 's'];
+    if (num.eq("0")) {
+        return "0";
+    } else if (num.lt("1e3")) {
+        return num.toNumber().toFixed(acc);
+    } else if (num.lt("1e6")) {
+        return num.toNumber().toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else if (num.lt(N(1e3).pow(abbs.length))) {
+        const log = num.log(1e3).abs().floor();
+        const numm = num.div(Decimal.pow(1e3, log));
+        return numm.toFixed(3 - +numm.log(10).floor()) + abbs[log.toNumber()];
+    } else if(num.lt("ee6"))  {
+        let exp = num.log10();
+            exp = exp.plus(exp.div(1e9)).floor();
+        return num.div(N(10).pow(exp)).toNumber().toFixed(2) + "e" + abb(exp, 0);
+    } else {
+        return "e" + abb(num.log10(), acc);
     }
-    let str = numm.gte(settings.to_exp) ? num.toExponential(acc) : num.toFixed(acc);
-    return (str + postFix).replace(/[+]/, '');
+    // this causes lags for some reason
+    /* else if(num.slog(10).lt(10)) {
+        // return "e" + abb(num.log10(), acc);
+    } else if(num.slog(10).gte(10)) {
+        return "10^^" + abb(num.slog(10), acc);
+    } */
 }
 
 function abb_int(num) { return abb(num, 0); }
@@ -69,6 +69,23 @@ function abb_int(num) { return abb(num, 0); }
 function abb_abs(num) { return abb(num, undefined, true); }
 
 function abb_abs_int(num) { return abb(num, 0, true); }
+
+// taken and edited from: https://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
+function romanize (num) {
+    if (num instanceof Decimal)
+        num = num.toNumber();
+    if (isNaN(num))
+        return NaN;
+    var digits = String(+num).split(""),
+        key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+               "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+               "","I","II","III","IV","V","VI","VII","VIII","IX"],
+        roman = "",
+        i = 3;
+    while (i--)
+        roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+    return Array(+digits.join("") + 1).join("M") + roman;
+}
 
 function save()
 {
@@ -110,10 +127,10 @@ function load(data = localStorage.getItem(settings.game_name))
                 {
                     if (data[p].includes('e') || /\d/.test(data[p]))
                     {
-                        const value = new Decimal(data[p]).toNumber();
+                        const value = N(data[p]).toNumber();
                         if (value != NaN && value != undefined)
                         {
-                            data[p] = new Decimal(data[p]);
+                            data[p] = N(data[p]);
                         } 
                         else 
                         {
@@ -127,10 +144,26 @@ function load(data = localStorage.getItem(settings.game_name))
                     data.upgrades = player.upgrades;
                     for (let container in data.upgrades)
                     {
-                        data.upgrades[container].forEach(function(upgrade, index)
+                        if (upgrades[container] !== undefined)
                         {
-                            upgrade.bought_times = new Decimal(upgrades[container][index].bought_times);
-                        });
+                            data.upgrades[container].forEach(function(upgrade, index)
+                            {
+                                if (upgrades[container][index] !== undefined) 
+                                    upgrade.bought_times = N(upgrades[container][index].bought_times);
+                            });
+                        }
+                    }
+                }
+                if (p === "isUnlocked")
+                {
+                    let ie = data.isUnlocked;
+                    data.isUnlocked = player.isUnlocked;
+                    for (let container in data.isUnlocked)
+                    {
+                        if (ie[container] !== undefined)
+                        {
+                            data.isUnlocked[container] = ie[container];
+                        }
                     }
                 }
             }
@@ -159,28 +192,31 @@ function fixValues()
         {
             if (player[property].isNan())
             {
-                player[property] = new Decimal(0)
+                player[property] = N(0)
             }
         }
     }
+    for (let cont in player.upgrades) {
+        player.upgrades[cont].forEach(function(upg){
+            if (upg.bought_times.gt(upg.buyable_times)) upg.bought_times = upg.buyable_times;
+        })
+    }
 }
 
-function setFPS(set)
+/* function setFPS()
 {
     let thisLoop = new Date();
-    let fps = 1e3 / (thisLoop - nosave.lastLoop);
-    if (set) nosave.lastLoop = thisLoop;
+    let fps = (thisLoop - nosave.lastLoop);
+    nosave.lastLoop = thisLoop;
+    settings.fps = fps;
     thisLoop = undefined; // it's manually deleting, right? or i shouldn't
     return fps;
-}
+} */
 
-function getLoopIntervalBN()
+function getLoopInterval()
 {
-    return settings.update_time_s.times(new Decimal('1e3')).div((
-        setFPS(false) == 0 ? new Decimal(setFPS()) : new Decimal('1e0').times(new Decimal('6e1'))));
+    return 1e3 / settings.fps;
 }
-
-function getLoopInterval() { return getLoopIntervalBN().toNumber(); }
 
 function numToTime(num)
 {
@@ -233,13 +269,70 @@ function handleFileSelection(event)
 {
     const selectedFiles = event.target.files,
           file = selectedFiles[0];
-    if (file.type === 'text/plain')
-    {
-        selectedFiles[0].text().then((t) => 
-        { 
-            loadToPlayer(t);
-            restartGame();
-        });
+    if (!!file) {
+        if (file.type === 'text/plain')
+        {
+            selectedFiles[0].text().then((t) => 
+            { 
+                player = {};
+                player = getDefaultPlayerValues();
+                loadToPlayer(t);
+                restartGame();
+            });
+        }
+        else console.warn('Your save file is invalid')
     }
-    else console.warn('Your save file is invalid')
+    
 }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+ 
+// taken from: https://www.delftstack.com/howto/javascript/javascript-random-seed-to-generate-random/
+// {
+function MurmurHash3(string) {
+    let i = 0;
+    for (i, hash = 1779033703 ^ string.length; i < string.length; i++) {
+      let bitwise_xor_from_character = hash ^ string.charCodeAt(i);
+      hash = Math.imul(bitwise_xor_from_character, 3432918353);
+      hash = hash << 13 | hash >>> 19;
+    }
+    return () => {
+      // Return the hash that you can use as a seed
+      hash = Math.imul(hash ^ (hash >>> 16), 2246822507);
+      hash = Math.imul(hash ^ (hash >>> 13), 3266489909);
+      return (hash ^= hash >>> 16) >>> 0;
+    }
+  }
+  
+  function SimpleFastCounter32(seed_1, seed_2, seed_3, seed_4) {
+    return () => {
+      seed_1 >>>= 0;
+      seed_2 >>>= 0;
+      seed_3 >>>= 0;
+      seed_4 >>>= 0;
+      let cast32 = (seed_1 + seed_2) | 0;
+      seed_1 = seed_2 ^ seed_2 >>> 9;
+      seed_2 = seed_3 + (seed_3 << 3) | 0;
+      seed_3 = (seed_3 << 21 | seed_3 >>> 11);
+      seed_4 = seed_4 + 1 | 0;
+      cast32 = cast32 + seed_4 | 0;
+      seed_3 = seed_3 + cast32 | 0;
+      return (cast32 >>> 0) / 4294967296;
+    }
+  }
+  // }
+
+  function Round(num, acc = 4)
+  {
+    return num.plus(num.div(Decimal.pow(10, acc).round())).floor();
+  }
+
+  function isCharNumber(c) {
+    return typeof c === 'string' && c.length === 1 && c >= '0' && c <= '9';
+  }

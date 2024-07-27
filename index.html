@@ -6,220 +6,517 @@
         <meta name="description" content="Squareixion - remake of the Cubixion">
         <meta name="keywords" content="square, squareixion, the squareixion, cube, cubixion, the cubixion, incremental, incremental game">
         <meta name="author" content="Troxi">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script type="text/javascript" src="js/jquery.js"></script>
-        <script src="js/break_eternity.js"></script>
+        <script type="text/javascript" src="js/break_eternity.js"></script>
 
-        <script src="js/Consts.js"></script>
-        <script src="js/UsefulFunctions.js"></script>
-        <script src="js/Cube.js"></script>
-        <script src="js/Upgrades.js"></script>
-        <script src="js/Milestones.js"></script>
-        <script src="js/Automation.js"></script>
-        <script src="js/Player.js"></script>
-        <script src="js/Main.js"></script>
+        <script type="text/javascript" src="js/Consts.js"></script>
+        <script type="text/javascript" src="js/UsefulFunctions.js"></script>
+        <script type="text/javascript" src="js/Cube.js"></script>
+        <script type="text/javascript" src="js/Upgrades.js"></script>
+        <script type="text/javascript" src="js/Milestones.js"></script>
+        <script type="text/javascript" src="js/Automation.js"></script>
+        <script type="text/javascript" src="js/Player.js"></script>
+        <script type="text/javascript" src="js/FS.js"></script>
+        <script type="text/javascript" src="js/Get.js"></script>
+        <script type="text/javascript" src="js/UpdateHTML.js"></script>
+        <script type="text/javascript" src="js/Events.js"></script>
+        <script type="text/javascript" src="js/GameFunctions.js"></script>
+        <script type="text/javascript" src="js/Main.js"></script>
+        <script type="text/javascript" src="js/Ready.js"></script>
 
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/element_selectors.css">
-        <link rel="stylesheet" href="css/classes.css">
-        <link rel="stylesheet" href="css/ids.css">
-        <link rel="stylesheet" href="css/cubes.css">
-        <link rel="stylesheet" href="css/mini_cubes.css">
+        <link rel="stylesheet" type="text/css" href="css/variables.css">
+        <link rel="stylesheet" type="text/css" href="css/element_selectors.css">
+        <link rel="stylesheet" type="text/css" href="css/classes.css">
+        <link rel="stylesheet" type="text/css" href="css/ids.css">
+        <link rel="stylesheet" type="text/css" href="css/cubes.css">
+        <link rel="stylesheet" type="text/css" href="css/mini_cubes.css">
+        
+        <link rel="icon" type="image/x-icon" href="images/icon.png">
     </head>
     <body>
-        <canvas id="background"></canvas>
-        <div id="wrapper">
-            <div id="main-content">
-                <div id="currencies-place">
-                    <p id="stage">hi</p>
-                    <p id="master"></p>
-                </div>
-                <div id="prestige-area" class="column area">
-                    <div id="prestige-div" class="frame basic-frame column-flex layer-div">
-                        <div id="prestige-div-locked" class="lock-frame">
-                            <p id="prestige-locked" class="lock-info"></p>
-                        </div>
-                        <div id="prestige-div-unlocked" class="unlock-frame">
-                            <p id="prestige-info" class="layer-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
-                            <button id="prestige-button" class="button layer-button">
-                                <p id="prestige-button-text" class="layer-button-text">You can earn 0 prestige point</p>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="prestige-upgrades-div" class=" frame basic-frame column-flex layer-upgrades-div">
-                        <p id="prestige-upgrades-info" class="absolute layer-upgrades-info"></p>
-                        <p id="prestige-upgrades-name" class="layer-upgrades-name">Upgrades</p>
-                        <div id="prestige-upgrades-container" class="upgrades-container frame-noglow basic-frame">
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="cube-area" class="column">
-                    <div id="cube-info-div" class=" frame basic-frame">
-                        <p id="cube-info-text"></p>
-                    </div>
-                    <button class="cube"></button>
-                </div>
-                <div id="light-area" class="column area">
-                    <div id="light-div" class=" frame basic-frame column-flex layer-div">
-                        <div id="light-div-locked" class="lock-frame">
-                            <p id="light-locked" class="lock-info"></p>
-                        </div>
-                        <div id="light-div-unlocked" class="unlock-frame">
-                            <p id="light-info" class="layer-info"><span class="light size-150 bold">Light</span><br><br><span class="size-75" style="line-height: 4px;">Light resets everything before, but gives light<br> points to buy cooler upgrades. Light also<br> allows you to hold squares to damage them.</span></p>
-                            <button id="light-button" class="button layer-button">
-                                <p id="light-button-text" class="layer-button-text">You can earn 0 light point</p>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="light-upgrades-div" class=" frame basic-frame column-flex layer-upgrades-div">
-                        <p id="light-upgrades-info" class="absolute layer-upgrades-info"></p>
-                        <p id="light-upgrades-name" class="layer-upgrades-name">Upgrades</p>
-                        <div id="light-upgrades-container" class="upgrades-container frame-noglow basic-frame layer-upgrades-container">
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                            <button class="button upgrade frame-noglow basic-frame">
-                                <p class="upgrade-name"></p>
-                                <p class="upgrade-info"></p>
-                                <p class="upgrade-cost"></p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="minicube-area" class="column area">
-                    <div id="minicube-info-div" class=" frame basic-frame column-flex">
-                        <div id="minicube-div-locked" class="lock-frame">
-                            <p id="minicube-locked" class="lock-info"></p>
-                        </div>
-                        <div id="minicube-div-unlocked" class="unlock-frame">
-                            <p id="minicube-info"></p>
-                        </div>
-                    </div>
-                    <button id="minicube-place" class="button" onclick="gameFunctions.miniCube(event, true)"></button>
-                </div>
-                <div id="master-area" class="area">
-                    <div id="master-div" class="frame master-frame column-flex layer-div">
-                        <div id="master-div-locked" class="lock-frame">
-                            <p id="master-locked" class="lock-info master"></p>
-                        </div>
-                        <div id="master-div-unlocked" class="unlock-frame">
-                            <p id="master-info" class="layer-info master-dark-2"><span class="master size-150 bold">Master</span><br><br><span class="size-75">Master resets everything before, but <br>increases master level to unlock new abilities.<br> First master level unlocks master milestones.</span></p>
-                            <button id="master-button" class="button layer-button">
-                                <p id="master-button-text" class="master-dark">You can increase master level</p>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="master-milestones-div" class="frame master-frame column-flex">
-                        <p id="master-milestones-info" class="master bold"><span class="size-150"></span></p>
-                        <div id="master-milestones-container" class="frame-noglow master-frame milestone-container">
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                            <div class="milestone frame-noglow master-frame">
-                                <p class="milestone-requirement"></p>
-                                <p class="milestone-info"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--<div id="giantcube-area" class="column area">
-                    
-                </div>-->
+        <audio id="music" type="audio/mpeg">
+        </audio>
+
+        <!--<canvas id="background"></canvas>-->
+        
+        <div id="wrapper" class="wrapper-when-intro">
+            <div id="background"></div>
+            <div id="intro">
+                <p id="title">Squareixion
+                    <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
+                </p>
                 
-                <div id="footer">
-                    <div id="footer-left">
-                        <button id="settings-button" class="button">
-                            <img id="settings-icon" class="icon" src="images/settings.png">
-                        </button>
-                        <div id="footer-line"></div>
-                        <p id="version"></p>
-                        <div id="settings" class="frame-noglow">
-                            <button id="save" class="s-button"><p>Save</p></button>
-                            <div class="settings-column">
-                                <div class="settings-row">
-                                    <button id="export-via-file" class="s-button"><p>Export via file</p></button>
-                                    <button id="export-via-text" class="s-button"><p>Export via text</p></button>
-                                </div>
-                                <div class="settings-row">
-                                    <button id="import-via-file" class="s-button">
-                                        <p>Import via file</p>
-                                        <input type="file" id="import-file-input" style="display: none;" onchange="handleFileSelection(event)">
-                                    </button>
-                                    <button id="import-via-text" class="s-button"><p>Import via text</p></button>
-                                </div>
+                <div id="changelog">
+                    <p id="changelog-title">Version 0.2</p>
+                    <div id="changelogs">
+                        <p>&emsp;&emsp;v0.2<br>
+                            - Tons of new content. <br>
+                            - 1 new reset layer. <br>
+                            - Added more squares. <br>
+                            - Complete rebalancing. <br>
+                            - Intro. <br>
+                            - Music: Added 12 songs. <br>
+                            - 3 new settings. <br>
+                            - Removed 1 setting: "change star count". Instead, there is a picture in the background. <br>
+                            - Light point gain is now significantly increased by stage. <br>
+                            - Shadows look better. <br>
+                            - Bold and italic text is used in some places. <br>
+                            - Save system has been improved again. <br>
+                            - Performance has been significantly improved. <br>
+                            - Generators work when you are not playing. <br>
+                            - Changed number format. <br>
+                            - Changed hotkeys, now prestige is 1, light is 2, etc. <br>
+                            - Hotkeys work regardless of keyboard layout. <br>
+                            - Changed scrollbar style. <br>
+                            - The page now has an icon. <br>
+                            - The export save file name has been changed. <br>
+                            - A lot of bugs have been fixed. <br>
+                            - Other small changes.
+                        </p>
+                    </div>
+                </div>
+                <div id="play-location">
+                    <p id="title-info-2" class="darker-text">Play&#8230;</p>
+                    <div id="play-buttons">
+                        <button title="Play the game with sounds" id="play-with" class="button"><p>With sounds</p></button>
+                        <button title="Play the game without sounds" id="play-without" class="button"><p>Without sounds</p></button>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="currencies-place">
+                <p id="stage">hi</p>
+                <p id="master"></p>
+                <p id="collapse" class="collapse-text"></p>
+            </div>
+            <div id="main-content">
+                <div id="main-realm" class="realm"> 
+                    <div id="prestige-area" class="column area">
+                        <div id="prestige-div" class="frame basic-frame column-flex layer-div">
+                            <div id="prestige-div-locked" class="lock-frame">
+                                <p id="prestige-locked" class="lock-info"></p>
                             </div>
-                            <div class="settings-column">
-                                <button id="reset-cube" class="s-button"><p>Reset square</p></button>
-                                <button id="reset" class="s-button"><p>Reset</p></button>
+                            <div id="prestige-div-unlocked" class="unlock-frame">
+                                <p id="prestige-info" class="layer-info"><span class="prestige size-150 bold">Prestige</span><br><br>Prestige resets your stage, <br>but gives prestige points to <br>buy cool upgrades.</p>
+                                <button id="prestige-button" class="button layer-button">
+                                    <p id="prestige-button-text" class="layer-button-text">You can earn 0 prestige point</p>
+                                </button>
                             </div>
-                            <button id="change-star-count" class="s-button"><p>Change star count</p></button>
-                            <button id="discord" class="s-button">
-                                <p>Discord</p>
-                                <img id="discord-icon" class="icon" src="images/discord.png">
+                        </div>
+                        <div id="prestige-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
+                            <p id="prestige-upgrades-info" class="absolute layer-upgrades-info"></p>
+                            <p id="prestige-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                            <div id="prestige-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="cube-area" class="column">
+                        <div id="cube-info-div" class="frame basic-frame">
+                            <p id="cube-info-text"></p>
+                        </div>
+                        <button class="cube"></button>
+                    </div>
+                    <div id="light-area" class="column area">
+                        <div id="light-div" class=" frame basic-frame column-flex layer-div">
+                            <div id="light-div-locked" class="lock-frame">
+                                <p id="light-locked" class="lock-info"></p>
+                            </div>
+                            <div id="light-div-unlocked" class="unlock-frame">
+                                <p id="light-info" class="layer-info"><span class="light size-150 bold">Light</span><br><br><span class="size-75" style="line-height: 4px;">Light resets <span class="bold">everything</span> before, but gives light<br> points to buy cooler upgrades. Light also<br> allows you to hold squares to damage them.</span></p>
+                                <button id="light-button" class="button layer-button">
+                                    <p id="light-button-text" class="layer-button-text">You can earn 0 light point</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="light-upgrades-div" class=" frame basic-frame column-flex layer-upgrades-div">
+                            <p id="light-upgrades-info" class="absolute layer-upgrades-info"></p>
+                            <p id="light-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                            <div id="light-upgrades-container" class="upgrades-container frame-noglow basic-frame layer-upgrades-container">
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="minicube-area" class="column area">
+                        <div id="minicube-info-div" class=" frame basic-frame column-flex">
+                            <div id="minicube-div-locked" class="lock-frame">
+                                <p id="minicube-locked" class="lock-info"></p>
+                            </div>
+                            <div id="minicube-div-unlocked" class="unlock-frame">
+                                <p id="minicube-info"></p>
+                            </div>
+                        </div>
+                        <button id="minicube-place" class="button" onclick="gameFunctions.miniCube(event, true)"></button>
+                    </div>
+                    <div id="master-area" class="area">
+                        <div id="master-div" class="frame master-frame column-flex layer-div">
+                            <div id="master-div-locked" class="lock-frame">
+                                <p id="master-locked" class="lock-info master"></p>
+                            </div>
+                            <div id="master-div-unlocked" class="unlock-frame">
+                                <p id="master-info" class="layer-info master-dark-2"><span class="master size-150 bold">Master</span><br><br><span class="size-75">Master resets <span class="bold">everything</span> before, but <br>increases master level to unlock new abilities.<br> First master level unlocks master milestones.</span></p>
+                                <button id="master-button" class="button layer-button">
+                                    <p id="master-button-text" class="master-dark">You can increase master level</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="master-milestones-div" class="frame master-frame column-flex">
+                            <p id="master-milestones-info" class="master bold"><span class="size-150"></span></p>
+                            <div id="master-milestones-container" class="frame-noglow master-frame milestone-container">
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <!-- <div class="milestone frame-noglow master-frame">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="giantcube-area" class="area">
+                        <div class="column-flex" style="gap: 50px;">
+                            <div id="giantcube-info-div" class="frame basic-frame">
+                                <p id="giantcube-info-text">Damage: 0</p>
+                            </div>
+                            <button class="g-cube"></button>
+                        </div>
+                        <div id="ruby-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
+                            <p id="ruby-upgrades-info" class="absolute layer-upgrades-info"></p>
+                            <p id="ruby-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                            <div id="ruby-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="giga-area" class="column area">
+                        <div id="giga-div" class="frame basic-frame column-flex layer-div">
+                            <div id="giga-div-locked" class="lock-frame">
+                                <p id="giga-locked" class="lock-info"></p>
+                            </div>
+                            <div id="giga-div-unlocked" class="unlock-frame">
+                                <p id="giga-info" class="layer-info"><span class="giga size-150 bold">Gigalize</span><br><br>Gigalize resets giant square<br> features, but gives giga squares<br> to buy good upgrades.</p>
+                                <button id="giga-button" class="button layer-button">
+                                    <p id="giga-button-text" class="layer-button-text">You can earn 0 giga squares</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="giga-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
+                            <p id="giga-upgrades-info" class="absolute layer-upgrades-info"></p>
+                            <p id="giga-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                            <div id="giga-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="neon-area" class="area">
+                        <div id="neon-info-div" class="frame basic-frame column-flex">
+                            <div class="neon-square"></div>
+                            <p id="neon-info"></p>
+                            <button id="neon-spawn" class="button layer-button">
+                                <p id="neon-button-text" class="layer-button-text">Spawn neon square</p>
                             </button>
                         </div>
+                    </div>
+                    <div id="collapse-layer-area" class="area">
+                        <div id="collapse-div" class="frame collapse-frame column-flex layer-div">
+                            <div id="collapse-div-locked" class="lock-frame">
+                                <p id="collapse-locked" class="lock-info collapse"></p>
+                            </div>
+                            <div id="collapse-div-unlocked" class="unlock-frame">
+                                <p id="collapse-info" class="layer-info collapse-dark-2"><span class="collapse size-150 bold">Collapse</span><br><br><span class="size-75">Collapse resets <span class="bold">everything</span> before <br> and gives stars to buy powerful upgrades<br> First collapse also unlocks new realm.</span></p>
+                                <button id="collapse-button" class="button layer-button">
+                                    <p id="collapse-button-text" class="collapse-dark">You can earn 0 stars</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="portal" class="button"></button>
+                </div>
+                <div id="collapse-realm">
+                    <button id="portal-2" class="button"></button>
+                    <div id="collapse-area" class="area">
+                        <div id="collapse-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
+                            <p id="collapse-upgrades-info" class="absolute layer-upgrades-info"></p>
+                            <p id="collapse-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                            <div id="collapse-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                                <button class="button upgrade frame-noglow basic-frame">
+                                    <p class="upgrade-name"></p>
+                                    <p class="upgrade-info"></p>
+                                    <p class="upgrade-cost"></p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="collapse-milestones" class="frame collapse-m-frame column-flex layer-div">
+                            <p id="collapse-milestones-info" class="collapse-text bold size-125"></p>
+                            <div id="collapse-milestones-container" class="frame-noglow collapse-m-frame milestone-container">
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-1">
+                                    <p class="milestone-requirement" id="cmr-1"></p>
+                                    <p class="milestone-info" id="cmi-1"></p>
+                                </div>
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-2">
+                                    <p class="milestone-requirement" id="cmr-2"></p>
+                                    <p class="milestone-info" id="cmi-2"></p>
+                                </div>
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-3">
+                                    <p class="milestone-requirement" id="cmr-3"></p>
+                                    <p class="milestone-info" id="cmi-3"></p>
+                                </div>
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-4">
+                                    <p class="milestone-requirement" id="cmr-4"></p>
+                                    <p class="milestone-info" id="cmi-4"></p>
+                                </div>
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-5">
+                                    <p class="milestone-requirement" id="cmr-5"></p>
+                                    <p class="milestone-info" id="cmi-5"></p>
+                                </div>
+                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-6">
+                                    <p class="milestone-requirement" id="cmr-6"></p>
+                                    <p class="milestone-info" id="cmi-6"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="galaxy-area" class="area">
+                        <div id="galaxy-div" class="frame galaxy-frame column-flex layer-div">
+                            <p id="galaxy-info" class="layer-info"></p>
+                            <button id="galaxy-button" class="button layer-button">
+                                <p id="galaxy-button-text" class="layer-button-text">You can earn 0 prestige point</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="frame"><p id="frame-text"></p></div>
+        <div id="footer">
+            <div id="footer-left">
+                <button id="settings-button" class="button">
+                    <img id="settings-icon" class="icon" src="images/settings.png">
+                </button>
+                <div id="footer-line"></div>
+                <p id="version"></p>
+                <div id="settings" class="frame-noglow">
+                    <button id="save" class="s-button"><p>Save</p></button>
+                    <div class="settings-column">
+                        <div class="settings-row">
+                            <button id="export-via-file" class="s-button"><p>Export via file</p></button>
+                            <button id="export-via-text" class="s-button"><p>Export via text</p></button>
+                        </div>
+                        <div class="settings-row">
+                            <button id="import-via-file" class="s-button">
+                                <p>Import via file</p>
+                                <input type="file" id="import-file-input" style="display: none;" onchange="handleFileSelection(event)">
+                            </button>
+                            <button id="import-via-text" class="s-button"><p>Import via text</p></button>
+                        </div>
+                    </div>
+                    <div class="settings-column">
+                        <button id="reset-cube" class="s-button"><p>Reset square</p></button>
+                        <button id="reset" class="s-button"><p>Reset</p></button>
+                    </div>
+                    <div class="settings-column">
+                        <button id="change-music" class="s-button s-button-fit"><p id="change-music-text">Music: OFF</p></button>
+                        <button id="outside-music" class="s-button s-button-fit"><p id="outside-music-text">Play music outside the page: no</p></button>
+                        <button id="change-realm-music" class="s-button s-button-fit"><p id="change-realm-music-text">Always play normal realm music: no</p></button>
+                    </div>
+                    <div class="settings-column" id="links">
+                        <button id="discord" class="s-button">
+                            <p>Discord</p>
+                            <img id="discord-icon" class="icon" src="images/discord.png">
+                        </button>
+                        <button id="roblox" class="s-button s-button-fit">
+                            <p>Original game</p>
+                            <img id="roblox-icon" class="icon" src="images/roblox.png">
+                        </button>
                     </div>
                 </div>
             </div>

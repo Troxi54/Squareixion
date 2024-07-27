@@ -4,12 +4,18 @@
     transition: none !important;
 }
 
+.realm {
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
 .frame {
     width: 414px;
     aspect-ratio: 1.42 / 1;
     background-color: black;
     border: 5px solid rgba(var(--frame-color));
-    box-shadow: inset 0 0 10px rgba(var(--frame-color), .75), 0 0 10px rgba(var(--frame-color), .75);
+    box-shadow: inset 0 0 25px 0px rgba(var(--frame-color), .25), 0 0 25px rgba(var(--frame-color), .25);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -20,6 +26,35 @@
 
 .frame.master-frame {
     --frame-color: 255, 0, 0;
+}
+
+.frame.collapse-frame {
+    --frame-color: 0, 13, 189;
+}
+
+.frame.star-frame {
+    --frame-color: 255, 255, 0;
+}
+
+@keyframes collapse-milestones {
+    0%, 100% {
+        border: 5px solid rgb(0, 255, 255);
+        color: rgb(0, 255, 255);
+        box-shadow: inset 0 0 25px rgba(0, 255, 255, .25), 0 0 25px rgba(0, 255, 255, .25);
+    }
+    50% {
+        border: 5px solid rgb(255, 255, 255);
+        color: rgb(255, 255, 255);
+        box-shadow: inset 0 0 25px rgba(255, 255, 255, .25), 0 0 25px rgba(255, 255, 255, .25);
+    }
+}
+
+.frame.collapse-m-frame {
+    animation: 4s collapse-milestones infinite;
+}
+
+.frame.galaxy-frame {
+    --frame-color: 140, 0, 255;
 }
 
 .frame-noglow {
@@ -37,6 +72,27 @@
     --frame-noglow-color: 255, 0, 0;
 }
 
+.frame-noglow.collapse-frame {
+    --frame-noglow-color: 0, 13, 189;
+}
+
+.frame-noglow.star-frame {
+    --frame-noglow-color: 255, 255, 0;
+}
+
+@keyframes collapse-milestones-n {
+    0%, 100% {
+        border: 3px solid rgb(0, 255, 255);
+    }
+    50% {
+        border: 3px solid rgb(255, 255, 255);
+    }
+}
+
+.frame-noglow.collapse-m-frame {
+    animation: 4s collapse-milestones-n infinite;
+}
+
 .icon {
     aspect-ratio: 1 / 1;
 }
@@ -46,7 +102,6 @@
 }
 
 .column {
-    position: absolute;
     flex-direction: column;
     gap: 100px;
 }
@@ -56,7 +111,7 @@
 }
 
 .button-cannot {
-    cursor: not-allowed;
+    cursor: auto !important;
 }
 
 .lock-frame, .unlock-frame {
@@ -138,6 +193,21 @@
     color: rgb(0, 255, 0);
 }
 
+.pow {
+    color: rgb(0, 119, 255);
+    background: linear-gradient(to right, rgb(0, 119, 255), rgb(4, 0, 255), rgb(0, 119, 255));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 .negative {
     color: rgb(255, 0, 0);
 }
@@ -171,10 +241,99 @@
     color: rgb(125, 0, 0);
 }
 
+.gcs {
+    color: rgb(185, 123, 255);
+}
+
+.gcd {
+    color: red;
+}
+
+.ruby {
+    color: red;
+}
+
+.giga {
+    color: rgb(0, 255, 0);
+}
+.giga-dark {
+    color: rgb(0, 175, 0);
+}
+.giga-dark-2 {
+    color: rgb(0, 125, 0);
+}
+
+.neon-luck {
+    color: rgb(255, 146, 73);
+}
+
+.collapse {
+    color: rgb(0, 13, 189);
+}
+.collapse-dark {
+    color: rgb(0, 9, 138);
+}
+.collapse-dark-2 {
+    color: rgb(0, 7, 107);
+}
+
+.stars {
+    color: rgb(255, 255, 0);
+}
+
+.galaxy {
+    color: rgb(140, 0, 255);
+}
+
+.galaxy-dark {
+    color: rgb(74, 0, 134);
+}
+
+@keyframes collapse-milestones-t {
+    0%, 100% {
+        color: rgb(0, 255, 255);
+    }
+    50% {
+        color: rgb(255, 255, 255);
+    }
+}
+
+.collapse-text {
+    animation: 4s collapse-milestones-t infinite;
+}
+
+.cap {
+    background: linear-gradient(45deg,#ff8400, #ffc800, #ff8400);
+    font-style: italic;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.cap-2 {
+    background: linear-gradient(45deg,#af0000, #da4040, #af0000);
+    font-style: italic;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.cap-3 {
+    background: linear-gradient(45deg,#3800a0, #8142f5, #3800a0);
+    font-style: italic;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
 .area {
+    position: absolute;
     width: 500px;
     height: 900px;
     gap: 50px;
+    pointer-events: none;
+}
+
+.area * {
+    pointer-events: auto;
 }
 
 .layer-div {
@@ -204,7 +363,7 @@
 }
 
 .layer-button:active > .layer-button-text-cannot {
-    color: rgb(255, 0, 0);
+    color: rgb(255, 0, 0) !important;
 }
 
 .layer-upgrades-div {
@@ -236,16 +395,16 @@
     gap: 10px;
     overflow-y: hidden;
     overflow-x: auto;
-    white-space: nowrap;
-    flex-wrap: nowrap;
+}
+
+.upgrades-container * {
+    overflow-x: hidden;
 }
 
 .upgrades-container::-webkit-scrollbar {
     height: 5px;
-    border: none;
-    background-color: transparent;
+    border-width: 4px;
 }
-
 
 .upgrades-container::before,
 .upgrades-container::after {
@@ -262,28 +421,30 @@
     position: relative;
     background-color: black;
 }
+.upgrade * {
+    pointer-events: none;
+}
 
 .upgrade:active {
     background-color: var(--darker-color-2);
 }
 
 .upgrade-name {
-    font-size: 10px;
-    top: 10%;
-    transform: translateY(-50%);
+    font-size: .75em;
+    top: -5%;
 }
 
 .upgrade-info {
-    font-size: .65rem;
-    top: 50%;
-    transform: translateY(-50%);
+    font-size: .75em;
+    top: 20%;
     text-wrap: wrap;
 }
 
 .upgrade-cost {
-    font-size: 10px;
-    top: 80%;
-    transform: translateY(-50%);
+    font-size: .75em;
+    top: 72.5%;
+    text-wrap: nowrap;
+    text-align: center;
 }
 
 .milestone-container {
@@ -297,14 +458,13 @@
 
 .milestone-container::-webkit-scrollbar {
     width: 5px;
-    border: none;
+    background-clip: border-box;
     border-left: 2px solid red;
-    position: absolute;
-    background-color: transparent;
 }
 
 .milestone-container::-webkit-scrollbar-thumb {
     background-color: red;
+    border: none;
 }
 
 .milestone {
@@ -316,6 +476,10 @@
     border-right: none;
     overflow-y: auto;
     transition: background-color 100ms linear;
+}
+
+.collapse-milestone {
+    height: 125px;
 }
 
 .milestone::-webkit-scrollbar {
@@ -363,7 +527,7 @@
     background-color: black;
     border: .25vh solid white;
     transition: background-color 100ms;
-    display: flex;
+    display: inline-flex;
     cursor: pointer;
 }
 
@@ -389,4 +553,79 @@
 
 .settings-row {
     gap: .5vh;
+}
+
+.g-cube {
+    border: none;
+    background-color: rgb(200, 200, 200);
+    
+    width: 250px;
+    aspect-ratio: 1 / 1;
+    transition: linear 100ms;
+    transition-property: background-color;
+    cursor: url('../images/sword.png'), auto;
+}
+
+.g-cube:active {
+    transition: none;
+    background-color: rgb(255, 100, 100) !important;
+}
+
+.s-button-fit {
+    width: fit-content;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    max-width: 95%;
+}
+
+.neon-square {
+    --color: 255, 255, 255;
+    position: absolute;
+    top: 10%;
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(var(--color));
+    box-shadow: 0 0 15px 5px rgba(var(--color), .5);
+    transition: 100ms linear;
+    transition-property: background-color, box-shadow;
+}
+
+.collapse-frame-text {
+    background: linear-gradient(to bottom, rgb(170, 170, 170), rgb(255, 255, 255), rgb(0, 2, 255));
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 10vh #000000;
+    font-weight: bold;
+}
+/* taken and edited from: https://stackoverflow.com/questions/7525977/how-to-write-fraction-value-using-html
+{*/
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 8px;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.bottom-m {
+    border-top: 1px solid rgb(125, 0, 0);
+}
+.frac span.symbol {
+    display: none;
+}
+/*}*/
+
+.galaxy-line {
+    display: inline-flex;
+    width: 100px;
+    height: 1px;
+    transform: translateY(-2px);
+    background: linear-gradient(to right, rgb(0,0,0,0), rgb(74, 0, 139) 25% 75%, rgb(0,0,0,0));
+    vertical-align: middle;
 }

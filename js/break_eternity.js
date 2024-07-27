@@ -178,7 +178,7 @@
     this.value = value;
   });
 
-  var MAX_SIGNIFICANT_DIGITS = 17; //Maximum number of digits of precision to assume in Number
+  var MAX_SIGNIFICANT_DIGITS = 37; //Maximum number of digits of precision to assume in Number
   var EXP_LIMIT = 9e15; //If we're ABOVE this value, increase a layer. (9e15 is close to the largest integer that can fit in a Number.)
   var LAYER_DOWN = Math.log10(9e15);
   var FIRST_NEG_LAYER = 1 / 9e15; //At layer 0, smaller non-zero numbers than this become layer 1 numbers with negative mag. After that the pattern continues as normal.
@@ -375,7 +375,7 @@
    * The value of the Decimal is sign * 10^10^10...^mag, with (layer) 10s. If the layer is not 0, then negative mag means it's the reciprocal of the corresponding number with positive mag.
    */
   var Decimal = /*#__PURE__*/function () {
-    function Decimal(value) {
+    function Decimal(value, round = true) {
       _classCallCheck(this, Decimal);
       this.sign = 0;
       this.mag = 0;
@@ -387,7 +387,11 @@
       } else if (typeof value === "string") {
         this.fromString(value);
       }
+      //troxi's line {
+      //if (round) {console.log(round); this.times(new Decimal('1e12', false)).round().div(new Decimal('1e12', false));}
+      //}
     }
+    
     _createClass(Decimal, [{
       key: "m",
       get: function get() {
@@ -4211,6 +4215,7 @@
         }
       }
     }]);
+    console.log(this)
     return Decimal;
   }();
   Decimal.dZero = FC_NN(0, 0, 0);
@@ -4234,7 +4239,9 @@
   Decimal.fromMantissaExponent;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Decimal.fromMantissaExponent_noNormalize;
-
+// 
   return Decimal;
 
 }));
+
+function N(num) { return new Decimal(num); }

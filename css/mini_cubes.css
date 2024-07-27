@@ -28,3 +28,124 @@
 .mini-cube.mini-cube-5 {
     --mc-color: 255, 150, 150;
 }
+
+@keyframes mc6 {
+    0%, 66% {
+        background-color: rgb(255, 0, 0);
+    }
+    33%, 100% {
+        background-color: rgb(0, 0, 255);
+    }
+}
+
+.mini-cube.mini-cube-6 {
+    animation: mc6 2s;
+}
+
+@keyframes mc7 {
+    0%, 66% {
+        background-color: rgb(255, 0, 191);
+    }
+    33%, 100% {
+        background-color: rgb(0, 255, 34);
+    }
+}
+
+.mini-cube.mini-cube-7 {
+    animation: mc7 2s;
+}
+
+@keyframes mc8 {
+    0%, 66% {
+        background-color: rgb(238, 255, 0);
+    }
+    33%, 100% {
+        background-color: rgb(0, 247, 255);
+    }
+}
+
+.mini-cube.mini-cube-8 {
+    animation: mc8 2s;
+}
+
+@keyframes mc9 {
+    0%, 66% {
+        background-color: rgb(255, 255, 255);
+    }
+    33%, 100% {
+        background-color: rgb(0, 0, 0);
+    }
+}
+
+.mini-cube.mini-cube-9 {
+    animation: mc9 2s;
+}
+
+@keyframes mc10 {
+    0%, 100% {
+        background-color: rgb(255, 0, 0);
+    }
+    33% {
+        background-color: rgb(0, 255, 0);
+    }
+    66% {
+        background-color: rgb(0, 0, 255);
+    }
+}
+
+.mini-cube.mini-cube-10 {
+    animation: mc10 2s;
+}
+
+@keyframes mcl {
+    0%, 100% {
+        box-shadow: 0 0 5px 1px rgb(255, 0, 0);
+        background-color: rgb(255, 0, 0);
+    }
+    14% {
+        box-shadow: 0 0 5px 1px rgb(255, 125, 0);
+        background-color: rgb(255, 125, 0);
+    }
+    28% {
+        box-shadow: 0 0 5px 1px rgb(255, 255, 0);
+        background-color: rgb(255, 255, 0);
+    }
+    42% {
+        box-shadow: 0 0 5px 1px rgb(0, 255, 0);
+        background-color: rgb(0, 255, 0);
+    }
+    57% {
+        box-shadow: 0 0 5px 1px rgb(0, 125, 255);
+        background-color: rgb(0, 125, 255);
+    }
+    71% {
+        box-shadow: 0 0 5px 1px rgb(0, 0, 255);
+        background-color: rgb(0, 0, 255);
+    }
+    85% {
+        box-shadow: 0 0 5px 1px rgb(125, 0, 255);
+        background-color: rgb(125, 0, 255);
+    }
+}
+
+.mini-cube.mini-cube-l {
+    animation: mcl 2s infinite;
+}
+
+.mini-cube.mini-cube-tl {
+    
+    animation: mcl 2s infinite;
+}
+
+.mini-cube.mini-cube-tl::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-image: url('../images/star.png');
+    background-size: cover;
+    opacity: .5;
+}

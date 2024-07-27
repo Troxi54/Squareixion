@@ -1,20 +1,23 @@
 @import "variables.css";
 
 .cube {
+    position: relative;
     border: none;
     background-color: rgb(var(--cube-color));
     
     aspect-ratio: 1 / 1;
     transition: linear 100ms;
-    transition-property: color;
+    transition-property: background-color, box-shadow, color;
     cursor: url('../images/sword.png'), auto;
     color: var(--cube-color);
 }
 
 button.cube:active {
     transition: none;
-    background-color: rgb(255, 100, 100);
+    background-color: rgb(255, 100, 100) !important;
+    color: rgb(255, 100, 100) !important;
     --cube-color: 255, 100, 100;
+    border-color: rgb(255, 100, 100) !important;
 }
 
 .cube-text {
@@ -133,5 +136,526 @@ button.cube:active {
 
 .cube-text.universe-destroyer-text {
     background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(25, 0, 255) 25%, rgb(53, 53, 53) 50%, rgb(25, 0, 255) 75%, rgb(255, 0, 0) 100%);
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes earth-god {
+    0%, 100% {
+        background-color: rgb(107, 70, 36);
+        color: rgba(107, 70, 36, .75);
+    }
+    50% {
+        background-color: rgb(66, 196, 120);
+        color: rgba(66, 196, 120, .75);
+    }
+}
+
+.cube.earth-god {
+    animation: 4s earth-god infinite;
+    box-shadow: 0 0 50px 15px
+}
+
+.cube-text.earth-god-text {
+    background: linear-gradient(to right, rgb(53, 173, 99) 0%, rgb(146, 90, 26), rgb(53, 173, 99));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes water-god {
+    0%, 100% {
+        background-color: rgb(55, 139, 179);
+        color: rgb(55, 139, 179, .75);
+    }
+    50% {
+        background-color: rgb(55, 92, 211);
+        color: rgb(55, 92, 211, .75);
+    }
+}
+
+.cube.water-god {
+    animation: 4s water-god infinite;
+    box-shadow: 0 0 50px 15px;
+}
+
+.cube-text.water-god-text {
+    background: linear-gradient(to right, rgb(25, 134, 207), rgb(25, 43, 207), rgb(25, 134, 207));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes wind-god {
+    0%, 100% {
+        background-color: rgb(147, 199, 223);
+        color: rgb(147, 199, 223, .75);
+    }
+    50% {
+        background-color: rgb(139, 223, 223);
+        color: rgb(139, 223, 223, .75);
+    }
+}
+
+.cube.wind-god {
+    animation: 4s wind-god infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.wind-god-text {
+    background: linear-gradient(to right, rgb(129, 171, 199), rgb(112, 204, 196), rgb(129, 171, 199));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes fire-god {
+    0%, 100% {
+        background-color: rgb(255, 153, 0);
+        color: rgb(255, 153, 0);
+    }
+    50% {
+        background-color: rgb(255, 72, 0);
+        color: rgb(255, 72, 0);
+    }
+}
+
+.cube.fire-god {
+    animation: 4s fire-god infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.fire-god-text {
+    background: linear-gradient(to right, rgb(255, 136, 0), rgb(255, 60, 0), rgb(255, 136, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes time-god {
+    0%, 100% {
+        background-color: rgb(213, 161, 255);
+        color: rgb(213, 161, 255);
+    }
+    50% {
+        background-color: rgb(183, 95, 255);
+        color: rgb(183, 95, 255);
+    }
+}
+
+.cube.time-god {
+    animation: 4s time-god infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.time-god-text {
+    background: linear-gradient(to right, rgb(230, 165, 255), rgb(255, 255, 255), rgb(145, 48, 255), rgb(230, 165, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes god-of-electricity {
+    0%, 100% {
+        background-color: rgb(229, 255, 0);
+        color: rgb(229, 255, 0);
+    }
+    50% {
+        background-color: rgb(0, 38, 255);
+        color: rgb(0, 38, 255);
+    }
+}
+
+.cube.god-of-electricity {
+    animation: 8s god-of-electricity infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.god-of-electricity-text {
+    background: linear-gradient(to right, rgb(25, 0, 255), rgb(0, 195, 255), rgb(246, 255, 167), rgb(251, 255, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.quadruple-square {
+    background-color: rgb(200, 200, 200);
+}
+.cube.quadruple-square::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/4squares.png');
+    background-size: 100% 100%;
+    opacity: .25;
+}
+
+.cube-text.quadruple-square-text {
+    background: linear-gradient(to right, rgb(126, 126, 126), rgb(228, 228, 228),rgb(126, 126, 126));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.hexadecimal-square {
+    background-color: rgb(200, 200, 200);
+}
+.cube.hexadecimal-square::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/4squares.png');
+    background-size: 50% 50%;
+    opacity: .25;
+}
+
+.cube-text.hexadecimal-square-text {
+    background: linear-gradient(to right, rgb(100, 100, 100), rgb(167, 166, 166),rgb(100, 100, 100));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube._64-square {
+    background-color: rgb(180, 180, 180);
+}
+.cube._64-square::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/4squares.png');
+    background-size: 25% 25%;
+    opacity: .25;
+}
+
+.cube-text._64-square-text {
+    background: linear-gradient(to right, rgb(82, 82, 82), rgb(134, 134, 134),rgb(82, 82, 82));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.agressive-square {
+    background-color: transparent;
+    box-shadow: 0 0 500px 10px rgb(255, 0, 0);
+}
+
+.cube-text.agressive-square-text {
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 255), rgb(27, 16, 16), rgb(255, 0, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.peaceful-square {
+    background-color: transparent;
+    box-shadow: 0 0 500px 10px rgb(0, 155, 255);
+}
+
+.cube-text.peaceful-square-text {
+    background: linear-gradient(to right, rgb(0, 162, 255), rgb(134, 211, 255), rgb(255, 255, 255), rgb(0, 162, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.hidden-square {
+    background-color: black;
+}
+
+.cube-text.hidden-square-text {
+    background: linear-gradient(to bottom, rgb(189, 189, 189), rgb(34, 34, 34));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes golden-square {
+    0%, 100% {
+        background-color: rgb(255, 208, 0);
+        color: rgb(255, 208, 0);
+    }
+    50% {
+        background-color: rgb(255, 255, 0);
+        color: rgb(255, 255, 0);
+    }
+}
+
+.cube.golden-square {
+    animation: 8s golden-square infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.golden-square-text {
+    background: linear-gradient(to bottom, rgb(255, 251, 1), rgb(255, 166, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes amethyst-square {
+    0%, 100% {
+        background-color: rgb(183, 0, 255);
+        color: rgb(183, 0, 255);
+    }
+    50% {
+        background-color: rgb(98, 0, 255);
+        color: rgb(98, 0, 255);
+    }
+}
+
+.cube.amethyst-square {
+    animation: 8s amethyst-square infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.amethyst-square-text {
+    background: linear-gradient(to bottom, rgb(120, 1, 255), rgb(215, 98, 245));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes premium-square {
+    0%, 100% {
+        background-color: rgb(255, 255, 255);
+        color: rgb(255, 255, 255);
+    }
+    50% {
+        background-color: rgb(145, 145, 145);
+        color: rgb(145, 145, 145);
+    }
+}
+
+.cube.premium-square {
+    animation: 8s premium-square infinite;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube.premium-square::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/star.png');
+    background-size: 100% 100%;
+    opacity: .25;
+}
+
+.cube-text.premium-square-text {
+    background: linear-gradient(to right, rgb(255, 255, 255), rgb(0, 0, 0), rgb(255, 255, 0), rgb(255, 255, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.cube.basic-cube[style] {
+    background-color: transparent !important;
+}
+
+.cube.basic-cube::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/cube.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    opacity: 1;
+}
+
+.cube.basic-cube:active::before {
+    filter: invert(45%) sepia(20%) saturate(3000%) hue-rotate(319deg);
+}
+
+.cube-text.basic-cube-text {
+    background: linear-gradient(to right, rgb(255, 255, 255),rgb(136, 136, 136), rgb(255, 255, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes square-of-defense {
+    0%, 100% {
+        background-color: rgba(96, 255, 255, 0.25);
+        border-color: rgba(96, 255, 255, 0.75);
+    }
+    50% {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+@keyframes text-animation {
+    0%, 100% {
+        background-position-y: 0px;
+    }
+    50% {
+        background-position-y: 100px;
+    }
+}
+
+@keyframes text-animation-horizontal {
+    0% {
+        background-position-x: 0px;
+    }
+    100% {
+        background-position-x: 11em;
+    }
+}
+
+.cube.square-of-defense {
+    animation: 8s square-of-defense infinite;
+    border: solid 5px;
+}
+
+.cube-text.square-of-defense-text {
+    animation: 8s text-animation infinite;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(0, 255, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes square-of-offense {
+    0%, 100% {
+        background-color: rgba(255, 96, 96, 0.25);
+        border-color: rgba(255, 96, 96, 0.75);
+    }
+    50% {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+.cube.square-of-offense {
+    animation: 8s square-of-offense infinite;
+    border: solid 5px;
+}
+
+.cube-text.square-of-offense-text {
+    animation: 8s text-animation infinite;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(255, 0, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes neutral-square {
+    0%, 100% {
+        background-color: rgba(30, 255, 0, 0.25);
+        border-color: rgba(30, 255, 0, 0.75);
+        color: rgba(30, 255, 0);
+    }
+    50% {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.75);
+        color: rgb(255, 255, 255);
+    }
+}
+
+.cube.neutral-square {
+    animation: 8s neutral-square infinite;
+    border: solid 5px;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.neutral-square-text {
+    animation: 8s text-animation infinite;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(0, 255, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes collapse-square {
+    0%, 100% {
+        background-color: rgba(0, 0, 255, 0.25);
+        border-color: rgba(0, 0, 255, 0.75);
+        color: rgba(0, 0, 255);
+    }
+    50% {
+        background-color: rgba(0, 0, 0, 0.25);
+        border-color: rgba(0, 0, 0, 0.75);
+        color: rgb(255, 255, 255);
+    }
+}
+
+.cube.collapse-square {
+    animation: 8s collapse-square infinite;
+    border: solid 5px;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.collapse-square-text {
+    animation: 8s text-animation infinite;
+    background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(0, 0, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes rainbow-square {
+    0%, 100% {
+        background-color: rgb(255, 0, 0);
+        color: rgb(255, 0, 0);
+    }
+    14.28% {
+        background-color: rgb(255, 125, 0);
+        color: rgb(255, 125, 0);
+    }
+    28.57% {
+        background-color: rgb(255, 255, 0);
+        color: rgb(255, 255, 0);
+    }
+    42.85% {
+        background-color: rgb(0, 255, 0);
+        color: rgb(0, 255, 0);
+    }
+    57.14% {
+        background-color: rgb(0, 125, 255);
+        color: rgb(0, 125, 255);
+    }
+    71.42% {
+        background-color: rgb(0, 0, 255);
+        color: rgb(0, 0, 255);
+    }
+    85.17% {
+        background-color: rgb(125, 0, 255);
+        color: rgb(125, 0, 255);
+    }
+}
+
+.cube.rainbow-square {
+    animation: 8s rainbow-square infinite linear;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.rainbow-square-text {
+    animation: 4s text-animation-horizontal infinite linear;
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 125, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 125, 255), rgb(0, 0, 255), rgb(125, 0, 255));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes infinite-square {
+    0%, 100% {
+        background-color: rgb(85, 50, 109);
+        color: rgb(85, 50, 109);
+    }
+   50% {
+        background-color: rgb(49, 55, 116);
+        color: rgb(49, 55, 116);
+    }
+}
+
+.cube.infinite-square {
+    animation: 8s infinite-square infinite linear;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube.infinite-square::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/star.png');
+    background-size: 100% 100%;
+    opacity: .25;
+}
+
+.cube-text.infinite-square-text {
+    background: linear-gradient(to right, rgb(0, 0, 255), rgb(73, 73, 73), rgb(125, 0, 255));
     background-clip: text; -webkit-text-fill-color: transparent;
 }
