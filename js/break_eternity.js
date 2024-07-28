@@ -4215,7 +4215,7 @@
         }
       }
     }]);
-    console.log(this)
+    //console.log(this)
     return Decimal;
   }();
   Decimal.dZero = FC_NN(0, 0, 0);

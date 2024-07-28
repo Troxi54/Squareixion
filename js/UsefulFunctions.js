@@ -220,17 +220,38 @@ function getLoopInterval()
 
 function numToTime(num)
 {
-    if (num instanceof Decimal) { num = num.toNumber(); }
-    if (typeof num === 'number')
-    {
-        const array = ['s', 'ms'],
-              log = Math.floor(Math.log10(num) / Math.log10(1e3));
-        return num / 1e3 ** log + array[array.length - log - 1];
+    if (num instanceof Decimal === false) { num = N(num); }
+    const array = ['d', 'h', 'm', 's', 'ms', 'μs', 'ns'],
+          second = array.indexOf('s');
+    let index = second;
+    if (num.gte(1)) {
+        let divider = 1;
+        if (num.gte(60)) { 
+            index--; 
+            divider = 60;
+        }
+        if (num.gte(3600)) {
+            index--; 
+            divider = 3600;
+        }
+        if (num.gte(86400)) {
+             index--; 
+             divider = 86400;
+        }
+        num = num.div(divider);
     }
-    else
-    {
-        throw Error(`Your value is not number. The type of value is ${typeof num}`)
+    else if (num.lt(1)) {
+        let log = num.log(1e3).abs().floor().plus(1);
+        //if (JSON.parse(log) === JSON.parse(log.ceil())) log = log;
+        index = second + +log;
+        if (index >= array.length) index = array.length - 1;
+        num = num.times(Decimal.pow(1e3, log.min(array.length - second)));
+        if (num.eq(1e3)) {
+            num = num.div(1e3); 
+            index--;
+        }
     }
+    return abb_abs(num) + array[index];
 }
 let textFile = null,
     makeTextFile = function(text) 

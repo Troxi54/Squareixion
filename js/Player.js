@@ -12,8 +12,8 @@ function getDefaultPlayerValues()
         light_upgrades: [
             new Upgrade(1, '1e0', '2e0', (LVL)=>Decimal.pow(25, LVL), 'damage', 'light_points'),
             new Upgrade(2, '1e0', '2e0', (LVL)=>Decimal.pow(10, LVL), 'prestige_points', 'light_points'),
-            new Upgrade(3, '1e0', '3e0', (LVL)=>N(16).div(Decimal.pow(2, LVL)), Array(1), 'light_points', N(10), undefined, undefined,
-            function(){ return `<span class="positive">Autoclicker</span> and <span class="positive">${ abb_abs_int(N(2)) }x</span> its speed <br><span class="darker-text italic">Currently: ${this.bought_times.lte(0) ? 'no' : numToTime(floor(+this.effect * 1e3, 2))}</span> <br><br><span class="size-125">`; }),
+            new Upgrade(3, '1e0', '2e0', (LVL)=>N('0.2').div(Decimal.pow(2, LVL)), Array(1), 'light_points', N(20), undefined, undefined,
+            function(){ return `<span class="positive">Autoclicker</span> and <span class="positive">${ abb_abs_int(N(2)) }x</span> its speed <br><span class="darker-text italic">Currently: ${this.bought_times.lte(0) ? 'no' : numToTime(+this.effect)}</span> <br><br><span class="size-125">`; }),
             new Upgrade(4, '8e1', '4e0', (LVL)=>Decimal.pow(3, LVL), 'mini_cubes', 'light_points', ...Array(1), ()=>player.isUnlocked.minicubes),
         ],
         ruby_upgrades: [

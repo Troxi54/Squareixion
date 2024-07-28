@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 2, '', ''],
+    game_version: [0, 2, 1, ''],
     savefile_name: "Squareixion save",
     fps: 40,
     save: true,
@@ -28,7 +28,7 @@ const settings = {
 ,
 unlocks = {
     prestige: N('4e0'),
-    light: N('2.6e1'),
+    light: N('2.2e1'),
     mini_cubes: N('4e1'),
     master: N('7.8e1'),
     giga_squares: N('1.25e2'),
