@@ -202,11 +202,26 @@ main_functions.gameFunctions = {
                 //console.log(bulk)
             }
             player.stage = player.stage.plus(bulk.plus(1).max(1).floor());
-            if (player.stage.gte(unlocks.prestige)) player.isUnlocked.prestige_reached = true;
-            if (player.isUnlocked.prestige && player.stage.gte(unlocks.light)) player.isUnlocked.light_reached = true;
-            if (player.isUnlocked.light && player.stage.gte(unlocks.mini_cubes)) { player.isUnlocked.minicubes = true; /*updates.prestigeUpgrades(); updates.lightUpgrades();*/ }
-            if (player.isUnlocked.minicubes && player.stage.gte(unlocks.master)) player.isUnlocked.master_reached = true;
-            if (player.isUnlocked.neonsquare && player.stage.gte(unlocks.collapse)) player.isUnlocked.collapse_reached = true;
+            if (player.stage.gte(unlocks.prestige) && !player.isUnlocked.prestige_reached) {
+                player.isUnlocked.prestige_reached = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="prestige">pPrestige</span>!`)
+            }
+            if (player.isUnlocked.prestige && player.stage.gte(unlocks.light) && !player.isUnlocked.light_reached) {
+                player.isUnlocked.light_reached = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="light">Light</span>!`)
+            }
+            if (player.isUnlocked.light && player.stage.gte(unlocks.mini_cubes) && !player.isUnlocked.minicubes) { 
+                player.isUnlocked.minicubes = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="darker-text">Mini Squares</span>!`)
+            }
+            if (player.isUnlocked.minicubes && player.stage.gte(unlocks.master) && !player.isUnlocked.master_reached) {
+                player.isUnlocked.master_reached = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="master">Master</span>!`)
+            }
+            if (player.isUnlocked.neonsquare && player.stage.gte(unlocks.collapse) && !player.isUnlocked.collapse_reached) {
+                player.isUnlocked.collapse_reached = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="collapse">Collapse</span>!`)
+            }
             get.updateCubeStat();
             gameFunctions.updatePrestigePart();
             gameFunctions.updateLightPart();
@@ -276,13 +291,15 @@ main_functions.gameFunctions = {
                 changeValue('light_points', N('0e0'));
                 changeValue('mini_cubes', N('0e0'));
                 
-                if (nosave.milestones.master_milestones[8].isEnough())
+                if (nosave.milestones.master_milestones[8].isEnough() && !player.isUnlocked.giantcube)
                 {
                     player.isUnlocked.giantcube = true;
+                    gameFunctions.unlockedFrame(`You unlocked <span class="gcs">Giant Squares</span>!`)
                 }
-                if (nosave.milestones.master_milestones[14].isEnough())
+                if (nosave.milestones.master_milestones[14].isEnough() && !player.isUnlocked.neonsquare)
                 {
                     player.isUnlocked.neonsquare = true;
+                    gameFunctions.unlockedFrame(`You unlocked <span class="neon-luck">Neon Squares</span>!`)
                 }
 
                 /* get.updateMasterMilestonesValues();
@@ -344,7 +361,10 @@ main_functions.gameFunctions = {
                     }
                 } */
                 player.giant_cube_stage = player.giant_cube_stage.plus(bulk);
-                if (player.giant_cube_stage.gte(unlocks.giga_squares)) player.isUnlocked.gigacube_reached = true;
+                if (player.giant_cube_stage.gte(unlocks.giga_squares) && !player.isUnlocked.gigacube_reached) {
+                    player.isUnlocked.gigacube_reached = true;
+                    gameFunctions.unlockedFrame(`You unlocked <span class="giga">Gigalize</span>!`);
+                }
                 gameFunctions.hideAndShowContent();
                 /* get.updateGcDamage();
                 
@@ -563,7 +583,10 @@ main_functions.gameFunctions = {
                     gameFunctions.spawnNeonSquare(true);
                     nosave.neon_rng = N(0);
                     
-                    if (nosave.milestones.collapse_milestones[4].isEnough()) player.isUnlocked.galaxy = true;
+                    if (nosave.milestones.collapse_milestones[4].isEnough() && !player.isUnlocked.galaxy) {
+                        player.isUnlocked.galaxy = true;
+                        gameFunctions.unlockedFrame(`You unlocked <span class="galaxy">Galaxies</span>!`)
+                    }
 
                     gameFunctions.resetCube();
                     get.updateGcHP();
@@ -597,6 +620,16 @@ main_functions.gameFunctions = {
                 nosave.Autoclickers[auto].lastLoop = Date.now();
             }
         }
+    },
+    unlockedFrame(text)
+    {
+        fs.update(elements.unlocked_info, text);
+        elements.unlocked.show();
+        elements.frame.css({
+            'background-color': 'rgba(0, 0, 0, .5)',
+            opacity: 1
+        });
+        elements.frame.show()
     },
     updateCubePart()
     {

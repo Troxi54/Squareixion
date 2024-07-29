@@ -18,8 +18,9 @@ $(document).ready(function()
             outside_music_text: $('#outside-music-text'),
         frame: $('#frame'),
             frame_text: $('#frame-text'),
-        frame_2: $('#frame-2'),
-            frame_text_2: $('#frame-text-2'),
+            unlocked: $('#unlocked'),
+                unlocked_info: $('#unlocked-info'),
+                unlocked_button: $('#unlocked-button'),
         main_realm: $('#main-realm'),
         currencies_place: $('#currencies-place'),
             stage: $('#stage'),
@@ -136,6 +137,7 @@ $(document).ready(function()
     }
     //updates.updateAll();
 
+    elements.unlocked.hide();
     elements.frame.hide();
     gameFunctions.realm(nosave.realm);
 

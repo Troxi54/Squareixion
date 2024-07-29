@@ -191,7 +191,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateGigaSquareGain()
     {
-        const pre_cap = Decimal.pow(player.giant_cube_stage.max(1).times(10).log(10).minus(1), player.giant_cube_stage.minus(unlocks.giga_squares).pow(0.75))  
+        const pre_cap = Decimal.pow(player.giant_cube_stage.gte(unlocks.giga_squares) ? player.giant_cube_stage.log(10) : 1, player.giant_cube_stage.minus(unlocks.giga_squares).max(0).pow(0.75))  
                                                                     .times(fs.upgradesEffect('giga_square'))
                                                                     .times(fs.milestonesEffect('giga_square'))
                                                                     .pow(fs.upgradesEffectPow('giga_square'))

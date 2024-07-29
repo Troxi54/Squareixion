@@ -48,8 +48,12 @@
                     <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
                 </p>
                 <div id="changelog">
-                    <p id="changelog-title">Version 0.2.2</p>
+                    <p id="changelog-title">Version 0.2.3</p>
                     <div id="changelogs">
+                        <p>&emsp;&emsp;v0.2.3<br>
+                            - Notification when you unlock something. <br>
+                            - You can now scroll upgrades without pressing the Shift key.
+                        </p>
                         <p>&emsp;&emsp;v0.2.2<br>
                             - Pre-light squares have less HP. <br>
                             - Increased light requirement. <br> 
@@ -487,7 +491,13 @@
             </div>
             
         </div>
-        <div id="frame"><p id="frame-text"></p></div>
+        <div id="frame">
+            <p id="frame-text"></p>
+            <div id="unlocked" class="frame-noglow basic-frame" style="display: none;">
+                <p id="unlocked-info"></p>
+                <button id="unlocked-button" class="s-button"><p>Okay</p></button>
+            </div>
+        </div>
         <div id="footer">
             <div id="footer-left">
                 <button id="settings-button" class="button">

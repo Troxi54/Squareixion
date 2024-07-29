@@ -34,8 +34,22 @@ fs = {
         for (let container of containers)
         {
             const upgr_cont = containers_names[container.id]();
-            container = $(container)
+            container = $(container);
+            container[0].addEventListener("wheel", function(e) {
+                let width = container[0].scrollWidth - container[0].clientWidth, more = false, less = false;
+                console.log(container[0].scrollLeft, container[0].scrollWidth, container[0].outerWidth)
+                if (e.deltaY > 0) {
+                    container.animate({scrollLeft: container[0].scrollLeft + 100}, 0);
+                    if (container[0].scrollLeft === width) more = true;
+                }
+                else {
+                    container.animate({scrollLeft: container[0].scrollLeft - 100}, 0);
+                    if (container[0].scrollLeft === 0) less = true;
+                }
+                if (!(more || less)) e.preventDefault();
+            });
             
+
             for (let i = 0; i < container.children('button').length; i+=1)
             {
                 const upgrade = $(container.children('button')[i]);
@@ -151,7 +165,6 @@ fs = {
     {
         if (!(element.css('opacity') === '1' && element.css('display') !== 'none')) 
         {
-            if (element === elements.minicube_div) console.log((new Error()).stack)
             element.css('opacity', '0');
             element.show();
             if (animate) element.animate({'opacity': '1'}, duration);

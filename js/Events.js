@@ -189,6 +189,11 @@ main_functions.add_events = function()
         player.hotkeys =! player.hotkeys;
     })
 
+    elements.unlocked.on('click', function() {
+        elements.unlocked.hide();
+        elements.frame.hide();
+    })
+
     elements.discord.on('click', function()
     {
         window.open('https://discord.gg/YT8R2szHXX');
