@@ -185,6 +185,9 @@ main_functions.add_events = function()
             }
         }
     }) */
+    elements.hotkeys_toggle.on('click', function() {
+        player.hotkeys =! player.hotkeys;
+    })
 
     elements.discord.on('click', function()
     {
@@ -237,20 +240,22 @@ main_functions.add_events = function()
     $(document).on('keyup', function(k)
     {
         //console.log(k.code)
-        switch (k.code)
-        {
-            case hotkeys.prestige:
-                gameFunctions.prestige();
-                break;
-            case hotkeys.light:
-                gameFunctions.light();
-                break;
-            case hotkeys.master:
-                gameFunctions.master();
-                break;
-            case hotkeys.collapse:
-                gameFunctions.collapse();
-                break;
+        if (player.hotkeys) {
+            switch (k.code)
+            {
+                case hotkeys.prestige[0]:
+                    gameFunctions.prestige();
+                    break;
+                case hotkeys.light[0]:
+                    gameFunctions.light();
+                    break;
+                case hotkeys.master[0]:
+                    gameFunctions.master();
+                    break;
+                case hotkeys.collapse[0]:
+                    gameFunctions.collapse();
+                    break;
+            }
         }
     });
 

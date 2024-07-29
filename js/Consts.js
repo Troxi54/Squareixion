@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 2, 1, ''],
+    game_version: [0, 2, 2, ''],
     savefile_name: "Squareixion save",
     fps: 40,
     save: true,
@@ -27,8 +27,8 @@ const settings = {
 }
 ,
 unlocks = {
-    prestige: N('4e0'),
-    light: N('2.2e1'),
+    prestige: N('3e0'),
+    light: N('2.4e1'),
     mini_cubes: N('4e1'),
     master: N('7.8e1'),
     giga_squares: N('1.25e2'),
@@ -45,10 +45,10 @@ times = {
 }
 ,
 hotkeys = {
-    prestige: 'Digit1', // 1
-    light: 'Digit2', // 2
-    master: 'Digit3', // 3
-    collapse: 'Digit4' // 4
+    prestige: ['Digit1', '1'],
+    light: ['Digit2', '2'],
+    master: ['Digit3', '3'],
+    collapse: ['Digit4', '4']
 };
 let normal_realm_music = [
     "audio/music/Cosmic Dream.mp3",

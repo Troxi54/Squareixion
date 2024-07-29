@@ -7,7 +7,7 @@ gameFunctions = main_functions.gameFunctions;
 let a = [];
 function mainLoop()
 {   
-    let ms = Date.now();
+    //let ms = Date.now();
     if (!document.hidden)
     {
         get.updateAll();
@@ -32,10 +32,10 @@ function mainLoop()
     }
     
     
-     a.push(Date.now() - ms);
+     /* a.push(Date.now() - ms);
     if (a.length > 25) a.shift();
     let b = 0;
     a.forEach(c=>b+=c);
-    b /= a.length;
+    b /= a.length; */
    // console.log(b + 'ms')
 }

@@ -229,7 +229,17 @@ main_functions.updates = {  // update HTML
                                            <br><span class="stars">Star</span> generator <span class="dark-text">${abb(get.g_p, 3, true)}%</span> of the best
                                            <br><div class="galaxy-line"></div>`);
     },
-
+    hotkeysInfo()
+    {
+        fs.update(elements.hotkeys_info, `${player.isUnlocked.prestige_reached ? `<span class="size-150">Hotkeys:</span><br><span class="darker-text">Prestige: ${hotkeys.prestige[1]}` : ''}\
+                                          ${player.isUnlocked.light_reached ? `<br>Light: ${hotkeys.light[1]}` : ''}\
+                                          ${player.isUnlocked.master_reached ? `<br>Master: ${hotkeys.master[1]}` : ''}\
+                                          ${player.isUnlocked.collapse_reached ? `<br>Collapse: ${hotkeys.collapse[1]}</span>` : ''}`);
+    },
+    hotkeysToggleInfo()
+    {
+        fs.update(elements.hotkeys_toggle_info, `Hotkeys: ${player.hotkeys ? 'ON' : 'OFF'}`);
+    },
     
     updateAll()
     {

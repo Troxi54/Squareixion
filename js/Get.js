@@ -96,14 +96,14 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateMiniCubePPEffect()
     {
         const pp = N('2.75e0');
-        this.mc_pp = pp.pow(pp.pow(N('1e0').plus(player.mini_cubes).log10()).log10());
+        this.mc_pp = pp.pow(pp.pow(N('1e0').plus(player.mini_cubes.max(0)).log10()).log10());
     },
     mc_pp: N('1e0'),
 
     updateMiniCubeLPEffect()
     {
         const lp = N('2.05e0');
-        this.mc_lp = lp.pow(lp.pow(N('1e0').plus(player.mini_cubes).log10()).log10());
+        this.mc_lp = lp.pow(lp.pow(N('1e0').plus(player.mini_cubes.max(0)).log10()).log10());
     },
     mc_lp: N('1e0'),
 
@@ -111,7 +111,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
     {
         return this.master_requirement = unlocks.master.plus(Decimal.times(14, master_level).times(Decimal.plus(1, master_level.gt(0) ? master_level.log(2) : 0))).floor();
     },
-    master_requirement: N(Infinity),
+    master_requirement: N(1000),
 
     updateMasterBulk()
     {
@@ -221,13 +221,13 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateNeonDEffect()
     {
-        this.n_d = Decimal.pow('1e4000', player.neon_tier.times(player.neon_tier.gt(0) ? player.neon_tier.log10().plus(1) : 1));
+        this.n_d = Decimal.pow('1e4000', player.neon_tier.times(player.neon_tier.gte(1) ? player.neon_tier.log10().plus(1) : 1));
     },
     n_d: N('1e0'),
 
     updateNeonGSDEffect()
     {
-        this.n_gsd = Decimal.pow('1e40', player.neon_tier.times(player.neon_tier.gt(0) ? player.neon_tier.log10().plus(1) : 1));
+        this.n_gsd = Decimal.pow('1e40', player.neon_tier.times(player.neon_tier.gte(1) ? player.neon_tier.log10().plus(1) : 1));
     },
     n_gsd: N('1e0'),
 
@@ -264,20 +264,19 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateGalaxiesGain()
     {
         const div = player.stars.div(unlocks.galaxy);
-        this.galaxies = N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(3, div.gt(0) ? div.log(10) : 0));
+        this.galaxies = N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(3, div.gt(1) ? div.log(10) : 0));
     },
     galaxies: N('0e0'),
 
     updateGalaxySEffect()
     {
-        // lol what is this? this is anti 0.log
-        this.g_s = Decimal.pow(1.1, player.galaxies.gt(0) ? player.galaxies.log(10) : 0);
+        this.g_s = Decimal.pow(1.1, player.galaxies.gt(1) ? player.galaxies.log(10) : 0);
     },
     g_s: N('1e0'),
 
     updateGalaxyPEffect()
     {
-        this.g_p = Decimal.pow(1.15, player.galaxies.gt(0) ? player.galaxies.log(10) : 0).times(10).min(500);
+        this.g_p = Decimal.pow(1.15, player.galaxies.gt(1) ? player.galaxies.log(10) : 0).times(10).min(500);
     },
     g_p: N('1e0'),
 

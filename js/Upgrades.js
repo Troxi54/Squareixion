@@ -36,7 +36,7 @@ class Upgrade {
     }
     updateCost(offset = N('0e0'))
     {
-        return this.cost = this.start_cost.times(this.cost_scaling.pow(this.bought_times.plus(offset))).times(1e12).round().div(1e12);
+        return this.cost = this.start_cost.times(this.cost_scaling.pow(this.bought_times.plus(offset))).times(1e11).round().div(1e11);
     }
     updateEffect()
     {
