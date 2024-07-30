@@ -37,14 +37,13 @@ fs = {
             container = $(container);
             container[0].addEventListener("wheel", function(e) {
                 let width = container[0].scrollWidth - container[0].clientWidth, more = false, less = false;
-                console.log(container[0].scrollLeft, container[0].scrollWidth, container[0].outerWidth)
                 if (e.deltaY > 0) {
-                    container.animate({scrollLeft: container[0].scrollLeft + 100}, 0);
                     if (container[0].scrollLeft === width) more = true;
+                    container.animate({scrollLeft: container[0].scrollLeft + 100}, 0);
                 }
                 else {
-                    container.animate({scrollLeft: container[0].scrollLeft - 100}, 0);
                     if (container[0].scrollLeft === 0) less = true;
+                    container.animate({scrollLeft: container[0].scrollLeft - 100}, 0);
                 }
                 if (!(more || less)) e.preventDefault();
             });

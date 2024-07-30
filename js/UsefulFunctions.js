@@ -194,6 +194,10 @@ function fixValues()
             {
                 player[property] = N(0)
             }
+            else if (player[property].lt(0)) {
+                
+                player[property] = N(0);
+            }
         }
     }
     for (let cont in player.upgrades) {

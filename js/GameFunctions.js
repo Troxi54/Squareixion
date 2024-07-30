@@ -204,7 +204,7 @@ main_functions.gameFunctions = {
             player.stage = player.stage.plus(bulk.plus(1).max(1).floor());
             if (player.stage.gte(unlocks.prestige) && !player.isUnlocked.prestige_reached) {
                 player.isUnlocked.prestige_reached = true;
-                gameFunctions.unlockedFrame(`You unlocked <span class="prestige">pPrestige</span>!`)
+                gameFunctions.unlockedFrame(`You unlocked <span class="prestige">Prestige</span>!`)
             }
             if (player.isUnlocked.prestige && player.stage.gte(unlocks.light) && !player.isUnlocked.light_reached) {
                 player.isUnlocked.light_reached = true;
@@ -613,10 +613,11 @@ main_functions.gameFunctions = {
     },
     afkGenerators()
     {
+        console.log(new Date(Date.now()), new Date(player.lastLoop))
         for (const auto in nosave.Autoclickers)
         {
             if (auto.includes('generator') && nosave.Autoclickers[auto].isWorking()) {
-                nosave.Autoclickers[auto].lambda((Date.now() - player.lastLoop) / nosave.Autoclickers[auto].rate())
+                nosave.Autoclickers[auto].lambda(Math.max(Date.now() - player.lastLoop, 0) / nosave.Autoclickers[auto].rate())
                 nosave.Autoclickers[auto].lastLoop = Date.now();
             }
         }
@@ -695,6 +696,8 @@ main_functions.gameFunctions = {
     hideElements()
     {
         elements.settings.hide();
+        elements.unlocked.hide();
+        elements.frame.hide();
     },
     realm(what = 0)
     {

@@ -15,7 +15,7 @@ class Auto {
     {
         if (this.isWorking() && Date.now() >= this.lastLoop + this.rate())
         {
-            this.lambda((Date.now() - this.lastLoop) / this.rate());
+            this.lambda(N(Date.now() - this.lastLoop).div(this.rate()));
             this.lastLoop = Date.now();
         }
         else if (!this.isWorking()) {

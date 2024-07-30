@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 2, 3, ''],
+    game_version: [0, 2, 4, ''],
     savefile_name: "Squareixion save",
     fps: 40,
     save: true,
@@ -48,6 +48,7 @@ hotkeys = {
     prestige: ['Digit1', '1'],
     light: ['Digit2', '2'],
     master: ['Digit3', '3'],
+    giga: ['KeyG', 'g'],
     collapse: ['Digit4', '4']
 };
 let normal_realm_music = [

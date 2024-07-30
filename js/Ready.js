@@ -137,8 +137,7 @@ $(document).ready(function()
     }
     //updates.updateAll();
 
-    elements.unlocked.hide();
-    elements.frame.hide();
+    
     gameFunctions.realm(nosave.realm);
 
     fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `yes` : `no`}`);
@@ -147,7 +146,7 @@ $(document).ready(function()
     normal_realm_music = shuffleArray(normal_realm_music);
     
 
-    //gameFunctions.afkGenerators();
+    gameFunctions.afkGenerators();
     //elements.star_context = elements.star_container[0].getContext('2d');
     //gameFunctions.starCanvas();
     //gameFunctions.spawnStars(settings.star_count);

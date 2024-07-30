@@ -82,10 +82,10 @@ main_functions.add_events = function()
             }
         }
         // keep generating currencies when page is inactive
-        if (!document.hidden)
+        /* if (!document.hidden)
         {
             gameFunctions.afkGenerators();
-        }
+        } */
     })
 
     function change_music()
@@ -244,7 +244,7 @@ main_functions.add_events = function()
 
     $(document).on('keyup', function(k)
     {
-        //console.log(k.code)
+        console.log(k.code)
         if (player.hotkeys) {
             switch (k.code)
             {
@@ -256,6 +256,9 @@ main_functions.add_events = function()
                     break;
                 case hotkeys.master[0]:
                     gameFunctions.master();
+                    break;
+                case hotkeys.giga[0]:
+                    gameFunctions.gigalize();
                     break;
                 case hotkeys.collapse[0]:
                     gameFunctions.collapse();

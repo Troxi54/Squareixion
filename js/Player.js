@@ -166,11 +166,12 @@ function setNosaveValues()
             new Milestone(10, function(){ return 1; }, '-', 'collapsed_times', function() { return `Unlocks the autobuyer for ruby upgrades, keep master milestone 1, 2 on collapse and unlocks new star upgrades`}, 2, ()=>nosave.milestones.collapse_milestones, `Collapsed 10 times`),
             new Milestone(()=>player.masters_on_collapse.lte(0), function(){ return 1; }, '-', 'masters_on_collapse', function() { return `Unlocks the autoclicker for giant squares, automatic nothing-spending master levels, giga upgrades no longer take ${fs.abbCurrency('giga_squares')}, keep master milestone 4, 7 and unlocks new star upgrades`}, 3, ()=>nosave.milestones.collapse_milestones, `Collapsed with 0 master level`),
             new Milestone('6.5e15', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks the autobuyer for giga upgrades, the giga square generator 100%, the autoclicker for neon squares and unlock <span style="-webkit-text-stroke: 1px rgb(140, 0, 255); color: transparent;">galaxies</span>`}, 4, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('6.5e15')} stage`),
-            new Milestone('1e3', function(){ return N(1.5); }, 'damage', 'galaxies', function() { return `1.5x damage`}, 4, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e3')} galaxies`)
+            new Milestone('1e3', function(){ return N(1.5); }, 'damage', 'galaxies', function() { return `This is the endgame, but you can try. Reward: 1.5x damage`}, 4, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e3')} galaxies`)
         ]
     }
 
     nosave.Autoclickers = {
+        'unlocksmthfix' : new Auto(()=>true, function(){gameFunctions.hideAndShowContent()}, ()=>1e3),
         'cube_autoclicker' : new Auto(
             function() { return player.upgrades.light_upgrades[2].bought_times.gte(1); },
             function(multi=1){gameFunctions.damageCube(N(multi));}, 

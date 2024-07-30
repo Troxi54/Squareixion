@@ -234,6 +234,7 @@ main_functions.updates = {  // update HTML
         fs.update(elements.hotkeys_info, `${player.isUnlocked.prestige_reached ? `<span class="size-150">Hotkeys:</span><br><span class="darker-text">Prestige: ${hotkeys.prestige[1]}` : ''}\
                                           ${player.isUnlocked.light_reached ? `<br>Light: ${hotkeys.light[1]}` : ''}\
                                           ${player.isUnlocked.master_reached ? `<br>Master: ${hotkeys.master[1]}` : ''}\
+                                          ${player.isUnlocked.gigacube_reached ? `<br>Gigalize: ${hotkeys.giga[1]}` : ''}\
                                           ${player.isUnlocked.collapse_reached ? `<br>Collapse: ${hotkeys.collapse[1]}</span>` : ''}`);
     },
     hotkeysToggleInfo()
