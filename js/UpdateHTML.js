@@ -28,12 +28,12 @@ main_functions.updates = {  // update HTML
     },
     prestigeLockedInfo()
     {
-        fs.update(elements.prestige_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.prestige) }"> ${gameFunctions.getCubeName(unlocks.prestige)}</span> `);
+        fs.update(elements.prestige_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.prestige) }"> ${gameFunctions.getCubeNameWithStage(unlocks.prestige)}</span> `);
     },
     prestigeButtonInfo()
     {
         fs.update(elements.prestige_button_text, get.prestige_points.lte(N('0e0')) ? `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.prestige) }">
-                                                                                                                          ${gameFunctions.getCubeName(unlocks.prestige)}</span>`
+                                                                                                                          ${gameFunctions.getCubeNameWithStage(unlocks.prestige)}</span>`
                                                                 : `You can earn <span class="prestige">${ abb_abs(get.prestige_points) }</span> prestige points`
                                                                         + (get.prestige_points.gte(nosave.prestige_cap_3[0]) ? ` <span class="cap-3">(Hardcapped)</span>` :
                                                                             get.prestige_points.gte(nosave.prestige_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
@@ -55,12 +55,12 @@ main_functions.updates = {  // update HTML
     },
     lightLockedInfo()
     {
-        fs.update(elements.light_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.light) }"> ${gameFunctions.getCubeName(unlocks.light)}</span> `);
+        fs.update(elements.light_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.light) }"> ${gameFunctions.getCubeNameWithStage(unlocks.light)}</span> `);
     },
     lightButtonInfo()
     {
         fs.update(elements.light_button_text, get.light_points.lte(N('0e0')) ? `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.light) }">
-                                                                                                                                  ${gameFunctions.getCubeName(unlocks.light)}</span>`
+                                                                                                                                  ${gameFunctions.getCubeNameWithStage(unlocks.light)}</span>`
                                                                                        : `You can earn <span class="light">${ abb_abs(get.light_points) }</span> light points`
                                                                                        + (get.light_points.gte(nosave.light_cap_3[0]) ? `<br><span class="cap-3">(Hardcapped)</span>` :
                                                                                             get.light_points.gte(nosave.light_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
@@ -82,7 +82,7 @@ main_functions.updates = {  // update HTML
     },
     minicubesLockedInfo()
     {
-        fs.update(elements.minicube_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.mini_cubes) }"> ${gameFunctions.getCubeName(unlocks.mini_cubes)}</span> `);
+        fs.update(elements.minicube_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.mini_cubes) }"> ${gameFunctions.getCubeNameWithStage(unlocks.mini_cubes)}</span> `);
     },
     miniCubesInfo()
     {
@@ -95,12 +95,12 @@ main_functions.updates = {  // update HTML
     },
     masterLockedInfo()
     {
-        fs.update(elements.master_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.master) }"> ${gameFunctions.getCubeName(unlocks.master)}</span> `);
+        fs.update(elements.master_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.master) }"> ${gameFunctions.getCubeNameWithStage(unlocks.master)}</span> `);
     },
     masterButtonInfo()
     {
         fs.update(elements.master_button_text, (player.stage.lt(get.master_requirement) || get.master_bulk.lt(1) ? `Square required:
-                                                                  ${gameFunctions.getCubeName(get.master_requirement)}`
+                                                                  ${gameFunctions.getCubeNameWithStage(get.master_requirement)}`
                                                                  : nosave.milestones.collapse_milestones[0].isEnough() ? `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`)
                                                                     + (player.master_level.gte(nosave.master_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (player.stage.lte(get.master_requirement)) { elements.master_button_text.addClass('layer-button-text-cannot'); elements.master_button.addClass('button-cannot'); }
@@ -182,12 +182,12 @@ main_functions.updates = {  // update HTML
 
     collapseLockedInfo()
     {
-        fs.update(elements.collapse_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.collapse) }"> ${gameFunctions.getCubeName(unlocks.collapse)}</span> `);
+        fs.update(elements.collapse_locked_info, `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.collapse) }"> ${gameFunctions.getCubeNameWithStage(unlocks.collapse)}</span> `);
     },
     collapseButtonInfo()
     {
         fs.update(elements.collapse_button_text, player.stage.lte(unlocks.collapse) ? `Square required:
-                                                                  ${gameFunctions.getCubeName(unlocks.collapse)}`
+                                                                  ${gameFunctions.getCubeNameWithStage(unlocks.collapse)}`
                                                                  : `You can earn <span class="stars">${abb_abs(get.star_gain)}</span> ${get.star_gain.eq(1) ? 'star': 'stars'}`);
         if (player.stage.lte(unlocks.collapse)) { elements.collapse_button_text.addClass('layer-button-text-cannot'); elements.collapse_button.addClass('button-cannot'); }
         else { elements.collapse_button_text.removeClass('layer-button-text-cannot'); elements.collapse_button.removeClass('button-cannot'); }

@@ -16,6 +16,7 @@ fs = {
             //updates.updateAll();
             //updates.updateAll();
             get.updateAll();
+            
 
             gameFunctions.hideAndShowContent();
         }

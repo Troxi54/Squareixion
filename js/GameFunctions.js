@@ -134,13 +134,17 @@ main_functions.gameFunctions = {
         })
         const cube_stat = cubes[index], stage_cube = stage.minus(cube_stat.start_at);
         if (stage_cube.lt(settings.cube_name_postfixes.length)) {
-            return cube_stat.name + (settings.cube_name_postfixes[stage_cube] );
+            return cube_stat.name + (settings.cube_name_postfixes[stage_cube]);
         }
         else if (stage_cube.lt(40)) {
             //console.log(stage_cube)
             return cube_stat.name + ' ' + romanize(Math.floor(stage_cube.toNumber()));
         }
         else return cube_stat.name + ' ' + abb_abs_int(stage_cube)
+    },
+    getCubeNameWithStage(stage)
+    {
+        return gameFunctions.getCubeName(stage) + ` (${abb_abs_int(stage)})`
     },
     getCubeStyleName(stage)
     {
@@ -647,7 +651,6 @@ main_functions.gameFunctions = {
     },
     afkGenerators()
     {
-        console.log(new Date(Date.now()), new Date(player.lastLoop))
         for (const auto in nosave.Autoclickers)
         {
             if (auto.includes('generator') && nosave.Autoclickers[auto].isWorking()) {
