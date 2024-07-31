@@ -10,8 +10,11 @@ function restartGame()
     nosave.play_music = music;
 
     fs.setUpgradesHTML();
-    for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
     fs.setMilestonesHTML();
+    console.log(nosave.milestones)
+    for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
+    for (let c in nosave.milestones) (nosave.milestones[c].forEach(m=>m.html.div.show()))
+    
     
     get.updateGcHP();
     gameFunctions.spawnGCube(true);
@@ -22,7 +25,6 @@ function restartGame()
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
 
     gameFunctions.afkGenerators();
-    
 }
 
 function floor(num, acc) { return Math.floor(num * 10 ** acc) / 10 ** acc; }
@@ -353,11 +355,23 @@ function MurmurHash3(string) {
   }
   // }
 
-  function Round(num, acc = 4)
-  {
-    return num.plus(num.div(Decimal.pow(10, acc).round())).floor();
-  }
+function Round(num, acc = 4)
+{
+return num.plus(num.div(Decimal.pow(10, acc).round())).floor();
+}
 
-  function isCharNumber(c) {
-    return typeof c === 'string' && c.length === 1 && c >= '0' && c <= '9';
-  }
+function isCharNumber(c) {
+return typeof c === 'string' && c.length === 1 && c >= '0' && c <= '9';
+}
+
+// not mine
+Decimal.prototype.softcap = function(start, power, mode, dis=false) {
+    var x = this;
+    if (!dis&&x.gte(start)) {
+        if ([0, "pow"].includes(mode)) x = x.div(start).max(1).pow(power).mul(start)
+        if ([1, "mul"].includes(mode)) x = x.sub(start).div(power).add(start)
+        if ([2, "exp"].includes(mode)) x = expPow(x.div(start), power).mul(start)
+        if ([3, "log"].includes(mode)) x = x.div(start).log(power).add(1).mul(start)
+    }
+    return x
+}

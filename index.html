@@ -48,8 +48,16 @@
                     <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
                 </p>
                 <div id="changelog">
-                    <p id="changelog-title">Version 0.2.4</p>
+                    <p id="changelog-title">Version 0.3</p>
                     <div id="changelogs">
+                        <p>&emsp;&emsp;v0.3<br>
+                            - More content added. <br>
+                            - New setting: hide maxed upgrades. <br>
+                            - Better master level bulk calculation. <br>
+                            - Softcaps for scaling the size of the square. <br>
+                            - Bug fixes. <br>
+                            - Small changes that the developer doesn't remember.
+                        </p>
                         <p>&emsp;&emsp;v0.2.4<br>
                             - Added a new hotkey. <br>
                             - Fixed bug: negative stars. <br>
@@ -407,80 +415,103 @@
                 </div>
                 <div id="collapse-realm">
                     <button id="portal-2" class="button"></button>
-                    <div id="collapse-area" class="area">
-                        <div id="collapse-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
-                            <p id="collapse-upgrades-info" class="absolute layer-upgrades-info"></p>
-                            <p id="collapse-upgrades-name" class="layer-upgrades-name">Upgrades</p>
-                            <div id="collapse-upgrades-container" class="upgrades-container frame-noglow basic-frame">
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
-                                <button class="button upgrade frame-noglow basic-frame">
-                                    <p class="upgrade-name"></p>
-                                    <p class="upgrade-info"></p>
-                                    <p class="upgrade-cost"></p>
-                                </button>
+                    <div id="collapse-area" class="column area">
+                        <div id="collapse-area-main">
+                            <div id="collapse-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
+                                <p id="collapse-upgrades-info" class="absolute layer-upgrades-info"></p>
+                                <p id="collapse-upgrades-name" class="layer-upgrades-name">Upgrades</p>
+                                <div id="collapse-upgrades-container" class="upgrades-container frame-noglow basic-frame">
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                    <button class="button upgrade frame-noglow basic-frame">
+                                        <p class="upgrade-name"></p>
+                                        <p class="upgrade-info"></p>
+                                        <p class="upgrade-cost"></p>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="collapse-milestones" class="frame collapse-m-frame column-flex layer-div">
+                                <p id="collapse-milestones-info" class="collapse-text bold size-125"></p>
+                                <div id="collapse-milestones-container" class="frame-noglow collapse-m-frame milestone-container">
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-1">
+                                        <p class="milestone-requirement" id="cmr-1"></p>
+                                        <p class="milestone-info" id="cmi-1"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-2">
+                                        <p class="milestone-requirement" id="cmr-2"></p>
+                                        <p class="milestone-info" id="cmi-2"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-3">
+                                        <p class="milestone-requirement" id="cmr-3"></p>
+                                        <p class="milestone-info" id="cmi-3"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-4">
+                                        <p class="milestone-requirement" id="cmr-4"></p>
+                                        <p class="milestone-info" id="cmi-4"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-5">
+                                        <p class="milestone-requirement" id="cmr-5"></p>
+                                        <p class="milestone-info" id="cmi-5"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-6">
+                                        <p class="milestone-requirement" id="cmr-6"></p>
+                                        <p class="milestone-info" id="cmi-6"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-7">
+                                        <p class="milestone-requirement" id="cmr-7"></p>
+                                        <p class="milestone-info" id="cmi-7"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-8">
+                                        <p class="milestone-requirement" id="cmr-8"></p>
+                                        <p class="milestone-info" id="cmi-8"></p>
+                                    </div>
+                                    <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-9">
+                                        <p class="milestone-requirement" id="cmr-9"></p>
+                                        <p class="milestone-info" id="cmi-9"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div id="collapse-milestones" class="frame collapse-m-frame column-flex layer-div">
-                            <p id="collapse-milestones-info" class="collapse-text bold size-125"></p>
-                            <div id="collapse-milestones-container" class="frame-noglow collapse-m-frame milestone-container">
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-1">
-                                    <p class="milestone-requirement" id="cmr-1"></p>
-                                    <p class="milestone-info" id="cmi-1"></p>
-                                </div>
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-2">
-                                    <p class="milestone-requirement" id="cmr-2"></p>
-                                    <p class="milestone-info" id="cmi-2"></p>
-                                </div>
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-3">
-                                    <p class="milestone-requirement" id="cmr-3"></p>
-                                    <p class="milestone-info" id="cmi-3"></p>
-                                </div>
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-4">
-                                    <p class="milestone-requirement" id="cmr-4"></p>
-                                    <p class="milestone-info" id="cmi-4"></p>
-                                </div>
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-5">
-                                    <p class="milestone-requirement" id="cmr-5"></p>
-                                    <p class="milestone-info" id="cmi-5"></p>
-                                </div>
-                                <div class="milestone collapse-milestone frame-noglow master-frame" id="cm-6">
-                                    <p class="milestone-requirement" id="cmr-6"></p>
-                                    <p class="milestone-info" id="cmi-6"></p>
-                                </div>
+                        <div id="collapse-area-second">
+                            <div id="black-holes-div" class="frame black-hole-frame column-flex">
+                                <p class="layer-info"><span class="black-holes size-150 bold">The Strange Place</p>
+                                <p id="black-hole-info" class="layer-info black-holes-dark">Entering the strange place forces collapse. All pre-collapse currency gain<sup>0.5</sup>. Leaving the strange place gives you black holes based on your stage.</p>
+                                <button id="black-hole-button" class="button layer-button frame-noglow black-hole-frame">
+                                    <p id="black-hole-button-text" class="layer-button-text black-holes-dark">Enter the strange place</p>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -538,6 +569,7 @@
                         <p id="hotkeys-info"></p>
                         <button id="hotkeys-toggle" class="s-button s-button-fit"><p id="hotkeys-toggle-info"></p></button>
                     </div>
+                    <button id="upgrades-toggle" class="s-button s-button-fit"><p id="upgrades-toggle-info"></p></button>
                     <div class="settings-column" id="links">
                         <button id="discord" class="s-button">
                             <p>Discord</p>

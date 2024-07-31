@@ -69,14 +69,14 @@ main_functions.add_events = function()
                 fs.update(elements.change_music_text, "Music: Awaiting...");
             }
             else {
-                /* if (!nosave.realm) {
-                    
+                if (!nosave.realm) {
+                    gameFunctions.playMusic();
                 }
                 else {
-                    if (!player.always_play_normal_realm_music) this.song(collapse_realm_music[0]);
-                } */
+                    if (!player.always_play_normal_realm_music) gameFunctions.song(collapse_realm_music[0]);
+                }
                 //elements.music[0].play();
-                gameFunctions.playMusic();
+                
                 /* let src = !nosave.realm ? normal_realm_music[nosave.music_iterator] : collapse_realm_music[0]; src = src.substring(src.lastIndexOf('/') + 1);
                 fs.update(elements.change_music_text, `Music: ${src.split('.')[0]}`); */
             }
@@ -106,13 +106,13 @@ main_functions.add_events = function()
     elements.change_realm_music.on('click', function()
     {
         player.always_play_normal_realm_music =! player.always_play_normal_realm_music;
-        fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `yes` : `no`}`)
+        fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `ON` : `OFF`}`)
     })
 
     elements.outside_music.on('click', function()
     {
         player.outside_music =! player.outside_music;
-        fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `yes` : `no`}`)
+        fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `ON` : `OFF`}`)
     })
 
     elements.settings_button.on('click', function()
@@ -189,6 +189,10 @@ main_functions.add_events = function()
         player.hotkeys =! player.hotkeys;
     })
 
+    elements.upgrades_toggle.on('click', function() {
+        player.hide_maxed_upgrades =! player.hide_maxed_upgrades;
+    })
+
     elements.unlocked.on('click', function() {
         elements.unlocked.hide();
         elements.frame.hide();
@@ -238,6 +242,7 @@ main_functions.add_events = function()
     elements.neon_button.on('click', function(){gameFunctions.spawnNeonSquare()});
     elements.collapse_button.on('click', this.gameFunctions.collapse);
     elements.galaxy_button.on('click', this.gameFunctions.galaxy);
+    elements.black_hole_button.on('click', this.gameFunctions.strangePlace);
 
     elements.portal.on('click', function(){ gameFunctions.realm(1); })
     elements.portal_2.on('click', function(){ gameFunctions.realm(0); })

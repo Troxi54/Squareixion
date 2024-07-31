@@ -54,7 +54,7 @@ class Upgrade {
     }
     updateHTML()
     {
-        if (!this.show())
+        if (!this.show() || (this.bought_times.gte(this.buyable_times) && player.hide_maxed_upgrades))
         {
             this.upgrade_html.button.hide();
             this.hidden = true;

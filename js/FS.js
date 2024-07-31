@@ -108,7 +108,8 @@ fs = {
             'ruby' : 'Ruby',
             'giga_squares' : 'GGS',
             'neon_luck' : 'NSL',
-            'stars' : 'stars'
+            'stars' : 'stars',
+            'collapsed_times': 'Collapsed times'
         }
         return array[currencyName];
     },

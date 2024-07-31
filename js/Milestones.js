@@ -18,6 +18,7 @@ class Milestone {
             requirement: String(),
             info: String(),
         }
+        this.hidden = false;
     }
     isEnough()
     {
@@ -31,15 +32,28 @@ class Milestone {
     setHTML(of_what, value)
     {
         this.html[of_what] = value;
-        this.html[of_what].html(this.requirement_text === 'Master level' ? `${this.requirement_text} ${abb_abs_int(this.requirement)}` : `${this.requirement_text}`);
+        fs.update(this.html[of_what], (this.requirement_text === 'Master level' ? `${this.requirement_text} ${abb_abs_int(this.requirement)}` : `${this.requirement_text}`));
     }
     updateHTML()
     {
-        if (!(this.container()[this.index ? this.index - 1 : 0].isEnough() && !this.container()[this.index ? this.index - 1 : 0].always_works)  || !this.show())
-        {
+        if (((this.container()[this.index ? this.index - 1 : 0].isEnough() || this.container()[this.index ? this.index - 1 : 0].always_works) && this.show())) {
+            //console.log(this.hidden)
+            if (this.hidden) {
+                fs.animateAppearance(this.html.div, true);
+                this.hidden = false;
+            }
+        } else if (!this.hidden) {
             this.html.div.hide();
+            this.hidden = true;
+            //console.log(this.hidden)
         }
-        else if (this.html.div.is(':hidden')) fs.animateAppearance(this.html.div, true);
+        /* if (!(this.container()[this.index ? this.index - 1 : 0].isEnough() && !this.container()[this.index ? this.index - 1 : 0].always_works)  || !this.show())
+        {
+            
+        }
+        else if (this.hidden) {
+            
+        } */
         fs.update(this.html.info, this.text());
     }
 }

@@ -99,9 +99,10 @@ main_functions.updates = {  // update HTML
     },
     masterButtonInfo()
     {
-        fs.update(elements.master_button_text, player.stage.lt(get.master_requirement) ? `Square required:
+        fs.update(elements.master_button_text, (player.stage.lt(get.master_requirement) || get.master_bulk.lt(1) ? `Square required:
                                                                   ${gameFunctions.getCubeName(get.master_requirement)}`
-                                                                 : nosave.milestones.collapse_milestones[0].isEnough() ? `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`);
+                                                                 : nosave.milestones.collapse_milestones[0].isEnough() ? `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`)
+                                                                    + (player.master_level.gte(nosave.master_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (player.stage.lte(get.master_requirement)) { elements.master_button_text.addClass('layer-button-text-cannot'); elements.master_button.addClass('button-cannot'); }
         else { elements.master_button_text.removeClass('layer-button-text-cannot'); elements.master_button.removeClass('button-cannot'); }
     },
@@ -147,7 +148,9 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.giga_button_text, get.giga_squares.lte(N('0e0')) ? `Giant Square required: <span class="gcs"> ${abb_abs_int(unlocks.giga_squares)}</span>`
                                                                 : `You can earn <span class="giga">${ abb_abs(get.giga_squares) }</span> giga squares` +
-                                                                (get.giga_squares.gte(nosave.giga_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
+                                                                (get.giga_squares.gte(nosave.giga_cap_3[0]) ? ` <span class="cap-3">(Hardcapped)</span>` : 
+                                                                  get.giga_squares.gte(nosave.giga_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` : 
+                                                                    get.giga_squares.gte(nosave.giga_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (get.giga_squares.lte(N('0e0'))) { elements.giga_button_text.addClass('layer-button-text-cannot'); elements.giga_button.addClass('button-cannot'); }
         else { elements.giga_button_text.removeClass('layer-button-text-cannot'); elements.giga_button.removeClass('button-cannot'); }
     },
@@ -190,6 +193,21 @@ main_functions.updates = {  // update HTML
         else { elements.collapse_button_text.removeClass('layer-button-text-cannot'); elements.collapse_button.removeClass('button-cannot'); }
     },
 
+    replaceCollapse()
+    {
+        if (player.isUnlocked.galaxyhave && elements.collapse_area.find(elements.collapse_layer_area).length === 0) {
+            elements.collapse_area_second.append(elements.collapse_layer_area);
+        }
+        else if (!player.isUnlocked.galaxyhave && elements.main_realm.find(elements.collapse_layer_area).length === 0) {
+            elements.main_realm.append(elements.collapse_layer_area);
+        }
+        if (elements.collapse_area.find(elements.collapse_layer_area).length > 0) {
+            if (!elements.collapse_layer_area.hasClass('galaxy-unlocked')) elements.collapse_layer_area.addClass('galaxy-unlocked');
+        }
+        else {
+            if (elements.collapse_layer_area.hasClass('galaxy-unlocked')) elements.collapse_layer_area.removeClass('galaxy-unlocked');
+        }
+    },
     starsAmount()
     {
         fs.update(elements.stars_amount, `<span class="stars">Stars: </span>${ abb_abs(player.stars) }` 
@@ -241,7 +259,31 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.hotkeys_toggle_info, `Hotkeys: ${player.hotkeys ? 'ON' : 'OFF'}`);
     },
-    
+    upgradesToggleInfo()
+    {
+        fs.update(elements.upgrades_toggle_info, `Hide maxed upgrades: ${player.hide_maxed_upgrades ? 'ON' : 'OFF'}`)
+    },
+    blackHoleInfo()
+    {
+        if (player.isUnlocked.strangeplace_once) {
+            if (elements.black_hole_info.hasClass('black-holes-dark')) elements.black_hole_info.removeClass('black-holes-dark');
+            if (!elements.black_hole_info.hasClass('black-holes')) elements.black_hole_info.addClass('black-holes');
+        } else {
+            if (elements.black_hole_info.hasClass('black-holes')) elements.black_hole_info.removeClass('black-holes');
+            if (!elements.black_hole_info.hasClass('black-holes-dark')) elements.black_hole_info.addClass('black-holes-dark')
+        }
+        fs.update(elements.black_hole_info, player.isUnlocked.strangeplace_once ? `<span class="size-125">Black holes: <span class="white-text-important">${abb(player.black_holes, 2, true)}</span>\
+                                                                                   <br><span class="white-text-important">${abb_abs(get.bh_s)}x</span> <span class="stars">stars</span>\
+                                                                                   <br><span class="white-text-important">${abb_abs(get.bh_ct)}x</span> <span class="collapse-text">collapsed times</span></span>`
+                                                : 'Entering the strange place forces collapse.\
+                                                All pre-collapse currency gain<sup>0.5</sup>. Leaving the strange place gives you black holes based on your stage.')
+    },
+    blackHoleButtonInfo()
+    {
+        fs.update(elements.black_hole_button_text, player.strange_place ? `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}` : `Enter the strange place`);
+    },
+
+
     updateAll()
     {
         for (let upd in this)

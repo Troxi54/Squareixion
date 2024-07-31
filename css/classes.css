@@ -57,6 +57,23 @@
     --frame-color: 140, 0, 255;
 }
 
+@keyframes black-hole-frame {
+    0%, 100% {
+        border: 5px solid rgb(255, 187, 0);
+        color: rgb(255, 187, 0);
+        box-shadow: inset 0 0 25px rgba(255, 187, 0, 0.25), 0 0 25px rgba(255, 187, 0, .25);
+    }
+    50% {
+        border: 5px solid rgb(255, 38, 0);
+        color: rgb(255, 38, 0);
+        box-shadow: inset 0 0 25px rgba(255, 38, 0, .25), 0 0 25px rgba(255, 38, 0, .25);
+    }
+}
+
+.frame.black-hole-frame {
+    animation: 8s black-hole-frame infinite;
+}
+
 .frame-noglow {
     --frame-noglow-color: 255, 255, 255;
     background-color: black;
@@ -91,6 +108,21 @@
 
 .frame-noglow.collapse-m-frame {
     animation: 4s collapse-milestones-n infinite;
+}
+
+@keyframes black-hole-frame-ng {
+    0%, 100% {
+        border-color: rgb(255, 187, 0);
+        color: rgb(255, 187, 0);
+    }
+    50% {
+        border-color: rgb(255, 38, 0);
+        color: rgb(255, 38, 0);
+    }
+}
+
+.frame-noglow.black-hole-frame {
+    animation: 8s black-hole-frame-ng infinite;
 }
 
 .icon {
@@ -155,7 +187,10 @@
 }
 
 .white-text {
-    color: var(--basic-color-text);
+    color: var(--white-color);
+}
+.white-text-important {
+    color: var(--white-color) !important;
 }
 .dark-text {
     color: var(--dark-color);
@@ -283,6 +318,47 @@
     color: rgb(74, 0, 134);
 }
 
+@keyframes black-holes-stroke {
+    0%, 100% {
+        -webkit-text-stroke: 1px rgb(255, 187, 0);
+    }
+    50% {
+        -webkit-text-stroke: 1px rgb(255, 38, 0);
+    }
+}
+
+.black-holes-stroke {
+    animation: 8s black-holes-stroke infinite;
+    color: transparent;
+}
+
+@keyframes black-holes {
+    0%, 100% {
+        color: rgb(255, 187, 0);
+    }
+    50% {
+        color: rgb(255, 38, 0);
+    }
+}
+
+.black-holes {
+    animation: 8s black-holes infinite;
+}
+
+@keyframes black-holes-dark {
+    0%, 100% {
+        color: rgb(165, 121, 0);
+    }
+    50% {
+        color: rgb(165, 25, 0);
+    }
+}
+
+.black-holes-dark {
+    animation: 8s black-holes-dark infinite;
+    color: transparent;
+}
+
 @keyframes collapse-milestones-t {
     0%, 100% {
         color: rgb(0, 255, 255);
@@ -338,6 +414,7 @@
     flex-shrink: 0;
     font-size: 22px;
     top: 6%;
+    width: 95%;
 }
 
 .layer-button {
@@ -509,6 +586,8 @@
     color: rgb(125, 0, 0);
     top: 55%;
     transform: translateY(-50%);
+    word-wrap: break-word;
+    width: 95%;
 }
 
 .milestone-info span.size-75  {

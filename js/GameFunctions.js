@@ -81,7 +81,19 @@ main_functions.gameFunctions = {
     getCubeSize(stage = player.stage)
     {
         //let s = stage.div(1e4).log(10).plus(1).max(1);
-        return size = settings.cube_size_start * (1 + stage.log( N('1e2').times( stage.div('1e4').log(10).plus(1).max(1).pow('1.5') ) ).toNumber());
+        return size =  (stage.log( N('1e2').times( stage.div('1e4').log(10).plus(1).max(1).pow('1.5'))).plus(1).times(settings.cube_size_start))
+                            .softcap(300, 2, 'mul')
+                            .softcap(305, 2, 'mul')
+                            .softcap(310, 4, 'mul')
+                            .softcap(315, 0.5, 'pow')
+                            .softcap(320, '1e-1', 'pow')
+                            .softcap(325, '1e-2', 'pow')
+                            .softcap(330, '1e-3', 'pow')
+                            .softcap(335, '1e-4', 'pow')
+                            .softcap(340, '1e-5', 'pow')
+                            .softcap(345, '1e-10', 'pow')
+                            .softcap(350, '1e-100', 'pow')
+                            .toNumber();
     },
     getCubeHP(stage)
     {
@@ -552,7 +564,7 @@ main_functions.gameFunctions = {
                 {
                     player.isUnlocked.collapse = true;
                     changeValue('stars', player.stars.plus(get.star_gain));
-                    changeValue('collapsed_times', player.collapsed_times.plus(1));
+                    changeValue('collapsed_times', player.collapsed_times.plus(get.ct_g));
                     changeValue('masters_on_collapse', player.master_level.lt(player.masters_on_collapse) ? player.master_level : player.masters_on_collapse);
                     changeValue('best_stage_on_collapse', player.stage.gt(player.best_stage_on_collapse) ? player.stage : player.best_stage_on_collapse);
                     changeValue('best_stars_on_collapse', get.star_gain.gt(player.best_stars_on_collapse) ? get.star_gain : player.best_stars_on_collapse);
@@ -588,6 +600,8 @@ main_functions.gameFunctions = {
                         gameFunctions.unlockedFrame(`You unlocked <span class="galaxy">Galaxies</span>!`)
                     }
 
+                    player.strange_place = false;
+
                     gameFunctions.resetCube();
                     get.updateGcHP();
                     gameFunctions.spawnGCube();
@@ -605,10 +619,30 @@ main_functions.gameFunctions = {
             player.isUnlocked.galaxyhave = true;
 
             player.galaxies = player.galaxies.plus(get.galaxies);
+            if (nosave.milestones.collapse_milestones[7].isEnough() && !player.isUnlocked.strangeplace) {
+                player.isUnlocked.strangeplace = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="black-holes">The Strange Place</span>!`);
+            }
             player.stars = N(0);
             get.updateGalaxiesGain();
 
             gameFunctions.hideAndShowContent();
+        }
+    },
+    strangePlace()
+    { 
+        if (player.stage.gte(unlocks.collapse) && player.isUnlocked.neonsquare) {
+            if (!player.strange_place) {
+                gameFunctions.collapse();
+                player.strange_place = true;
+                console.log('entered')
+            }
+            else {
+                if (get.bh.gt(player.black_holes)) player.black_holes = get.bh;
+                gameFunctions.collapse();
+                player.strange_place = false;
+                player.isUnlocked.strangeplace_once = true;
+            }
         }
     },
     afkGenerators()
@@ -670,13 +704,13 @@ main_functions.gameFunctions = {
         hide_and_show(elements.master, player.isUnlocked.master, animate);
         hide_and_show(elements.master_area, player.isUnlocked.minicubes, animate);
         hide_and_show(elements.master_milestones_div, player.isUnlocked.master, animate);
+        hide_and_show(elements.neon_area, player.isUnlocked.neonsquare, animate);
         hide_and_show(elements.neon_square, player.isUnlocked.hasNSquare, animate);
         hide_and_show(elements.neon_info, player.isUnlocked.hasNSquare, animate);
         hide_and_show(elements.giantcube_area, player.isUnlocked.giantcube, animate);
         hide_and_show(elements.giga_area, player.isUnlocked.giantcube, animate);
         toggleLocking(elements.giga_locked_div, elements.giga_unlocked_div, player.isUnlocked.gigacube_reached);
         hide_and_show(elements.giga_upgrades_div, player.isUnlocked.gigacube, animate);
-        hide_and_show(elements.neon_area, player.isUnlocked.neonsquare, animate);
         hide_and_show(elements.collapse_layer_area, player.isUnlocked.neonsquare, animate);
         hide_and_show(elements.portal, player.isUnlocked.collapse, animate);
         toggleLocking(elements.collapse_locked_div, elements.collapse_unlocked_div, player.isUnlocked.collapse_reached);
@@ -684,6 +718,7 @@ main_functions.gameFunctions = {
         hide_and_show(elements.galaxy_area, player.isUnlocked.galaxy, animate);
         hide_and_show(elements.galaxy_amount, player.isUnlocked.galaxyhave, animate);
         hide_and_show(elements.change_realm_music, player.isUnlocked.collapse, animate);
+        hide_and_show(elements.black_holes_div, player.isUnlocked.strangeplace, animate);
     },
     roundValues()
     {

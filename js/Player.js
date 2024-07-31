@@ -4,14 +4,14 @@ function getDefaultPlayerValues()
     Player.upgrades = {
         prestige_upgrades: [
             new Upgrade(1,'1e0', '4e0', (LVL)=>Decimal.pow(2, LVL), 'damage', 'prestige_points'),
-            new Upgrade(2, '3e0', '1e1', (LVL)=>Decimal.pow(4, LVL), 'damage', 'prestige_points'),
-            new Upgrade(3, '5e0', '2.5e1', (LVL)=>Decimal.pow(8, LVL), 'damage', 'prestige_points'),
-            new Upgrade(4, '5e7', '5e3', (LVL)=>Decimal.pow(2, LVL), 'light_points', 'prestige_points', ...Array(1), ()=>player.isUnlocked.light),
-            new Upgrade(5, '1e14', '4.5e2', (LVL)=>Decimal.pow(2, LVL), 'mini_cubes', 'prestige_points', ...Array(1), ()=>player.isUnlocked.minicubes),
+            new Upgrade(2, '3e0', '1e1', (LVL)=>Decimal.pow(4, LVL), 'damage', 'prestige_points', N('1e30')),
+            new Upgrade(3, '5e0', '2.5e1', (LVL)=>Decimal.pow(8, LVL), 'damage', 'prestige_points', N('1e30')),
+            new Upgrade(4, '5e7', '5e3', (LVL)=>Decimal.pow(2, LVL), 'light_points', 'prestige_points', N('1e30'), ()=>player.isUnlocked.light),
+            new Upgrade(5, '1e14', '4.5e2', (LVL)=>Decimal.pow(2, LVL), 'mini_cubes', 'prestige_points', N('1e30'), ()=>player.isUnlocked.minicubes),
         ],
         light_upgrades: [
-            new Upgrade(1, '1e0', '2e0', (LVL)=>Decimal.pow(25, LVL), 'damage', 'light_points'),
-            new Upgrade(2, '1e0', '2e0', (LVL)=>Decimal.pow(10, LVL), 'prestige_points', 'light_points'),
+            new Upgrade(1, '1e0', '2e0', (LVL)=>Decimal.pow(25, LVL), 'damage', 'light_points', N('1e29')),
+            new Upgrade(2, '1e0', '2e0', (LVL)=>Decimal.pow(10, LVL), 'prestige_points', 'light_points', N('1e29')),
             new Upgrade(3, '1e0', '2e0', (LVL)=>N('0.2').div(Decimal.pow(2, LVL)), Array(1), 'light_points', N(20), undefined, undefined,
             function(){ return `<span class="positive">Autoclicker</span> and <span class="positive">${ abb_abs_int(N(2)) }x</span> its speed <br><span class="darker-text italic">Currently: ${this.bought_times.lte(0) ? 'no' : numToTime(+this.effect)}</span> <br><br><span class="size-125">`; }),
             new Upgrade(4, '8e1', '4e0', (LVL)=>Decimal.pow(3, LVL), 'mini_cubes', 'light_points', ...Array(1), ()=>player.isUnlocked.minicubes),
@@ -58,7 +58,9 @@ function getDefaultPlayerValues()
     Player.masters_on_collapse = N('1e4');
     Player.best_stage_on_collapse = N('0e0');
     Player.best_stars_on_collapse = N('0e0');
-    Player.galaxies = N('0e0')
+    Player.galaxies = N('0e0');
+    Player.strange_place = false;
+    Player.black_holes = N('0e0');
 
     Player.isUnlocked = {
         prestige_reached: false,
@@ -76,13 +78,16 @@ function getDefaultPlayerValues()
         collapse_reached: false,
         collapse: false,
         galaxy: false,
-        galaxyhave: false
+        galaxyhave: false,
+        strangeplace: false,
+        strangeplace_once: false
     };
 
     Player.always_play_normal_realm_music = false;
     Player.outside_music = false;
     Player.lastLoop = Date.now();
     Player.hotkeys = true;
+    Player.hide_maxed_upgrades = false;
 
     return Player;
 }
@@ -123,6 +128,7 @@ function setNosaveValues()
     nosave.neon_luck_multi = N('1e0');
     nosave.neon_rng = N('0e0');
     nosave.stars_multi = N('1e0');
+    nosave.collapsed_times_multi = N('1e0');
     nosave.realm = 0;
     nosave.realm_scrolls = [];
     nosave.prestige_cap = [N('1e400'), N(0.6)];
@@ -138,13 +144,16 @@ function setNosaveValues()
     nosave.ruby_cap_2 = [N('1e300000'), N(0.4)];
     nosave.ruby_cap_3 = [N('e1e14'), N('3e-9')];
     nosave.giga_cap = [N('1e2000'), N(0.1)];
+    nosave.giga_cap_2 = [N('ee12'), N(0.1)];
+    nosave.giga_cap_3 = [N('ee20'), N('1e-20')];
+    nosave.master_cap = [N('1e35'), N(0.3)];
     nosave.bulk_master = true;
     nosave.milestones = {
         master_milestones: [
             new Milestone(1, function(){ return Decimal.pow(5, player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'prestige_points', 'master_level', function() { return `<span class="size-75">Multiplies your ${fs.abbCurrency(this.boosts_what)} by 5 each master level and prestige upgrades no longer take ${fs.abbCurrency('prestige_points')}</span>`}, 0, ()=>nosave.milestones.master_milestones),
             new Milestone(2, function(){ return Decimal.pow(3, player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'light_points', 'master_level', function() { return `<span class="size-75">Multiplies your ${fs.abbCurrency(this.boosts_what)} by 3 each master level and unlocks the autobuyer for prestige upgrades</span>` }, 1, ()=>nosave.milestones.master_milestones),
             new Milestone(3, function(){ return Decimal.pow('3.5e2', player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'damage', 'master_level', function() { return `<span class="size-75">Multiplies your ${fs.abbCurrency(this.boosts_what)} by 350 each master level and unlocks the prestige point generator 100%<span>` }, 2, ()=>nosave.milestones.master_milestones),
-            new Milestone(4, function(){ return Decimal.pow('1.11e3', player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'mini_cubes', 'master_level', function() { return `Multiplies your ${fs.abbCurrency(this.boosts_what)} by ${abb_abs_int(1100)} each master level and light upgrades no longer take ${fs.abbCurrency('light_points')}` }, 3, ()=>nosave.milestones.master_milestones),
+            new Milestone(4, function(){ return Decimal.pow('1.11e3', player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'mini_cubes', 'master_level', function() { return `<span class="size-75">Multiplies your ${fs.abbCurrency(this.boosts_what)} by ${abb_abs_int(1100)} each master level and light upgrades no longer take ${fs.abbCurrency('light_points')}</span>` }, 3, ()=>nosave.milestones.master_milestones),
             new Milestone(5, function(){ return N('1e5') }, 'light_points', 'master_level', function() { return `Multiplies your ${fs.abbCurrency(this.boosts_what)} by ${abb_abs_int('1e5')}` }, 4, ()=>nosave.milestones.master_milestones),
             new Milestone(7, function(){ return player.stage.gte(101) ? Decimal.pow(1.5, Decimal.sub(player.stage, 100)) : 1 }, 'prestige_points', 'master_level', function() { return `Multiplies your ${fs.abbCurrency(this.boosts_what)} by ${abb_abs(1.5)} per stage after 100` }, 5, ()=>nosave.milestones.master_milestones),
             new Milestone(8, function(){ return 1; }, '-', 'master_level', function() { return `Unlocks the autobuyer for light upgrades` }, 6, ()=>nosave.milestones.master_milestones),
@@ -156,7 +165,7 @@ function setNosaveValues()
             new Milestone(100, function(){ return 1; }, '-', 'master_level', function() { return `Unlocks the mini square generator 500%` }, 12, ()=>nosave.milestones.master_milestones),
             new Milestone(130, function(){ return N(10); }, '-', 'master_level', function() { return `Milestone 1, 2, 3, 4 effect<sup>10</sup>` }, 13, ()=>nosave.milestones.master_milestones),
             new Milestone(210, function(){ return 1; }, '-', 'master_level', function() { return `Unlocks neon squares` }, 14, ()=>nosave.milestones.master_milestones),
-            new Milestone(function(){return player.master_level.gte('1.725e3') && nosave.milestones.collapse_milestones[0].enough}, function(){ return player.master_level.max(10).log(10).pow(1.25); }, 'stars', `-`, function() { return `Multiplies your stars by log10(Master level)<sup>1.25</sup>` }, 15, ()=>nosave.milestones.master_milestones, `Master level ${abb_abs_int('1.725e3')}`, ()=>nosave.milestones.collapse_milestones[0].enough),
+            new Milestone(function(){return player.master_level.gte('1.725e3') && nosave.milestones.collapse_milestones[0].enough}, function(){ return player.master_level.max(10).log(10).pow(1.25).pow(N(+nosave.milestones.collapse_milestones[5].isEnough()).times(Decimal.plus(1, player.collapsed_times.max(1).log10().times(0.125))).max(1)); }, 'stars', `-`, function() { return `Multiplies your stars by log10(Master level)<sup>1.25</sup>` }, 15, ()=>nosave.milestones.master_milestones, `Master level ${abb_abs_int('1.725e3')}`, ()=>nosave.milestones.collapse_milestones[0].enough),
             new Milestone(2500, function(){ return 1; }, '-', 'master_level', function() { return `Unlocks the new giga square upgrade` }, 16, ()=>nosave.milestones.master_milestones),
             //new Milestone('1e7', function(){ return Decimal.pow(2, Decimal.max(player.master_level.log(10).minus(3), 0)); }, 'stars', 'master_level', function() { return `Milestone 16 effect is better: 2<sup>max(log10(Master level) - 3, 0)</sup>` }, 17, ()=>nosave.milestones.master_milestones),
         ],
@@ -166,7 +175,10 @@ function setNosaveValues()
             new Milestone(10, function(){ return 1; }, '-', 'collapsed_times', function() { return `Unlocks the autobuyer for ruby upgrades, keep master milestone 1, 2 on collapse and unlocks new star upgrades`}, 2, ()=>nosave.milestones.collapse_milestones, `Collapsed 10 times`),
             new Milestone(()=>player.masters_on_collapse.lte(0), function(){ return 1; }, '-', 'masters_on_collapse', function() { return `Unlocks the autoclicker for giant squares, automatic nothing-spending master levels, giga upgrades no longer take ${fs.abbCurrency('giga_squares')}, keep master milestone 4, 7 and unlocks new star upgrades`}, 3, ()=>nosave.milestones.collapse_milestones, `Collapsed with 0 master level`),
             new Milestone('6.5e15', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks the autobuyer for giga upgrades, the giga square generator 100%, the autoclicker for neon squares and unlock <span style="-webkit-text-stroke: 1px rgb(140, 0, 255); color: transparent;">galaxies</span>`}, 4, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('6.5e15')} stage`),
-            new Milestone('1e3', function(){ return N(1.5); }, 'damage', 'galaxies', function() { return `This is the endgame, but you can try. Reward: 1.5x damage`}, 4, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e3')} galaxies`)
+            new Milestone('1e2', function(){ return 1; }, '-', 'galaxies', function() { return `Master milestone 16 effect<sup>1 + log10(${fs.abbCurrency('collapsed_times')}) * 0.125</sup>`}, 5, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e2')} galaxies`),
+            new Milestone('6e2', function(){ return Decimal.pow(2, player.stage.log(10).times(0.25)); }, 'stars', 'galaxies', function() { return `Multiplies your stars by 2<sup>1 + log10(stage) * 0.25</sup>`}, 6, ()=>nosave.milestones.collapse_milestones, `${abb_abs('6e2')} galaxies`),
+            new Milestone('1.05e4', function(){ return 1; }, '-', 'galaxies', function() { return `Unlocks <span class="black-holes-stroke">The Strange Place</span>`}, 7, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1.05e4')} galaxies`),
+            new Milestone('4e22', function(){ return N('1e4'); }, 'stars', 'collapsed_times', function() { return `${abb_abs_int('1e4')}x stars`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed ${abb_abs_int(N('4e22'))} times`)
         ]
     }
 

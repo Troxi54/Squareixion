@@ -40,6 +40,8 @@ $(document).ready(function()
                 hotkeys_info: $('#hotkeys-info'),
                 hotkeys_toggle: $('#hotkeys-toggle'),
                     hotkeys_toggle_info: $('#hotkeys-toggle-info'),
+                upgrades_toggle: $('#upgrades-toggle'),
+                    upgrades_toggle_info: $('#upgrades-toggle-info'),
                 discord: $('#discord'),
                 roblox: $('#roblox'),
         prestige_locked_div: $('#prestige-div-locked'), prestige_locked_info: $('#prestige-locked'),
@@ -95,14 +97,20 @@ $(document).ready(function()
         collapse_realm: $('#collapse-realm'),
             portal: $('#portal'),
             portal_2: $('#portal-2'),
-            collapse_upgrades_div: $('#collapse-upgrades-div'),
-                stars_amount: $('#collapse-upgrades-info'),
+            collapse_area: $('#collapse-area'),
+                collapse_area_second: $('#collapse-area-second'),
+                collapse_upgrades_div: $('#collapse-upgrades-div'),
+                    stars_amount: $('#collapse-upgrades-info'),
             collapse_text: $('#collapse-milestones-info'),
         galaxy_area: $('#galaxy-area'),
             galaxy_button: $('#galaxy-button'),
             galaxy_button_text: $('#galaxy-button-text'),
             galaxy_amount: $('#galaxy-info'),
-    };  
+        black_holes_div: $('#black-holes-div'),
+            black_hole_info: $('#black-hole-info'),
+            black_hole_button: $('#black-hole-button'),
+                black_hole_button_text: $('#black-hole-button-text')
+    };
 
     setNosaveValues();
     player = getDefaultPlayerValues();
@@ -140,8 +148,8 @@ $(document).ready(function()
     
     gameFunctions.realm(nosave.realm);
 
-    fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `yes` : `no`}`);
-    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `yes` : `no`}`)
+    fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `ON` : `OFF`}`);
+    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `ON` : `OFF`}`)
 
     normal_realm_music = shuffleArray(normal_realm_music);
     

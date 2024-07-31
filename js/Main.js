@@ -8,6 +8,8 @@ let a = [];
 function mainLoop()
 {   
     //let ms = Date.now();
+    if (player.stage.eq(78)) console.log(78)
+
     if (!document.hidden)
     {
         get.updateAll();
