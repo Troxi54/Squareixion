@@ -15,7 +15,17 @@ function restartGame()
     for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
     for (let c in nosave.milestones) (nosave.milestones[c].forEach(m=>m.html.div.show()))
     
-    
+    if (player.hide_background) {
+        elements.background.hide();
+    } else {
+        elements.background.show();
+    }
+    if (player.select_text) {
+        elements.root.css('--select-text', 'auto');
+    } else {
+        elements.root.css('--select-text', '');
+    }
+
     get.updateGcHP();
     gameFunctions.spawnGCube(true);
 

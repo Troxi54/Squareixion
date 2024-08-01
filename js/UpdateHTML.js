@@ -282,6 +282,14 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.black_hole_button_text, player.strange_place ? `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}` : `Enter the strange place`);
     },
+    backgroundToggleInfo()
+    {
+        fs.update(elements.background_toggle_info, `Hide the background (less laggy): ${player.hide_background ? 'ON' : 'OFF'}`);
+    },
+    selectTextToggleInfo()
+    {
+        fs.update(elements.select_text_toggle_info, `Select text: ${player.select_text ? 'ON' : 'OFF'}`);
+    },
 
 
     updateAll()

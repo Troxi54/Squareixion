@@ -6,6 +6,8 @@
     --darker-color-2: rgb(40, 40, 40);
     --darkerer-color: rgb(25, 25, 25);
 
+    --select-text: none;
+
     --cube-color: rgb(0, 0, 0);
     --mc-color: 255, 0, 0;
 }

@@ -88,6 +88,8 @@ function getDefaultPlayerValues()
     Player.lastLoop = Date.now();
     Player.hotkeys = true;
     Player.hide_maxed_upgrades = false;
+    Player.hide_background = false;
+    Player.select_text = false;
 
     return Player;
 }

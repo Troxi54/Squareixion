@@ -1,6 +1,7 @@
 $(document).ready(function()
 {
     elements = {
+        root: $(document.documentElement),
         wrapper: $('#wrapper'),
             intro: $('#intro'),
             intro_version: $('#changelog-title'),
@@ -42,6 +43,10 @@ $(document).ready(function()
                     hotkeys_toggle_info: $('#hotkeys-toggle-info'),
                 upgrades_toggle: $('#upgrades-toggle'),
                     upgrades_toggle_info: $('#upgrades-toggle-info'),
+                background_toggle: $('#background-toggle'),
+                    background_toggle_info: $('#background-toggle-info'),
+                select_text_toggle: $('#select-text-toggle'),
+                    select_text_toggle_info: $('#select-text-toggle-info'),
                 discord: $('#discord'),
                 roblox: $('#roblox'),
         prestige_locked_div: $('#prestige-div-locked'), prestige_locked_info: $('#prestige-locked'),
@@ -136,6 +141,18 @@ $(document).ready(function()
     fs.setMilestonesHTML();
     
     gameFunctions.hideElements();
+
+    if (player.hide_background) {
+        elements.background.hide();
+    } else {
+        elements.background.show();
+    }
+    if (player.select_text) {
+        elements.root.css('--select-text', 'auto');
+    } else {
+        elements.root.css('--select-text', '');
+    }
+    
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
     fs.hide_and_show(elements.main_content, !settings.intro, false);
     fs.hide_and_show(elements.intro, settings.intro, false);

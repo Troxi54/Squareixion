@@ -193,6 +193,24 @@ main_functions.add_events = function()
         player.hide_maxed_upgrades =! player.hide_maxed_upgrades;
     })
 
+    elements.background_toggle.on('click', function() {
+        player.hide_background =! player.hide_background;
+        if (player.hide_background) {
+            elements.background.hide();
+        } else {
+            elements.background.show();
+        }
+    })
+
+    elements.select_text_toggle.on('click', function() {
+        player.select_text =! player.select_text;
+        if (player.select_text) {
+            elements.root.css('--select-text', 'auto');
+        } else {
+            elements.root.css('--select-text', '');
+        }
+    })
+
     elements.unlocked.on('click', function() {
         elements.unlocked.hide();
         elements.frame.hide();
