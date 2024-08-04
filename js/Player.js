@@ -199,7 +199,7 @@ function setNosaveValues()
         ],
         rebuild_milestones: [
             new Milestone(1, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 1 and star upgrades no longer take ${fs.abbCurrency('stars')}`}, 0, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(1)}`),
-            new Milestone(2, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 2`}, 1, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(2)}`),
+            new Milestone(2, function(){ return N(100); }, 'stars', 'rebuild_rank', function() { return `Keep collapse milestone 2 and 100x stars`}, 1, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(2)}`),
             new Milestone(3, function(){ return Decimal.pow(1.9, player.rebuild_rank); }, 'universes', 'rebuild_rank', function() { return `<span class="size-75">Keep collapse milestone 3, ${abb_abs(1.9)}x universes each rebuild rank and autoupdates best stars on collapse</span>`}, 2, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(3)}`),
             new Milestone(4, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 4 and unlocks the autobuyer for star upgrades`}, 3, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(4)}`),
             new Milestone(5, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 5`}, 4, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(5)}`),
