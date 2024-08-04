@@ -11,7 +11,6 @@ function restartGame()
 
     fs.setUpgradesHTML();
     fs.setMilestonesHTML();
-    console.log(nosave.milestones)
     for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
     for (let c in nosave.milestones) (nosave.milestones[c].forEach(m=>m.html.div.show()))
     
@@ -29,8 +28,8 @@ function restartGame()
     get.updateGcHP();
     gameFunctions.spawnGCube(true);
 
-    fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `yes` : `no`}`);
-    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `yes` : `no`}`)
+    fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `ON` : `OFF`}`);
+    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `ON` : `OFF`}`)
 
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
 
@@ -122,11 +121,13 @@ function save()
 function load(data = localStorage.getItem(settings.game_name))
 {
     let isValid = false;
-    try { JSON.parse(data); isValid = true } catch { isValid = false; }
+    try { JSON.parse(atob(data)); isValid = true } catch { 
+        console.warn('Loading data failed');
+        return
+    }
     if ( isValid )
     {
         save();
-        data = btoa(data);
     }
     if (data)
     {
@@ -384,4 +385,16 @@ Decimal.prototype.softcap = function(start, power, mode, dis=false) {
         if ([3, "log"].includes(mode)) x = x.div(start).log(power).add(1).mul(start)
     }
     return x
+}
+
+// not mine
+Decimal.prototype.overflow = function(start, power, meta=1){
+    let number = this
+    if(isNaN(number.mag))return new Decimal(0);
+    start=Decimal.iteratedexp(10,meta-1,1.0001).max(start);
+    if(number.gte(start)){
+        let s = start.iteratedlog(10,meta)
+        number=Decimal.iteratedexp(10,meta,number.iteratedlog(10,meta).div(s).pow(power).mul(s));
+    }
+    return number;
 }

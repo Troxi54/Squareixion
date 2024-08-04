@@ -28,7 +28,8 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                          .times(fs.milestonesEffect('damage'))
                                          .pow(fs.upgradesEffectPow('damage'))
                                          .times(nosave.damage_multi)
-                                         .pow(get.bh_effect);
+                                         .pow(get.bh_effect)
+                                         .pow(get.u_d);
     },
     damage: N('1e0'),
 
@@ -44,7 +45,8 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                     .pow(get.bh_effect)
                                     .softcap(nosave.prestige_cap[0], nosave.prestige_cap[1], 'pow')
                                     .softcap(nosave.prestige_cap_2[0], nosave.prestige_cap_2[1], 'pow')
-                                    .softcap(nosave.prestige_cap_3[0], nosave.prestige_cap_3[1], 'pow');
+                                    .softcap(nosave.prestige_cap_3[0], nosave.prestige_cap_3[1], 'pow')
+                                    .overflow(nosave.prestige_cap_4[0], nosave.prestige_cap_4[1], nosave.prestige_cap_4[2]);
     },
     prestige_points: N('0e0'),
 
@@ -111,14 +113,14 @@ main_functions.get = { // Update and get currencies that are based on formulas
     },
     mc_lp: N('1e0'),
 
-    updateMasterRequirement(master_level = player.master_level)
+    updateMasterRequirement(master_level = player.master_level, caps=true)
     {
         let pre_softcap = unlocks.master.plus(Decimal.times(14, master_level).times(Decimal.plus(1, master_level.gt(0) ? master_level.log(2) : 0))).floor();
-        
-        if (master_level.gt(nosave.master_cap[0])) {
-            console.log(abb(pre_softcap), abb(get.updateMasterRequirement(nosave.master_cap[0])))
-        }
-        pre_softcap = master_level.gt(nosave.master_cap[0]) ? pre_softcap.softcap(get.updateMasterRequirement(nosave.master_cap[0]), N(1).div(nosave.master_cap[1]), 'pow') : pre_softcap;
+
+        //pre_softcap = master_level.gt(nosave.master_cap[0]) ? pre_softcap.softcap(get.updateMasterRequirement(nosave.master_cap[0]), N(1).div(nosave.master_cap[1]), 'pow') : pre_softcap;
+        //pre_softcap = master_level.gt(nosave.master_cap_2[0]) ? pre_softcap.softcap(get.updateMasterRequirement(nosave.master_cap_2[0]), N(1).div(nosave.master_cap_2[1]), 'pow') : pre_softcap;
+
+
         this.master_requirement = master_level.eq(player.master_level) ? pre_softcap : this.master_requirement;
         return pre_softcap;
     },
@@ -130,6 +132,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
         const part = stage.minus(unlocks.master).times(Math.log(2));
         let bulk = stage.gt(unlocks.master) ? part.dividedBy(7).lambertw().times(14).reciprocate().times(part)
                                     .softcap(nosave.master_cap[0], nosave.master_cap[1], 'pow')
+                                    .softcap(nosave.master_cap_2[0], nosave.master_cap_2[1], 'pow')
                                     .minus(player.master_level)
                                     .max(0)
                                                     
@@ -137,10 +140,20 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                                     stage.eq(unlocks.master) ? N(0) : N(0);
         if (stage.gte(get.master_requirement)) bulk = bulk.plus(1);
         //console.log(bulk.gte(nosave.master_cap[0]))
-        this.master_bulk = stage.eq(player.stage) ? bulk : this.master_bulk;
+        if (stage.eq(player.stage)) {
+            this.master_bulk = bulk;
+            if (nosave.master_average.length > 25) nosave.master_average.shift();
+            nosave.master_average.push(bulk);
+            let average = N(0);
+            nosave.master_average.forEach(v=>{average = average.plus(v)});
+            average = average.div(nosave.master_average.length).times(settings.fps);
+            this.master_average = average;
+        }
+        
         return bulk;
     },
     master_bulk: N(0),
+    master_average: N(0),
 
     updateMasterMilestonesValues()
     {
@@ -222,7 +235,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateNeonLuck()
     {
-        this.neon_luck = fs.upgradesEffect('neon_luck')
+        this.neon_luck = N(3).times(fs.upgradesEffect('neon_luck'))
                                                     .times(fs.milestonesEffect('neon_luck'))
                                                     .pow(fs.upgradesEffectPow('neon_luck'))
                                                     .times(nosave.neon_luck_multi)
@@ -257,7 +270,8 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                         .times(fs.milestonesEffect('stars'))
                                         .times(get.bh_s)
                                         .pow(fs.upgradesEffectPow('stars'))
-                                        .times(nosave.stars_multi);
+                                        .times(nosave.stars_multi)
+                                        .softcap(nosave.star_cap[0], nosave.star_cap[1], 'pow');
     },
     star_gain: N('0e0'),
 
@@ -282,7 +296,11 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateGalaxiesGain()
     {
         const div = player.stars.div(unlocks.galaxy);
-        this.galaxies = N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(10, div.gt(1) ? div.log(10) : 0));
+        this.galaxies = N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(10, div.gt(1) ? div.log(10) : 0))
+                                                .times(fs.upgradesEffect('galaxies'))
+                                                .times(fs.milestonesEffect('galaxies'))
+                                                .pow(fs.upgradesEffectPow('galaxies'))
+                                                .softcap(nosave.galaxy_cap[0], nosave.galaxy_cap[1], 'pow');
     },
     galaxies: N('0e0'),
 
@@ -306,7 +324,16 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateBlackHoleGain()
     {
-        this.bh = player.stage.lt('1e9') ? N(0) : Decimal.pow(1.9, player.stage.div('1e9').log(10)).minus(1);
+        this.bh = player.stage.lt('1e9') ? N(0) : Decimal.pow(1.9, player.stage.div('1e9').log(10))
+                                                .times(fs.upgradesEffect('black_holes'))
+                                                .times(fs.milestonesEffect('black_holes'))
+                                                .pow(fs.upgradesEffectPow('black_holes'))
+                                                            .softcap('3e9', 7, 'pow')
+                                                            .softcap('4e26', 0.75, 'pow')
+                                                            .softcap('1e34', 1.5, 'pow')
+                                                            .softcap('1e122', 3, 'pow')
+                                                            .softcap('1e130', 0.25, 'pow')
+                                                            .minus(1);
     },
     bh: N('0e0'),
 
@@ -322,9 +349,62 @@ main_functions.get = { // Update and get currencies that are based on formulas
     },
     bh_s: N('1e0'),
 
+    updateUGGain()
+    {
+        this.ug_gain = player.stage.gte(unlocks.rebuild) ? Decimal.pow(1.075, player.galaxies.div('e339').max(1).log(10)
+                                                                                                .softcap(61, 5, 'mul')) : N(0)
+                                                            .times(fs.upgradesEffect('universe_generators'))
+                                                            .times(fs.milestonesEffect('universe_generators'))
+                                                            .pow(fs.upgradesEffectPow('universe_generators'))
+                                                            .times(nosave.universe_generators_multi);
+    },
+    ug_gain: N('0e0'),
+
+    updateUniverseGain()
+    {
+        this.universe_gain = player.universe_generators.pow(3)
+                                                            .times(fs.upgradesEffect('universes'))
+                                                            .times(fs.milestonesEffect('universes'))
+                                                            .pow(fs.upgradesEffectPow('universes'))
+                                                            .times(nosave.universe_multi);
+    },
+    universe_gain: N('0e0'),
+
+    updateUDEffect()
+    {
+        this.u_d = player.universes.max(1).pow(0.3)
+                                            .softcap(26.5, 4, 'pow')
+                                            .softcap(3500, 4, 'pow')
+                                            .softcap('3e15', 0.5, 'pow')
+                                            .softcap('1e28', 2, 'pow')
+                                            .softcap('1e33', 2, 'pow')
+                                            .softcap('1e40', 2, 'pow')
+                                            .softcap('1e80', 0.5, 'pow');
+    },
+    u_d: N('1e0'),
+
+    updateRebuildRankRequirement()
+    {
+        this.rr_req = N(100).times(Decimal.pow(100, player.rebuild_rank));
+    },
+    rr_req: N('1e1000'),
+
+    updateRebuildMilestonesValues()
+    {
+        nosave.milestones.rebuild_milestones.forEach((milestone) =>
+        {
+            milestone.isEnough();
+            milestone.updateEffect();
+        })
+    },
 
     updateAll()
     {
+        this.updateRebuildMilestonesValues();
+        this.updateCollapseMilestonesValues();
+        this.updateMasterMilestonesValues();
+        this.updateRebuildRankRequirement();
+        this.updateUDEffect();
         this.updateBlackHoleEffect();
         this.updateBlackHoleGain();
         this.updateBHCTEffect();
@@ -338,8 +418,6 @@ main_functions.get = { // Update and get currencies that are based on formulas
         this.updateCubeStat();
         this.updateMasterBulk();
         this.updateMasterRequirement();
-        this.updateMasterMilestonesValues();
-        this.updateCollapseMilestonesValues();
         this.updateMiniCube();
         this.updateMiniCubePPEffect();
         this.updateMiniCubeLPEffect();
@@ -355,6 +433,8 @@ main_functions.get = { // Update and get currencies that are based on formulas
         this.updateGalaxyPEffect();
         this.updateStarGain();
         this.updateGalaxiesGain();
+        this.updateUGGain();
+        this.updateUniverseGain();
         this.updateGcDamage();
         this.updateDamage();
     }

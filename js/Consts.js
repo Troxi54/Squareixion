@@ -10,9 +10,9 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 3, 2, ''],
+    game_version: [0, 4, '', ''],
     savefile_name: "Squareixion save",
-    fps: 40,
+    fps: 'later...',
     save: true,
     auto_save: 10, // save interval
     //int_to_float: N('1e3'), // starting from this integers are float in abb() function
@@ -34,6 +34,7 @@ unlocks = {
     giga_squares: N('1.25e2'),
     collapse: N('1.05e5'),
     galaxy: N('1e7'),
+    rebuild: N('1e100')
 }
 ,
 events = {
@@ -49,7 +50,8 @@ hotkeys = {
     light: ['Digit2', '2'],
     master: ['Digit3', '3'],
     giga: ['KeyG', 'g'],
-    collapse: ['Digit4', '4']
+    collapse: ['Digit4', '4'],
+    rebuild: ['Digit5', '5']
 };
 let normal_realm_music = [
     "audio/music/Cosmic Dream.mp3",
@@ -66,4 +68,7 @@ let normal_realm_music = [
 ],
 collapse_realm_music = [
     "audio/music/Starstruck Love.mp3"
+],
+rebuild_realm_music = [
+    "audio/music/Across Dimensions.mp3"
 ];

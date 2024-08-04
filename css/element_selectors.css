@@ -25,28 +25,32 @@ body {
     font-size: 1em;
 }
 
-.body-collapse-realm {
+.body-collapse-realm,
+.body-rebuild-realm {
     background-image: none !important;
 }
 
+@keyframes bcrf {
+    0%, 100% {
+        opacity: .05;
+    }
+    50% {
+        opacity: .075;
+    }
+} 
+
 @keyframes bcra {
     0% {
-        background-position-y: 0vh;
+        background-position-y: 0%;
     }
     100% {
-        background-position-y: 100vh;
+        background-position-y: 1080px;
     }
 }
 
-.body-collapse-realm::after {
-    background-image: url('../images/collapse.jpg');
-    
-    opacity: .05;
-    z-index: -5;
-    animation: linear bcra 6s infinite;
-}
-
-.body-collapse-realm::before, .body-collapse-realm::after {
+.body-collapse-realm::after,
+.body-rebuild-realm::after,
+.body-rebuild-realm::before {
     content: '';
     display: flex;
     height: 100%;
@@ -56,6 +60,54 @@ body {
     left: 0%;
     margin: 0;
     padding: 0;
+}
+
+.body-collapse-realm::after {
+    background-image: url('../images/collapse.jpg');
+    background-size: auto 1080px;
+
+    opacity: .05;
+    z-index: -5;
+    animation: linear bcra 6s infinite, linear bcrf 4s infinite 2s;
+}
+
+.body-rebuild-realm {
+    background-color: black;
+}
+
+@keyframes brra {
+    0% {
+        background-position-y: 0%;
+        background-position-x: 0%;
+    }
+    100% {
+        background-position-y: 1080px;
+        background-position-x: 1080px;
+    }
+}
+
+.body-rebuild-realm::after {
+    background-image: url('../images/rebuild.png');
+    background-size: auto 1080px;
+
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7483%) hue-rotate(268deg) brightness(106%) contrast(105%);
+
+    opacity: 0.025;
+    z-index: -5;
+    animation: linear brra 6s infinite;
+}
+
+.body-rebuild-realm::before {
+    background-image: url('../images/rebuild.png');
+    background-size: auto 200px;
+
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7483%) hue-rotate(268deg) brightness(106%) contrast(105%);
+
+    
+
+    opacity: 0.025;
+    z-index: -5;
+    animation: linear brra 24s infinite;
 }
 
 /* taken and edited from https://awwhy.github.io/Fundamental/

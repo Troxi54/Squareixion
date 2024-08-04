@@ -7,13 +7,18 @@ gameFunctions = main_functions.gameFunctions;
 let a = [];
 function mainLoop()
 {   
-    //let ms = Date.now();
+    let ms = Date.now();
 
     if (!document.hidden)
     {
         get.updateAll();
         updates.updateAll();
         gameFunctions.roundValues();
+        /* for (let cont in player.upgrades) {
+            player.upgrades[cont].forEach(element => {
+                element.takes_currency = true;
+            });
+        } */
         for (const auto in nosave.Autoclickers)
         {
             nosave.Autoclickers[auto].do();
@@ -33,10 +38,10 @@ function mainLoop()
     }
     
     
-     /* a.push(Date.now() - ms);
+    /*a.push(Date.now() - ms);
     if (a.length > 25) a.shift();
     let b = 0;
     a.forEach(c=>b+=c);
-    b /= a.length; */
-   // console.log(b + 'ms')
+    b /= a.length;
+ console.log(b + 'ms')*/
 }

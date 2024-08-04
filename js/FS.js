@@ -82,6 +82,7 @@ fs = {
         const containers_names = {
             "master-milestones-container": nosave.milestones.master_milestones,
             "collapse-milestones-container": nosave.milestones.collapse_milestones,
+            "rebuild-milestones-container": nosave.milestones.rebuild_milestones
         }
         const containers = document.getElementsByClassName('milestone-container');
 

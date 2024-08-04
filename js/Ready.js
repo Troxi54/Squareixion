@@ -27,6 +27,7 @@ $(document).ready(function()
             stage: $('#stage'),
             master: $('#master'),
             collapse: $('#collapse'),
+            rebuild_rank: $('#rebuild-rank'),
         cube: $('.cube'),
             cube_info: $('#cube-info-text'),
         settings_button: $('#settings-button'),
@@ -43,6 +44,8 @@ $(document).ready(function()
                     hotkeys_toggle_info: $('#hotkeys-toggle-info'),
                 upgrades_toggle: $('#upgrades-toggle'),
                     upgrades_toggle_info: $('#upgrades-toggle-info'),
+                fps_changer: $('#fps-changer'),
+                    fps_changer_info: $('#fps-changer-info'),
                 background_toggle: $('#background-toggle'),
                     background_toggle_info: $('#background-toggle-info'),
                 select_text_toggle: $('#select-text-toggle'),
@@ -106,7 +109,7 @@ $(document).ready(function()
                 collapse_area_second: $('#collapse-area-second'),
                 collapse_upgrades_div: $('#collapse-upgrades-div'),
                     stars_amount: $('#collapse-upgrades-info'),
-            collapse_text: $('#collapse-milestones-info'),
+                collapse_text: $('#collapse-milestones-info'),
         galaxy_area: $('#galaxy-area'),
             galaxy_button: $('#galaxy-button'),
             galaxy_button_text: $('#galaxy-button-text'),
@@ -114,17 +117,28 @@ $(document).ready(function()
         black_holes_div: $('#black-holes-div'),
             black_hole_info: $('#black-hole-info'),
             black_hole_button: $('#black-hole-button'),
-                black_hole_button_text: $('#black-hole-button-text')
+                black_hole_button_text: $('#black-hole-button-text'),
+        rebuild_layer_area: $('#rebuild-layer-area'),
+            rebuild_button: $('#rebuild-button'),
+                rebuild_button_text: $('#rebuild-button-text'),
+        rebuild_realm: $('#rebuild-realm'),
+            rebuild_portal: $('#rebuild-portal-3'),
+            portal_to_realm_3: $('.rebuild-portal'),
+            rebuild_area: $('#rebuild-area'),
+                ug_div: $('#ug-div'),
+                    ug_info: $('#ug-info'),
+                rebuild_milestones_info: $('#rebuild-milestones-info'),
+                rebuild_rank_button: $('#rebuild-rank-button'),
+                    rebuild_rank_button_text: $('#rebuild-rank-button-text'),
     };
 
     setNosaveValues();
     player = getDefaultPlayerValues();
     loadToPlayer();
-    
-   
 
     fixValues();
 
+    settings.fps = player.fps;
     
     
     //player.masters_on_collapse = N(1e4);

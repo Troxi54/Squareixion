@@ -48,8 +48,19 @@
                     <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
                 </p>
                 <div id="changelog">
-                    <p id="changelog-title">Version 0.3.2</p>
+                    <p id="changelog-title">Version 0.4</p>
+                    <p id="changelog-info">Rebuild update</p>
                     <div id="changelogs">
+                        <p>&emsp;&emsp;v0.4<br>
+                            - More content added. <br>
+                            - <span class="spoiler">1 new reset layer.</span> <br>
+                            - Spoiler censorship in the changelog. <br>
+                            - 3x <span class="spoiler">neon luck</span>. <br>
+                            - Name of an update in the changelog. <br>
+                            - Some more shadows in the changelog. <br>
+                            - 1 new setting: change FPS. <br>
+                            - Bug fixes.
+                        </p>
                         <p>&emsp;&emsp;v0.3.2<br>
                             - Added 2 new settings: hide the background and select text.
                         </p>
@@ -59,14 +70,14 @@
                         <p>&emsp;&emsp;v0.3<br>
                             - More content added. <br>
                             - New setting: hide maxed upgrades. <br>
-                            - Better master level bulk calculation. <br>
+                            - Better <span class="spoiler">master level bulk</span> calculation. <br>
                             - Softcaps for scaling the size of the square. <br>
                             - Bug fixes. <br>
                             - Small changes that the developer doesn't remember.
                         </p>
                         <p>&emsp;&emsp;v0.2.4<br>
                             - Added a new hotkey. <br>
-                            - Fixed bug: negative stars. <br>
+                            - Fixed bug: negative <span class="spoiler">stars</span>. <br>
                             - Endgame text in the endgame.
                         </p>
                         <p>&emsp;&emsp;v0.2.3<br>
@@ -74,35 +85,35 @@
                             - You can now scroll upgrades without pressing the Shift key.
                         </p>
                         <p>&emsp;&emsp;v0.2.2<br>
-                            - Pre-light squares have less HP. <br>
-                            - Increased light requirement. <br> 
-                            - Third reset layer's automation starts earlier. <br>
-                            - The second master milestone now contains true information. <br>
-                            - Star upgrades have a limit. <br>
+                            - <span class="spoiler">Pre-light</span> squares have less HP. <br>
+                            - Increased <span class="spoiler">light requirement</span>. <br> 
+                            - <span class="spoiler">Third reset layer's automation</span> starts earlier. <br>
+                            - <span class="spoiler">The second master milestone</span> now contains true information. <br>
+                            - <span class="spoiler">Star upgrades</span> have a limit. <br>
                             - New setting: hotkey toggle. <br>
                             - Hotkey information in the settings.
                         </p>
                         <p>&emsp;&emsp;v0.2.1<br>
-                            - Reduced stage requirement for light. <br>
-                            - Light upgrade 3 is now much stronger: starting effect is 100ms, max level is 20, cost scaling is 2.
+                            - Reduced stage requirement for <span class="spoiler">light</span>. <br>
+                            - <span class="spoiler">Light upgrade 3 is now much stronger: starting effect is 100ms, max level is 20, cost scaling is 2.</span>
                         </p>
                         <p>&emsp;&emsp;v0.2<br>
                             - Tons of new content. <br>
-                            - 1 new reset layer. <br>
+                            - <span class="spoiler">1 new reset layer.</span> <br>
                             - Added more squares. <br>
                             - Complete rebalancing. <br>
                             - Intro. <br>
                             - Music: Added 12 songs. <br>
                             - 3 new settings. <br>
                             - Removed 1 setting: "change star count". Instead, there is a picture in the background. <br>
-                            - Light point gain is now significantly increased by stage. <br>
+                            - <span class="spoiler">Light point</span> gain is now significantly increased by stage. <br>
                             - Shadows look better. <br>
                             - Bold and italic text is used in some places. <br>
                             - Save system has been improved again. <br>
                             - Performance has been significantly improved. <br>
-                            - Generators work when you are not playing. <br>
+                            - <span class="spoiler">Generators</span> work when you are not playing. <br>
                             - Changed number format. <br>
-                            - Changed hotkeys, now prestige is 1, light is 2, etc. <br>
+                            - Changed hotkeys, now <span class="spoiler">prestige</span> is 1, <span class="spoiler">light</span> is 2, etc. <br>
                             - Hotkeys work regardless of keyboard layout. <br>
                             - Changed scrollbar style. <br>
                             - The page now has an icon. <br>
@@ -111,6 +122,7 @@
                             - Other small changes.
                         </p>
                     </div>
+                    <div id="changelogs-after"></div>
                 </div>
                 <div id="play-location">
                     <p id="title-info-2" class="darker-text">Play&#8230;</p>
@@ -124,6 +136,7 @@
                 <p id="stage">hi</p>
                 <p id="master"></p>
                 <p id="collapse" class="collapse-text"></p>
+                <p id="rebuild-rank"></p>
             </div>
             <div id="main-content">
                 <div id="main-realm" class="realm"> 
@@ -418,9 +431,11 @@
                         </div>
                     </div>
                     <button id="portal" class="button"></button>
+                    <button id="rebuild-portal" class="rebuild-portal button"></button>
                 </div>
                 <div id="collapse-realm">
                     <button id="portal-2" class="button"></button>
+                    <button id="rebuild-portal-2" class="rebuild-portal button"></button>
                     <div id="collapse-area" class="column area">
                         <div id="collapse-area-main">
                             <div id="collapse-upgrades-div" class="frame basic-frame column-flex layer-upgrades-div">
@@ -521,11 +536,70 @@
                             </div>
                         </div>
                     </div>
-                    <div id="galaxy-area" class="area">
-                        <div id="galaxy-div" class="frame galaxy-frame column-flex layer-div">
-                            <p id="galaxy-info" class="layer-info"></p>
-                            <button id="galaxy-button" class="button layer-button">
-                                <p id="galaxy-button-text" class="layer-button-text">You can earn 0 prestige point</p>
+                    <div id="galaxy-area-main" class="column area">
+                        <div id="galaxy-area">
+                            <div id="galaxy-div" class="frame galaxy-frame column-flex layer-div">
+                                <p id="galaxy-info" class="layer-info"></p>
+                                <button id="galaxy-button" class="button layer-button">
+                                    <p id="galaxy-button-text" class="layer-button-text"></p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="rebuild-layer-area">
+                            <div id="rebuild-div" class="frame rebuild-frame column-flex layer-div">
+                                <p id="rebuild-info" class="layer-info "><span class="rebuild size-150 bold">Rebuild</span><br><br><span class="size-75">Rebuild resets <span class="bold">everything</span> before, but gives universe generators for rebuild features. <br>First rebuild unlocks new realm.</span></p>
+                                <button id="rebuild-button" class="button layer-button">
+                                    <p id="rebuild-button-text" class="layer-button-text"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div id="rebuild-realm">
+                    <button id="rebuild-portal-3" class="button"></button>
+                    <div id="rebuild-area" class="area">
+                        <div id="ug-div" class="frame rebuild-frame column-flex layer-div">
+                            <p id="ug-info" class="layer-info"></p>
+                        </div>
+                        <div id="rebuild-milestones" class="frame rebuild-m-frame column-flex layer-div">
+                            <p id="rebuild-milestones-info" class="rebuild-text size-125"></p>
+                            <div id="rebuild-milestones-container" class="frame-noglow rebuild-m-frame milestone-container">
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                            </div>
+                            <button id="rebuild-rank-button" class="button layer-button">
+                                <p id="rebuild-rank-button-text" class="layer-button-text">rebuild rank</p>
                             </button>
                         </div>
                     </div>
@@ -576,6 +650,7 @@
                         <button id="hotkeys-toggle" class="s-button s-button-fit"><p id="hotkeys-toggle-info"></p></button>
                     </div>
                     <button id="upgrades-toggle" class="s-button s-button-fit"><p id="upgrades-toggle-info"></p></button>
+                    <button id="fps-changer" class="s-button s-button-fit"><p id="fps-changer-info"></p></button>
                     <button id="background-toggle" class="s-button s-button-fit"><p id="background-toggle-info"></p></button>
                     <button id="select-text-toggle" class="s-button s-button-fit"><p id="select-text-toggle-info"></p></button>
                     <div class="settings-column" id="links">

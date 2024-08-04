@@ -19,6 +19,10 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.collapse, `Collapsed <span style="color: white; animation: none ;">${abb_abs_int(player.collapsed_times)}</span> times`);
     },
+    rebuildRank()
+    {
+        fs.update(elements.rebuild_rank, `<span class="rebuild">Rebuild rank:</span> <span class="white-text-important">${abb_abs_int(player.rebuild_rank)}</span>`);
+    },
     cubeInfo()
     {
         fs.update(elements.cube_info, `<span class="white-text">Rank: </span><span class="cube-text ${ get.cube_style + settings.cube_text_plus_style }">${ get.cube_name }</span><br>
@@ -35,9 +39,10 @@ main_functions.updates = {  // update HTML
         fs.update(elements.prestige_button_text, get.prestige_points.lte(N('0e0')) ? `Square required: <span class="cube-text ${ gameFunctions.getFullCubeStyleName(unlocks.prestige) }">
                                                                                                                           ${gameFunctions.getCubeNameWithStage(unlocks.prestige)}</span>`
                                                                 : `You can earn <span class="prestige">${ abb_abs(get.prestige_points) }</span> prestige points`
-                                                                        + (get.prestige_points.gte(nosave.prestige_cap_3[0]) ? ` <span class="cap-3">(Hardcapped)</span>` :
-                                                                            get.prestige_points.gte(nosave.prestige_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
-                                                                                get.prestige_points.gte(nosave.prestige_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
+                                                                        + (get.prestige_points.gte(nosave.prestige_cap_4[0]) ? ` <span class="cap-4">(Overflow)</span>` :
+                                                                            get.prestige_points.gte(nosave.prestige_cap_3[0]) ? ` <span class="cap-3">(Hardcapped)</span>` :
+                                                                                get.prestige_points.gte(nosave.prestige_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
+                                                                                    get.prestige_points.gte(nosave.prestige_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (get.prestige_points.lte(N('0e0'))) { elements.prestige_button_text.addClass('layer-button-text-cannot'); elements.prestige_button.addClass('button-cannot'); }
         else { elements.prestige_button_text.removeClass('layer-button-text-cannot'); elements.prestige_button.removeClass('button-cannot'); }
     },
@@ -99,11 +104,14 @@ main_functions.updates = {  // update HTML
     },
     masterButtonInfo()
     {
-        fs.update(elements.master_button_text, (player.stage.lt(get.master_requirement) || get.master_bulk.lt(1) ? `Square required:
+        fs.update(elements.master_button_text, ((player.stage.lt(get.master_requirement) || get.master_bulk.lt(1)) && player.master_level.lt(nosave.master_cap[0]) ? `Square required:
                                                                   ${gameFunctions.getCubeNameWithStage(get.master_requirement)}`
-                                                                 : nosave.milestones.collapse_milestones[0].isEnough() ? `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`)
-                                                                    + (player.master_level.gte(nosave.master_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
-        if (player.stage.lte(get.master_requirement)) { elements.master_button_text.addClass('layer-button-text-cannot'); elements.master_button.addClass('button-cannot'); }
+                                                                 : nosave.Autoclickers.master_autoclicker.isWorking() ? `+${abb_abs_int(get.master_average)}/s master levels` :
+                                                                    nosave.milestones.collapse_milestones[0].isEnough() ? 
+                                                                                    `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`)
+                                                                    + (player.master_level.gte(nosave.master_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
+                                                                            player.master_level.gte(nosave.master_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
+        if (player.stage.lt(get.master_requirement)) { elements.master_button_text.addClass('layer-button-text-cannot'); elements.master_button.addClass('button-cannot'); }
         else { elements.master_button_text.removeClass('layer-button-text-cannot'); elements.master_button.removeClass('button-cannot'); }
     },
     masterAmount()
@@ -188,8 +196,9 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.collapse_button_text, player.stage.lte(unlocks.collapse) ? `Square required:
                                                                   ${gameFunctions.getCubeNameWithStage(unlocks.collapse)}`
-                                                                 : `You can earn <span class="stars">${abb_abs(get.star_gain)}</span> ${get.star_gain.eq(1) ? 'star': 'stars'}`);
-        if (player.stage.lte(unlocks.collapse)) { elements.collapse_button_text.addClass('layer-button-text-cannot'); elements.collapse_button.addClass('button-cannot'); }
+                                                                 : `You can earn <span class="stars">${abb_abs(get.star_gain)}</span> ${get.star_gain.eq(1) ? 'star': 'stars'}`
+                                                                 + (get.star_gain.gte(nosave.star_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
+        if (player.stage.lt(unlocks.collapse)) { elements.collapse_button_text.addClass('layer-button-text-cannot'); elements.collapse_button.addClass('button-cannot'); }
         else { elements.collapse_button_text.removeClass('layer-button-text-cannot'); elements.collapse_button.removeClass('button-cannot'); }
     },
 
@@ -235,16 +244,18 @@ main_functions.updates = {  // update HTML
     galaxyButtonInfo()
     {
         fs.update(elements.galaxy_button_text, get.galaxies.lte(N('0e0')) ? `Stars required: <span class="galaxy"> ${ abb_abs(unlocks.galaxy) }</span>`
-                                                                : `You can transform your stars into <span class="galaxy">${ abb_abs(get.galaxies) }</span> galaxies`);
+                                                                : `You can transform your stars into <span class="galaxy">${ abb_abs(get.galaxies) }</span> galaxies`
+                                                                + (get.galaxies.gte(nosave.galaxy_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (get.galaxies.lte(N('0e0'))) { elements.galaxy_button_text.addClass('layer-button-text-cannot'); elements.galaxy_button.addClass('button-cannot'); }
         else { elements.galaxy_button_text.removeClass('layer-button-text-cannot'); elements.galaxy_button.removeClass('button-cannot'); }
     },
     galaxyAmount()
     {
-        fs.update(elements.galaxy_amount, `<span class="galaxy">Galaxies: </span>${ abb_abs(player.galaxies) }
-                                           <br><br><div class="galaxy-line"></div><br>
-                                           ${abb(get.g_s, 4, true)}x <span class="stars">stars</span>
-                                           <br><span class="stars">Star</span> generator <span class="dark-text">${abb(get.g_p, 3, true)}%</span> of the best
+        fs.update(elements.galaxy_amount, `<span class="galaxy">Galaxies: </span>${ abb_abs(player.galaxies) }` + 
+                        (nosave.Autoclickers.galaxy_generator.isWorking() ? `<br><span class="darker-text">(+${abb_abs(get.galaxies.times(player.rebuild_rank.minus(6)))}/sec)</span><br>` : `<br><br>`) +
+                                          `<div class="galaxy-line"></div><br>\
+                                           ${abb(get.g_s, 4, true)}x <span class="stars">stars</span>\
+                                           <br><span class="stars">Star</span> generator <span class="dark-text">${abb(get.g_p, 3, true)}%</span> of the best\
                                            <br><div class="galaxy-line"></div>`);
     },
     hotkeysInfo()
@@ -253,7 +264,8 @@ main_functions.updates = {  // update HTML
                                           ${player.isUnlocked.light_reached ? `<br>Light: ${hotkeys.light[1]}` : ''}\
                                           ${player.isUnlocked.master_reached ? `<br>Master: ${hotkeys.master[1]}` : ''}\
                                           ${player.isUnlocked.gigacube_reached ? `<br>Gigalize: ${hotkeys.giga[1]}` : ''}\
-                                          ${player.isUnlocked.collapse_reached ? `<br>Collapse: ${hotkeys.collapse[1]}</span>` : ''}`);
+                                          ${player.isUnlocked.collapse_reached ? `<br>Collapse: ${hotkeys.collapse[1]}` : ''}\
+                                          ${player.isUnlocked.rebuild_reached ? `<br>Rebuild: ${hotkeys.rebuild[1]}` : ''}</span>`);
     },
     hotkeysToggleInfo()
     {
@@ -282,6 +294,10 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.black_hole_button_text, player.strange_place ? `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}` : `Enter the strange place`);
     },
+    fpsChangerInfo()
+    {
+        fs.update(elements.fps_changer_info, `FPS: ${player.fps}`);
+    },
     backgroundToggleInfo()
     {
         fs.update(elements.background_toggle_info, `Hide the background (less laggy): ${player.hide_background ? 'ON' : 'OFF'}`);
@@ -290,7 +306,39 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.select_text_toggle_info, `Select text: ${player.select_text ? 'ON' : 'OFF'}`);
     },
-
+    rebuildButtonInfo()
+    {
+        fs.update(elements.rebuild_button_text, player.stage.lte(unlocks.rebuild) ? `Square required:
+                                                ${gameFunctions.getCubeNameWithStage(unlocks.rebuild)}` : 
+                                                `You can earn <span class="rebuild">${abb(get.ug_gain)}</span> universe generators`);
+        if (player.stage.lt(unlocks.rebuild)) { elements.rebuild_button_text.addClass('layer-button-text-cannot'); elements.rebuild_button.addClass('button-cannot'); }
+        else { elements.rebuild_button_text.removeClass('layer-button-text-cannot'); elements.rebuild_button.removeClass('button-cannot'); }
+    },
+    UGInfo()
+    {
+        fs.update(elements.ug_info, `<span class="rebuild">Universe generators:</span> <span class="white-text">${abb_abs(player.universe_generators)}</span> <span class="dark-text">|</span> <span class="rebuild">${abb_abs(player.universe_generators.pow(3))}x universes</span>\
+                                     <br><br><span class="rebuild">Universes:</span> <span class="white-text">${abb_abs(player.universes)}</span> <span class="darker-text">(+${abb_abs(get.universe_gain)}/sec)</span><br><br>\
+                                     <div class="line"></div><br>\
+                                     <span class="white-text">Raises your <span class="damage">damage</span> by <span class="pow">${abb_abs(get.u_d)}</span></span>\
+                                     <br><div class="line"></div>`);
+    },
+    rebuildMilestonesInfo()
+    {
+        fs.update(elements.rebuild_milestones_info, `<span class="rebuild">Rebuild rank:</span> <span class="white-text">${abb_abs_int(player.rebuild_rank)}</span>`)
+    },
+    rebuildRankButtonText()
+    {
+        fs.update(elements.rebuild_rank_button_text, player.universes.gte(get.rr_req) ? `You can increase rebuild rank` : `Universes required: <span class="rebuild">${abb_abs(get.rr_req)}</span>`)
+        if (player.universes.lt(get.rr_req)) { elements.rebuild_rank_button_text.addClass('layer-button-text-cannot'); elements.rebuild_rank_button.addClass('button-cannot'); }
+        else { elements.rebuild_rank_button_text.removeClass('layer-button-text-cannot'); elements.rebuild_rank_button.removeClass('button-cannot'); }
+    },
+    rebuildMilestones()
+    {
+        nosave.milestones.rebuild_milestones.forEach((milestone) =>
+        {
+            milestone.updateHTML();
+        })
+    },
 
     updateAll()
     {

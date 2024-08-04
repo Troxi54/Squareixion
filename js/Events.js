@@ -34,8 +34,11 @@ main_functions.add_events = function()
                         {
                             gameFunctions.playMusic();
                         }
-                        else {
+                        else if (nosave.realm === 1) {
                             gameFunctions.song(collapse_realm_music[0]);
+                        }
+                        else if (nosave.realm === 2) {
+                            gameFunctions.song(rebuild_realm_music[0]);
                         }
                     }
                     let waiting;
@@ -72,8 +75,11 @@ main_functions.add_events = function()
                 if (!nosave.realm) {
                     gameFunctions.playMusic();
                 }
-                else {
+                else if (nosave.realm === 1) {
                     if (!player.always_play_normal_realm_music) gameFunctions.song(collapse_realm_music[0]);
+                }
+                else if (nosave.realm === 2) {
+                    if (!player.always_play_normal_realm_music) gameFunctions.song(rebuild_realm_music[0]);
                 }
                 //elements.music[0].play();
                 
@@ -94,7 +100,14 @@ main_functions.add_events = function()
         if (nosave.play_music)
         {
             if (!nosave.realm) gameFunctions.playMusic();
-            else if (nosave.realm === 1) if (!nosave.always_play_normal_realm_music) gameFunctions.song(collapse_realm_music[0]);
+            else if (!nosave.always_play_normal_realm_music) {
+                if (nosave.realm === 1) {
+                    gameFunctions.song(collapse_realm_music[0]);
+                } else if (nosave.realm === 2) {
+                    gameFunctions.song(rebuild_realm_music[0]);
+                }
+            }
+                 
         } 
         else gameFunctions.stopMusic();
     }
@@ -193,6 +206,17 @@ main_functions.add_events = function()
         player.hide_maxed_upgrades =! player.hide_maxed_upgrades;
     })
 
+    elements.fps_changer.on('click', function() {
+        const min = 0.1, max = 10000,
+              text = prompt(`This will save your game and refresh your page. Type in FPS you want (Minimum is ${min}, Maximum is ${max}, Default is 60)`),
+              number = Number(!!text ? text.replace(',', '.') : text);
+        if (number && number >= min && number <= max) {
+            player.fps = number;
+            save();
+            window.location.reload();
+        }
+    })
+
     elements.background_toggle.on('click', function() {
         player.hide_background =! player.hide_background;
         if (player.hide_background) {
@@ -261,13 +285,16 @@ main_functions.add_events = function()
     elements.collapse_button.on('click', this.gameFunctions.collapse);
     elements.galaxy_button.on('click', this.gameFunctions.galaxy);
     elements.black_hole_button.on('click', this.gameFunctions.strangePlace);
+    elements.rebuild_button.on('click', gameFunctions.rebuild);
+    elements.rebuild_rank_button.on('click', gameFunctions.rebuildRank)
 
     elements.portal.on('click', function(){ gameFunctions.realm(1); })
     elements.portal_2.on('click', function(){ gameFunctions.realm(0); })
+    elements.portal_to_realm_3.on('click', function(){ nosave.realm_2_from = nosave.realm; gameFunctions.realm(2); })
+    elements.rebuild_portal.on('click', function(){ gameFunctions.realm(nosave.realm_2_from); })
 
     $(document).on('keyup', function(k)
     {
-        console.log(k.code)
         if (player.hotkeys) {
             switch (k.code)
             {
@@ -285,6 +312,9 @@ main_functions.add_events = function()
                     break;
                 case hotkeys.collapse[0]:
                     gameFunctions.collapse();
+                    break;
+                case hotkeys.rebuild[0]:
+                    gameFunctions.rebuild();
                     break;
             }
         }

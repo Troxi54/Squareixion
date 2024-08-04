@@ -301,7 +301,7 @@ main_functions.gameFunctions = {
                 });
                 player.upgrades.light_upgrades.forEach(function(upgr, index)
                 {
-                   if (!((nosave.milestones.master_milestones[11].isEnough() || nosave.milestones.collapse_milestones[0].isEnough()) && index === 2)) upgr.setBoughtTimes(N('0e0'));
+                   if (!((nosave.milestones.master_milestones[11].isEnough() || nosave.milestones.collapse_milestones[0].isEnough() || player.isUnlocked.rebuild) && index === 2)) upgr.setBoughtTimes(N('0e0'));
                 });
                 changeValue('prestige_points', N('0e0'));
                 changeValue('light_points', N('0e0'));
@@ -539,6 +539,7 @@ main_functions.gameFunctions = {
                                 elements.frame_text.css('opacity', '0');
                                 
                                 fs.update(elements.frame_text, `YOU HAVE COLLAPSED!`);
+                                elements.frame_text.removeClass();
                                 elements.frame_text.addClass('collapse-frame-text');
                                 elements.frame_text.show();
                                 elements.frame_text.animate({'opacity': '1'}, 20 * 1e3, function()
@@ -555,6 +556,8 @@ main_functions.gameFunctions = {
                                         elements.collapse_layer_area.show();
                                         elements.collapse_button.css('pointer-events', '');
                                         elements.collapse_layer_area.removeClass('when-animation');
+                                        elements.frame[0].removeAttribute('style');
+                                        elements.frame_text[0].removeAttribute('style');
                                     });
                                 });
 
@@ -603,6 +606,10 @@ main_functions.gameFunctions = {
                         player.isUnlocked.galaxy = true;
                         gameFunctions.unlockedFrame(`You unlocked <span class="galaxy">Galaxies</span>!`)
                     }
+                    if (nosave.milestones.collapse_milestones[8].isEnough() && !player.isUnlocked.rebuild_reached) {
+                        player.isUnlocked.rebuild_reached = true;
+                        gameFunctions.unlockedFrame(`You unlocked <span class="rebuild">Rebuild</span>!`)
+                    }
 
                     player.strange_place = false;
 
@@ -635,7 +642,7 @@ main_functions.gameFunctions = {
     },
     strangePlace()
     { 
-        if (player.stage.gte(unlocks.collapse) && player.isUnlocked.neonsquare) {
+        if (player.stage.gte(unlocks.collapse) && nosave.milestones.collapse_milestones[7].isEnough()) {
             if (!player.strange_place) {
                 gameFunctions.collapse();
                 player.strange_place = true;
@@ -647,6 +654,116 @@ main_functions.gameFunctions = {
                 player.strange_place = false;
                 player.isUnlocked.strangeplace_once = true;
             }
+        }
+    },
+    rebuild()
+    {
+        fs.reset(
+            5, 
+            () => player.stage.gte(unlocks.rebuild) && player.isUnlocked.rebuild_reached,
+            function()
+            {
+                function animation()
+                {
+                    gameFunctions.stopMusic();
+                    elements.frame.css({
+                        'background': 'linear-gradient(-45deg, rgb(0, 185, 99), black 10% 90%, rgb(80, 0, 185))',
+                        'opacity': '0'
+                    });
+                    elements.frame_text.hide();
+                    elements.frame.show();
+                    elements.currencies_place.animate({'opacity': '0'}, 1e4);
+                    elements.frame.animate({'opacity': '1'}, 10 * 1e3, function()
+                    {
+                        /* elements.main_realm.hide(); */
+                        setTimeout(function()
+                        {
+                            data();
+
+                            elements.frame_text.css('opacity', '0');
+                            
+                            fs.update(elements.frame_text, `YOU HAVE <span class="rebuild bold italic" style="text-shadow: none;">REBUILT</span>!`);
+                            elements.frame_text.removeClass();
+                            elements.frame_text.addClass('rebuild-frame-text');
+                            elements.frame_text.show();
+                            elements.frame_text.animate({'opacity': '1'}, 20 * 1e3, function()
+                            {
+                                gameFunctions.realm(2);
+                                elements.currencies_place.animate({'opacity': '1'}, 1e4)
+                                elements.frame_text.animate({'opacity': '0'}, 10 * 1e3);
+                                elements.frame.animate({'opacity': '0'}, 10 * 1e3, function()
+                                {
+                                    elements.frame.hide();
+                                    elements.frame[0].removeAttribute('style');
+                                    elements.frame_text[0].removeAttribute('style');
+                                });
+                            });
+
+                        }, 5 * 1e3)
+                    })
+                }
+                
+                function data()
+                {
+                    player.isUnlocked.rebuild = true;
+                    
+                    changeValue('universe_generators', player.universe_generators.plus(get.ug_gain));
+
+                    nosave.milestones.master_milestones.forEach(m=>m.always_works = false);
+
+                    player.upgrades.prestige_upgrades.forEach(function(upgr)
+                    {
+                        upgr.setBoughtTimes(N('0e0'));
+                    });
+                    player.upgrades.light_upgrades.forEach(function(upgr, index)
+                    {
+                        if (index !== 2) upgr.setBoughtTimes(N('0e0'));
+                    });
+                    player.upgrades.ruby_upgrades.forEach(function(upgr)
+                    {
+                        upgr.setBoughtTimes(N('0e0'));
+                    });
+                    player.upgrades.giga_upgrades.forEach(function(upgr)
+                    {
+                        upgr.setBoughtTimes(N('0e0'));
+                    });
+                    player.upgrades.collapse_upgrades.forEach(function(upgr)
+                    {
+                        upgr.setBoughtTimes(N('0e0'));
+                    });
+                    changeValue('black_holes', N('0e0'));
+                    changeValue('galaxies', nosave.milestones.rebuild_milestones[6].isEnough() ? N('1e1') : N('0e0'));
+                    changeValue('stars', N('0e0'));
+                    changeValue('collapsed_times', N('0e0'));
+                    changeValue('masters_on_collapse', N('1e4'));
+                    changeValue('best_stage_on_collapse', N('0e0'));
+                    changeValue('best_stars_on_collapse', N('0e0'));
+                    changeValue('prestige_points', N('0e0'));
+                    changeValue('light_points', N('0e0'));
+                    changeValue('mini_cubes', N('0e0'));
+                    changeValue('master_level', N('0e0'));
+                    changeValue('giant_cube_stage', N('1e0'));
+                    changeValue('ruby', N('0e0'));
+                    changeValue('giga_squares', N('0e0'));
+                    changeValue('neon_tier', N('0e0'));
+                    player.strange_place = false;
+                    gameFunctions.spawnNeonSquare(true);
+                    nosave.neon_rng = N(0);
+
+                    gameFunctions.resetCube();
+                    get.updateGcHP();
+                    gameFunctions.spawnGCube();
+                }
+                if (!player.isUnlocked.rebuild) animation();
+                else data();
+            }
+        );
+    },
+    rebuildRank()
+    {
+        if (player.universes.gte(get.rr_req)) {
+            player.universes = N(0);
+            player.rebuild_rank = player.rebuild_rank.plus(1);
         }
     },
     afkGenerators()
@@ -722,6 +839,9 @@ main_functions.gameFunctions = {
         hide_and_show(elements.galaxy_amount, player.isUnlocked.galaxyhave, animate);
         hide_and_show(elements.change_realm_music, player.isUnlocked.collapse, animate);
         hide_and_show(elements.black_holes_div, player.isUnlocked.strangeplace, animate);
+        hide_and_show(elements.rebuild_layer_area, player.isUnlocked.rebuild_reached, animate);
+        hide_and_show(elements.portal_to_realm_3, player.isUnlocked.rebuild, animate);
+        hide_and_show(elements.rebuild_rank, player.isUnlocked.rebuild, animate);
     },
     roundValues()
     {
@@ -735,12 +855,11 @@ main_functions.gameFunctions = {
     {
         elements.settings.hide();
         elements.unlocked.hide();
-        elements.frame.hide();
     },
     realm(what = 0)
     {
         nosave.realm_scrolls[nosave.realm] = [window.scrollX, window.scrollY];
-        const realms = [elements.main_realm, elements.collapse_realm],
+        const realms = [elements.main_realm, elements.collapse_realm, elements.rebuild_realm],
               realm = realms[what];
         elements.main_content.children().hide();
         const scr = nosave.realm_scrolls[what];
@@ -752,10 +871,15 @@ main_functions.gameFunctions = {
         {
             this.playMusic();
         }
-        if (what === 1) 
+        if (what === 1)
         {
             elements.background.addClass('body-collapse-realm');
             if (!player.always_play_normal_realm_music) this.song(collapse_realm_music[0]);
+        }
+        if (what === 2)
+        {
+            elements.background.addClass('body-rebuild-realm');
+            if (!player.always_play_normal_realm_music) this.song(rebuild_realm_music[0]);
         }
     }
 };

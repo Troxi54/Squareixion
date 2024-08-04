@@ -61,6 +61,9 @@ function getDefaultPlayerValues()
     Player.galaxies = N('0e0');
     Player.strange_place = false;
     Player.black_holes = N('0e0');
+    Player.universe_generators = N('0e0');
+    Player.universes = N('0e0');
+    Player.rebuild_rank = N('0e0');
 
     Player.isUnlocked = {
         prestige_reached: false,
@@ -80,7 +83,9 @@ function getDefaultPlayerValues()
         galaxy: false,
         galaxyhave: false,
         strangeplace: false,
-        strangeplace_once: false
+        strangeplace_once: false,
+        rebuild_reached: false,
+        rebuild: false
     };
 
     Player.always_play_normal_realm_music = false;
@@ -90,6 +95,7 @@ function getDefaultPlayerValues()
     Player.hide_maxed_upgrades = false;
     Player.hide_background = false;
     Player.select_text = false;
+    Player.fps = 60;
 
     return Player;
 }
@@ -131,11 +137,15 @@ function setNosaveValues()
     nosave.neon_rng = N('0e0');
     nosave.stars_multi = N('1e0');
     nosave.collapsed_times_multi = N('1e0');
+    nosave.universe_generators_multi = N('1e0');
+    nosave.universe_multi = N('1e0');
     nosave.realm = 0;
+    nosave.realm_2_from = 0;
     nosave.realm_scrolls = [];
     nosave.prestige_cap = [N('1e400'), N(0.6)];
     nosave.prestige_cap_2 = [N('e50000'), N(0.3)];
     nosave.prestige_cap_3 = [N('e5e7'), N('3e-9')];
+    nosave.prestige_cap_4 = [N('ee40'), N(0.25), 1];
     nosave.ms_cap = [N('1e750'), N(0.5)];
     nosave.ms_cap_2 = [N('1e500000'), N(0.25)];
     nosave.ms_cap_3 = [N('e1e11'), N('3e-9')];
@@ -149,6 +159,10 @@ function setNosaveValues()
     nosave.giga_cap_2 = [N('ee12'), N(0.1)];
     nosave.giga_cap_3 = [N('ee20'), N('1e-20')];
     nosave.master_cap = [N('1e35'), N(0.3)];
+    nosave.master_cap_2 = [N('1e46'), N(0.3)];
+    nosave.star_cap = [N(2).pow(1024), N(0.5)];
+    nosave.galaxy_cap = [N('e1000'), N(0.5)];
+    nosave.master_average = [];
     nosave.bulk_master = true;
     nosave.milestones = {
         master_milestones: [
@@ -180,7 +194,17 @@ function setNosaveValues()
             new Milestone('1e2', function(){ return 1; }, '-', 'galaxies', function() { return `Master milestone 16 effect<sup>1 + log10(${fs.abbCurrency('collapsed_times')}) * 0.125</sup>`}, 5, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e2')} galaxies`),
             new Milestone('6e2', function(){ return Decimal.pow(2, player.stage.log(10).times(0.25)); }, 'stars', 'galaxies', function() { return `Multiplies your stars by 2<sup>1 + log10(stage) * 0.25</sup>`}, 6, ()=>nosave.milestones.collapse_milestones, `${abb_abs('6e2')} galaxies`),
             new Milestone('1.05e4', function(){ return 1; }, '-', 'galaxies', function() { return `Unlocks <span class="black-holes-stroke">The Strange Place</span>`}, 7, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1.05e4')} galaxies`),
-            new Milestone('4e22', function(){ return N('1e4'); }, 'stars', 'collapsed_times', function() { return `${abb_abs_int('1e4')}x stars`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed ${abb_abs_int(N('4e22'))} times`)
+            new Milestone('1e100', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks <span class="rebuild-stroke">the fifth reset layer</span>`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('1e100')} stage`)
+        ],
+        rebuild_milestones: [
+            new Milestone(1, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 1 and star upgrades no longer take ${fs.abbCurrency('stars')}`}, 0, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(1)}`),
+            new Milestone(2, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 2`}, 1, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(2)}`),
+            new Milestone(3, function(){ return Decimal.pow(1.9, player.rebuild_rank); }, 'universes', 'rebuild_rank', function() { return `<span class="size-75">Keep collapse milestone 3, ${abb_abs(1.9)}x universes each rebuild rank and autoupdates best stars on collapse</span>`}, 2, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(3)}`),
+            new Milestone(4, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 4 and unlocks the autobuyer for star upgrades`}, 3, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(4)}`),
+            new Milestone(5, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 5`}, 4, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(5)}`),
+            new Milestone(7, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks the galaxy generator 100(rebuild rank - 6)%`}, 5, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(7)}`),
+            new Milestone(8, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep 10 galaxies on rebuild`}, 6, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(8)}`),
+            new Milestone(9, function(){ return 1; }, '-', 'rebuild_rank', function() { return `The endgame and unlocks the collapsed times generator 500%`}, 7, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(9)}`),
         ]
     }
 
@@ -219,7 +243,18 @@ function setNosaveValues()
         'giga_upgrades_autobuyer' : new Auto(()=>nosave.milestones.collapse_milestones[4].enough, function(){player.upgrades.giga_upgrades.forEach(upgr=>upgr.buy_max())}, ()=>getLoopInterval()),
         'giga_generator' : new Auto(()=>nosave.milestones.collapse_milestones[4].enough, function(multi=1){if (get.giga_squares.gt(0)) changeValue('giga_squares', player.giga_squares.plus(get.giga_squares.div(settings.fps).times(multi)))}, ()=>getLoopInterval()),
         'ncube_autoclicker' : new Auto(()=>nosave.milestones.collapse_milestones[4].enough, function(){gameFunctions.spawnNeonSquare()}, ()=>getLoopInterval()),
-        'star_generator' : new Auto(()=>player.galaxies.gt(0), function(multi=1){changeValue('stars', player.stars.plus(player.best_stars_on_collapse.div(settings.fps).times(get.g_p.div(100)).times(multi)))}, ()=>getLoopInterval())
+        'star_generator' : new Auto(()=>player.galaxies.gt(0), function(multi=1){changeValue('stars', player.stars.plus(player.best_stars_on_collapse.div(settings.fps).times(get.g_p.div(100)).times(multi)))}, ()=>getLoopInterval()),
+        'universe' : new Auto(()=>(player.isUnlocked.rebuild), function(multi=1){changeValue('universes', player.universes.plus(get.universe_gain.div(settings.fps).times(multi) ))}, ()=>getLoopInterval()),
+        'keep1cm' : new Auto(()=>nosave.milestones.rebuild_milestones[0].enough, function(){nosave.milestones.collapse_milestones[0].always_works = true}, ()=>getLoopInterval()),
+        'star_upgrades_nocost' : new Auto(()=>nosave.milestones.rebuild_milestones[0].enough, function(){player.upgrades.collapse_upgrades.forEach(upgr=>upgr.takes_currency = false)}, ()=>getLoopInterval()),
+        'keep2cm' : new Auto(()=>nosave.milestones.rebuild_milestones[1].enough, function(){nosave.milestones.collapse_milestones[1].always_works = true}, ()=>getLoopInterval()),
+        'keep3cm' : new Auto(()=>nosave.milestones.rebuild_milestones[2].enough, function(){nosave.milestones.collapse_milestones[2].always_works = true}, ()=>getLoopInterval()),
+        'autoupdate_stars' : new Auto(()=>nosave.milestones.rebuild_milestones[2].enough, function(){player.best_stars_on_collapse = get.star_gain.gt(player.best_stars_on_collapse) ? get.star_gain : player.best_stars_on_collapse}, ()=>getLoopInterval()),
+        'keep4cm' : new Auto(()=>nosave.milestones.rebuild_milestones[3].enough, function(){nosave.milestones.collapse_milestones[3].always_works = true}, ()=>getLoopInterval()),
+        'star_upgrades_autobuyer' : new Auto(()=>nosave.milestones.rebuild_milestones[3].enough, function(){player.upgrades.collapse_upgrades.forEach(upgr=>upgr.buy_max())}, ()=>getLoopInterval()),
+        'keep5cm' : new Auto(()=>nosave.milestones.rebuild_milestones[4].enough, function(){nosave.milestones.collapse_milestones[4].always_works = true}, ()=>getLoopInterval()),
+        'galaxy_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[5].enough, function(multi=1){if (get.galaxies.gt(0)) changeValue('galaxies', player.galaxies.plus(get.galaxies.div(settings.fps).times(player.rebuild_rank.minus(6)).times(multi)))}, ()=>getLoopInterval()),
+        'collapsed_times_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[7].enough, function(multi=1){if (get.ct_g.gt(0)) changeValue('collapsed_times', player.collapsed_times.plus(get.ct_g.div(settings.fps).times(5).times(multi)))}, ()=>getLoopInterval()),
     };
 
     
