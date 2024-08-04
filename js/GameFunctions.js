@@ -606,7 +606,7 @@ main_functions.gameFunctions = {
                         player.isUnlocked.galaxy = true;
                         gameFunctions.unlockedFrame(`You unlocked <span class="galaxy">Galaxies</span>!`)
                     }
-                    if (nosave.milestones.collapse_milestones[8].isEnough() && !player.isUnlocked.rebuild_reached) {
+                    if (nosave.milestones.collapse_milestones[9].isEnough() && !player.isUnlocked.rebuild_reached) {
                         player.isUnlocked.rebuild_reached = true;
                         gameFunctions.unlockedFrame(`You unlocked <span class="rebuild">Rebuild</span>!`)
                     }

@@ -194,7 +194,8 @@ function setNosaveValues()
             new Milestone('1e2', function(){ return 1; }, '-', 'galaxies', function() { return `Master milestone 16 effect<sup>1 + log10(${fs.abbCurrency('collapsed_times')}) * 0.125</sup>`}, 5, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e2')} galaxies`),
             new Milestone('6e2', function(){ return Decimal.pow(2, player.stage.log(10).times(0.25)); }, 'stars', 'galaxies', function() { return `Multiplies your stars by 2<sup>1 + log10(stage) * 0.25</sup>`}, 6, ()=>nosave.milestones.collapse_milestones, `${abb_abs('6e2')} galaxies`),
             new Milestone('1.05e4', function(){ return 1; }, '-', 'galaxies', function() { return `Unlocks <span class="black-holes-stroke">The Strange Place</span>`}, 7, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1.05e4')} galaxies`),
-            new Milestone('1e100', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks <span class="rebuild-stroke">the fifth reset layer</span>`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('1e100')} stage`)
+            new Milestone('1e22', function(){ return N(50); }, 'stars', 'collapsed_times', function() { return `50x stars`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed ${abb_abs('1e22')} times`),
+            new Milestone('1e100', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks <span class="rebuild-stroke">the fifth reset layer</span>`}, 9, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('1e100')} stage`)
         ],
         rebuild_milestones: [
             new Milestone(1, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 1 and star upgrades no longer take ${fs.abbCurrency('stars')}`}, 0, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(1)}`),

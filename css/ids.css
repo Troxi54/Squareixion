@@ -786,7 +786,6 @@
 }
 
 #cmi-9 {
-    /* background: linear-gradient(45deg, rgb(0, 185, 99), black 5% 95%, rgb(80, 0, 185)); */
     color: rgb(134, 0, 0);
 }
 
@@ -866,4 +865,20 @@
 
 #rebuild-rank-button:active  #rebuild-rank-button-text:not(.layer-button-text-cannot) {
     color: rgb(0, 119, 255) !important;
+}
+
+#cm-10 {
+    border-color: rgb(114, 114, 114);
+}
+
+#cm-10:hover {
+    background-color: rgb(25, 25, 25);
+}
+
+#cmr-10 {
+    color: rgb(114, 114, 114);
+}
+
+#cmi-10 {
+    color: rgb(70, 70, 70);
 }

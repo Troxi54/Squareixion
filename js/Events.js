@@ -30,7 +30,7 @@ main_functions.add_events = function()
                         nosave.music_iterator = 0;
                     }
                     let play = function() {
-                        if (!nosave.realm)
+                        if (!nosave.realm || player.always_play_normal_realm_music)
                         {
                             gameFunctions.playMusic();
                         }
