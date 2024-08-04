@@ -11,6 +11,7 @@ function restartGame()
 
     fs.setUpgradesHTML();
     fs.setMilestonesHTML();
+    console.log(nosave.milestones)
     for (let c in player.upgrades) (player.upgrades[c].forEach(u=>u.upgrade_html.button.show()))
     for (let c in nosave.milestones) (nosave.milestones[c].forEach(m=>m.html.div.show()))
     
@@ -121,13 +122,11 @@ function save()
 function load(data = localStorage.getItem(settings.game_name))
 {
     let isValid = false;
-    try { JSON.parse(atob(data)); isValid = true } catch { 
-        console.warn('Loading data failed');
-        return
-    }
+    try { JSON.parse(data); isValid = true } catch { isValid = false; }
     if ( isValid )
     {
         save();
+        data = btoa(data);
     }
     if (data)
     {
