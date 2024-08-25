@@ -56,6 +56,11 @@ const cubes = [
     new Cube("Collapse Square", N('1e14')),
     new Cube("Rainbow Square", N('1e15')),
     new Cube("Infinite Square", N('1e16')),
+    new Cube("Anti Square", N('1e25')),
+    new Cube("Outline Square", N('1e50')),
+    new Cube("Outline Square+", N('1e250')),
+    new Cube("The King", N('1e1000')),
+    new Cube("The Emperor", N('ee4')),
 ]
 
 cubes.forEach(function(cube, indexx){

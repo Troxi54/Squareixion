@@ -48,9 +48,18 @@
                     <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
                 </p>
                 <div id="changelog">
-                    <p id="changelog-title">Version 0.4.1</p>
-                    <p id="changelog-info">Rebuild update</p>
+                    <p id="changelog-title">Version 0.5</p>
+                    <p id="changelog-info">The Unique Place update | Endgame at ~stage e14,500</p>
                     <div id="changelogs">
+                        <p>&emsp;&emsp;v0.5<br>
+                            - More content added. <br>
+                            - Added more squares. <br>
+                            - Small rebalance. <br>
+                            - Smooth scrolling upgrades. <br>
+                            - Added endgame information to the changelog. <br>
+                            - Performance improvements. <br>
+                            - Other small changes.
+                        </p>
                         <p>&emsp;&emsp;v0.4.1<br>
                             - Rebalance. <br>
                         </p>
@@ -435,6 +444,7 @@
                     </div>
                     <button id="portal" class="button"></button>
                     <button id="rebuild-portal" class="rebuild-portal button"></button>
+                    <div id="portals"></div>
                 </div>
                 <div id="collapse-realm">
                     <button id="portal-2" class="button"></button>
@@ -604,9 +614,42 @@
                                     <p class="milestone-requirement"></p>
                                     <p class="milestone-info"></p>
                                 </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone-2 frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone-2 frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
+                                <div class="milestone rebuild-milestone frame-noglow">
+                                    <p class="milestone-requirement"></p>
+                                    <p class="milestone-info"></p>
+                                </div>
                             </div>
                             <button id="rebuild-rank-button" class="button layer-button">
                                 <p id="rebuild-rank-button-text" class="layer-button-text">rebuild rank</p>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="white-hole-area" class="area">
+                        <div id="white-holes-div" class="frame white-hole-frame column-flex">
+                            <p class="layer-info"><span class="white-holes size-150 bold">The Unique Place</p>
+                            <p id="white-hole-info" class="layer-info">Entering the unique place place forces rebuild. All pre-rebuild currency's overflow starts immediately and you can't increase your master level. Leaving the unique place gives you white holes based on your stage starting at 100.</p>
+                            <button id="white-hole-button" class="button layer-button frame-noglow white-hole-frame">
+                                <p id="white-hole-button-text" class="layer-button-text white-holes-dark">Enter the unique place</p>
                             </button>
                         </div>
                     </div>

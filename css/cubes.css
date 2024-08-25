@@ -659,3 +659,183 @@ button.cube:active {
     background: linear-gradient(to right, rgb(0, 0, 255), rgb(73, 73, 73), rgb(125, 0, 255));
     background-clip: text; -webkit-text-fill-color: transparent;
 }
+
+@keyframes anti-square {
+    0%, 100% {
+        background-color: rgb(0, 0, 0);
+        color: rgb(0, 0, 0);
+    }
+   50% {
+        background-color: rgb(194, 64, 64);
+        color: rgb(194, 64, 64);
+    }
+}
+
+.cube.anti-square {
+    animation: .5s anti-square infinite linear;
+    box-shadow: 0 0 500px 10px;
+}
+
+.cube-text.anti-square-text {
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(179, 115, 115), rgb(56, 56, 56));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes outline-square {
+    0%, 100% {
+        border-color: rgb(255, 255, 0);
+        color: rgba(255, 255, 0, .25);
+    }
+    33.33% {
+        border-color: rgb(0, 0, 255);
+        color: rgba(0, 0, 255, .25);
+    }
+    66.66% {
+        border-color: rgb(0, 255, 0);
+        color: rgba(0, 255, 0, .25);
+    }
+}
+
+.cube.outline-square {
+    border: 2px solid;
+    animation: .5s outline-square infinite linear;
+    box-shadow: 0 0 25px 0px, 0 0 25px 0px inset;
+}
+
+.cube-text.outline-square-text {
+    background: linear-gradient(to right, rgb(255, 251, 0), rgb(52, 97, 248), rgb(87, 231, 118));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes outline-square-p {
+    0%, 100% {
+        border-color: rgb(255, 0, 0);
+        color: rgba(255, 0, 0, .25);
+    }
+    50% {
+        border-color: rgb(0, 0, 255);
+        color: rgba(0, 0, 255, .25);
+    }
+}
+
+.cube.outline-square-p {
+    border: 10px solid;
+    animation: .5s outline-square-p infinite linear;
+    box-shadow: 0 0 25px 0px, 0 0 25px 0px inset;
+}
+
+.cube.outline-square-p::before, .cube.outline-square-p::after {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/star.png');
+    background-size: 100% 100%;
+    opacity: 1;
+    
+    animation: .5s outline-square-p infinite linear;
+}
+
+.cube.outline-square-p::before {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(65%) saturate(7442%) hue-rotate(2deg) brightness(122%) contrast(120%);
+}
+
+.cube.outline-square-p::after {
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(8%) sepia(100%) saturate(6655%) hue-rotate(247deg) brightness(102%) contrast(140%);
+}
+
+.cube-text.outline-square-p-text {
+    background: linear-gradient(to right, rgb(0, 26, 255), rgb(255, 0, 0), rgb(129, 59, 161));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes the-king {
+    0%, 100% {
+        border-color: rgb(251, 255, 0);
+        color: rgb(251, 255, 0, .25);
+    }
+    50% {
+        border-color: rgb(255, 166, 0);
+        color: rgb(255, 166, 0, .25);
+    }
+}
+
+.cube.the-king {
+    background: radial-gradient(rgb(255, 187, 0), rgba(255, 238, 0, 0));
+    border: 10px solid;
+    animation: 5s the-king infinite linear;
+    box-shadow: 0 0 25px 0px, 0 0 25px 0px inset;
+}
+
+.cube.the-king::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/crown.svg');
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+    background-color: black;
+    opacity: .5;
+}
+
+.cube-text.the-king-text {
+    background: linear-gradient(to right, rgb(238, 255, 0), rgb(255, 174, 0), rgb(48, 46, 27), rgb(255, 145, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+@keyframes the-emperor {
+    0%, 100% {
+        border-color: rgb(0, 255, 128);
+        color: rgb(0, 255, 128, .25);
+    }
+    50% {
+        border-color: rgb(0, 132, 255);
+        color: rgb(0, 132, 255, .25);
+    }
+}
+
+.cube.the-emperor {
+    background: radial-gradient(rgb(0, 132, 255), rgb(0, 255, 136, .5),rgba(0, 217, 255, 0));
+    border: 10px solid;
+    animation: 5s the-emperor infinite linear;
+    box-shadow: 0 0 25px 0px, 0 0 25px 0px inset;
+}
+
+.cube.the-emperor::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/crown.svg');
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+    background-color: black;
+    opacity: .5;
+}
+
+.cube-text.the-emperor-text {
+    background: linear-gradient(to right, rgb(0, 255, 242), rgb(0, 255, 128), rgb(0, 89, 255), rgb(9, 255, 0));
+    background-clip: text; -webkit-text-fill-color: transparent;
+}

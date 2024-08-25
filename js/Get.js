@@ -23,19 +23,19 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateDamage()
     {
-        this.damage = fs.upgradesEffect('damage')
+        this.damage = this.uniquePlace2(fs.upgradesEffect('damage')
                                          .times(get.n_d)
                                          .times(fs.milestonesEffect('damage'))
                                          .pow(fs.upgradesEffectPow('damage'))
-                                         .times(nosave.damage_multi)
                                          .pow(get.bh_effect)
-                                         .pow(get.u_d);
+                                         .pow(get.u_d)
+                                         .times(nosave.damage_multi));
     },
     damage: N('1e0'),
 
     updatePrestigePoints()
     {
-        this.prestige_points = N(+player.stage.gte(unlocks.prestige))
+        this.prestige_points = this.uniquePlace(N(+player.stage.gte(unlocks.prestige))
                                     .times(player.prestige_points_base.pow(player.stage.minus(unlocks.prestige)))
                                     .times(get.mc_pp)
                                     .times(fs.upgradesEffect('prestige_points'))
@@ -46,7 +46,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                     .softcap(nosave.prestige_cap[0], nosave.prestige_cap[1], 'pow')
                                     .softcap(nosave.prestige_cap_2[0], nosave.prestige_cap_2[1], 'pow')
                                     .softcap(nosave.prestige_cap_3[0], nosave.prestige_cap_3[1], 'pow')
-                                    .overflow(nosave.prestige_cap_4[0], nosave.prestige_cap_4[1], nosave.prestige_cap_4[2]);
+                                    .overflow(nosave.prestige_cap_4[0], nosave.prestige_cap_4[1], nosave.prestige_cap_4[2]));
     },
     prestige_points: N('0e0'),
 
@@ -63,7 +63,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
     {
         const bonus = player.stage.minus(45 - 7).max(1).div(7).floor(),
               multiplier = N(7).times(player.stage.div(200).plus(1));
-        this.light_points = N(+player.stage.gte(unlocks.light))
+        this.light_points = this.uniquePlace(N(+player.stage.gte(unlocks.light))
                                                         .times(Decimal.pow(3.5, player.stage.gte(80) ? N(80).minus(45 - 7).max(1).div(7).floor().plus(player.stage.minus(80).max(1).div(multiplier).floor()) : bonus))
                                                         .times(get.mc_lp)
                                                         .times(fs.upgradesEffect('light_points'))
@@ -73,7 +73,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                                         .pow(get.bh_effect)
                                                         .softcap(nosave.light_cap[0], nosave.light_cap[1], 'pow')
                                                         .softcap(nosave.light_cap_2[0], nosave.light_cap_2[1], 'pow')
-                                                        .softcap(nosave.light_cap_3[0], nosave.light_cap_3[1], 'pow');
+                                                        .softcap(nosave.light_cap_3[0], nosave.light_cap_3[1], 'pow'));
     },
     light_points: N('0e0'),
 
@@ -88,14 +88,14 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateMiniCube()
     {
-        this.mini_cubes = fs.upgradesEffect('mini_cubes')
+        this.mini_cubes = this.uniquePlace(fs.upgradesEffect('mini_cubes')
                                             .times(fs.milestonesEffect('mini_cubes'))
                                             .pow(fs.upgradesEffectPow('mini_cubes'))
                                             .times(nosave.mini_cubes_multi)
                                             .pow(get.bh_effect)
                                             .softcap(nosave.ms_cap[0], nosave.ms_cap[1], 'pow')
                                             .softcap(nosave.ms_cap_2[0], nosave.ms_cap_2[1], 'pow')
-                                            .softcap(nosave.ms_cap_3[0], nosave.ms_cap_3[1], 'pow');
+                                            .softcap(nosave.ms_cap_3[0], nosave.ms_cap_3[1], 'pow'));
     },
     mini_cubes: N('0e0'),
 
@@ -129,8 +129,9 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateMasterBulk(stage = player.stage)
     {
         //console.log(JSON.parse(JSON.stringify(player)), JSON.parse(JSON.stringify(get)))
+        let bulk = N(0);
         const part = stage.minus(unlocks.master).times(Math.log(2));
-        let bulk = stage.gt(unlocks.master) ? part.dividedBy(7).lambertw().times(14).reciprocate().times(part)
+        bulk = stage.gt(unlocks.master) ? part.dividedBy(7).lambertw().times(14).reciprocate().times(part)
                                     .softcap(nosave.master_cap[0], nosave.master_cap[1], 'pow')
                                     .softcap(nosave.master_cap_2[0], nosave.master_cap_2[1], 'pow')
                                     .minus(player.master_level)
@@ -177,18 +178,18 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateGcDamage()
     {
-        this.giant_cube_damage = fs.upgradesEffect('giant_cube_damage')
+        this.giant_cube_damage = this.uniquePlace(fs.upgradesEffect('giant_cube_damage')
                                                 .times(fs.milestonesEffect('giant_cube_damage'))
                                                 .times(get.n_gsd)
                                                 .pow(fs.upgradesEffectPow('giant_cube_damage'))
                                                 .times(nosave.giant_cube_damage_multi)
-                                                .pow(get.bh_effect);
+                                                .pow(get.bh_effect));
     },
     giant_cube_damage: N('1e0'),
 
     updateRubyGain()
     {
-        this.ruby_gain = Decimal.pow(5, player.giant_cube_stage.minus(1))
+        this.ruby_gain = this.uniquePlace(Decimal.pow(5, player.giant_cube_stage.minus(1))
                                     .times(fs.upgradesEffect('ruby'))
                                     .times(fs.milestonesEffect('ruby'))
                                     .pow(fs.upgradesEffectPow('ruby'))
@@ -196,7 +197,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                     .pow(get.bh_effect)
                                     .softcap(nosave.ruby_cap[0], nosave.ruby_cap[1], 'pow')
                                     .softcap(nosave.ruby_cap_2[0], nosave.ruby_cap_2[1], 'pow')
-                                    .softcap(nosave.ruby_cap_3[0], nosave.ruby_cap_3[1], 'pow');
+                                    .softcap(nosave.ruby_cap_3[0], nosave.ruby_cap_3[1], 'pow'));
     },
     ruby_gain: N('0e0'),
 
@@ -211,7 +212,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateGigaSquareGain()
     {
-        this.giga_squares = Decimal.pow(player.giant_cube_stage.gte(unlocks.giga_squares) ? player.giant_cube_stage.log(10) : 1, player.giant_cube_stage.minus(unlocks.giga_squares).max(0).pow(0.75))  
+        this.giga_squares = this.uniquePlace(Decimal.pow(player.giant_cube_stage.gte(unlocks.giga_squares) ? player.giant_cube_stage.log(10) : 1, player.giant_cube_stage.minus(unlocks.giga_squares).max(0).pow(0.75))  
                                                                     .times(fs.upgradesEffect('giga_square'))
                                                                     .times(fs.milestonesEffect('giga_square'))
                                                                     .pow(fs.upgradesEffectPow('giga_square'))
@@ -220,7 +221,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                                                     .times(+player.giant_cube_stage.gte(unlocks.giga_squares))
                                                                     .softcap(nosave.giga_cap[0], nosave.giga_cap[1], 'pow')
                                                                     .softcap(nosave.giga_cap_2[0], nosave.giga_cap_2[1], 'pow')
-                                                                    .softcap(nosave.giga_cap_3[0], nosave.giga_cap_3[1], 'pow');
+                                                                    .softcap(nosave.giga_cap_3[0], nosave.giga_cap_3[1], 'pow'));
     },
     giga_squares: N('0e0'),
 
@@ -235,11 +236,11 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateNeonLuck()
     {
-        this.neon_luck = N(3).times(fs.upgradesEffect('neon_luck'))
+        this.neon_luck = this.uniquePlace(N(3).times(fs.upgradesEffect('neon_luck'))
                                                     .times(fs.milestonesEffect('neon_luck'))
                                                     .pow(fs.upgradesEffectPow('neon_luck'))
                                                     .times(nosave.neon_luck_multi)
-                                                    .pow(get.bh_effect);
+                                                    .pow(get.bh_effect));
     },
     neon_luck: N('1e0'),
 
@@ -263,15 +264,17 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateStarGain()
     {
-        this.star_gain = N(+player.stage.gte(unlocks.collapse))
+        this.star_gain = this.uniquePlace(N(+player.stage.gte(unlocks.collapse))
                                         .times(5)
                                         .times(get.g_s)
                                         .times(fs.upgradesEffect('stars'))
                                         .times(fs.milestonesEffect('stars'))
                                         .times(get.bh_s)
                                         .pow(fs.upgradesEffectPow('stars'))
+                                        .pow(get.u_s)
                                         .times(nosave.stars_multi)
-                                        .softcap(nosave.star_cap[0], nosave.star_cap[1], 'pow');
+                                        .softcap(nosave.star_cap[0], nosave.star_cap[1], 'pow')
+                                        .softcap(nosave.star_cap_2[0], nosave.star_cap_2[1], 'pow'));
     },
     star_gain: N('0e0'),
 
@@ -296,11 +299,11 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateGalaxiesGain()
     {
         const div = player.stars.div(unlocks.galaxy);
-        this.galaxies = N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(10, div.gt(1) ? div.log(10) : 0))
+        this.galaxies = this.uniquePlace(N(+player.stars.gte(unlocks.galaxy)).times(Decimal.pow(10, div.gt(1) ? div.log(10) : 0))
                                                 .times(fs.upgradesEffect('galaxies'))
                                                 .times(fs.milestonesEffect('galaxies'))
                                                 .pow(fs.upgradesEffectPow('galaxies'))
-                                                .softcap(nosave.galaxy_cap[0], nosave.galaxy_cap[1], 'pow');
+                                                .softcap(nosave.galaxy_cap[0], nosave.galaxy_cap[1], 'pow'));
     },
     galaxies: N('0e0'),
 
@@ -318,22 +321,24 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateBlackHoleEffect()
     {
-        this.bh_effect = player.strange_place ? N(0.5) : N(1);
+        this.bh_effect = nosave.milestones.rebuild_milestones[8].isEnough() || !player.strange_place ? N(1) : N(0.5);
     },
     bh_effect: N('1e0'),
 
     updateBlackHoleGain()
     {
-        this.bh = player.stage.lt('1e9') ? N(0) : Decimal.pow(1.9, player.stage.div('1e9').log(10))
+        this.bh = this.uniquePlace(player.stage.lt('1e9') ? N(0) : Decimal.pow(1.9, player.stage.div('1e9').log(10))
                                                 .times(fs.upgradesEffect('black_holes'))
                                                 .times(fs.milestonesEffect('black_holes'))
                                                 .pow(fs.upgradesEffectPow('black_holes'))
+                                                .pow(get.wh_bh)
                                                             .softcap('3e9', 7, 'pow')
                                                             .softcap('4e26', 0.75, 'pow')
                                                             .softcap('1e34', 1.5, 'pow')
                                                             .softcap('1e122', 3, 'pow')
                                                             .softcap('1e130', 0.25, 'pow')
-                                                            .minus(1);
+                                                            .softcap(nosave.black_hole_cap[0], nosave.black_hole_cap[1], 'pow')
+                                                            .minus(1));
     },
     bh: N('0e0'),
 
@@ -352,11 +357,13 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateUGGain()
     {
         this.ug_gain = player.stage.gte(unlocks.rebuild) ? Decimal.pow(1.075, player.galaxies.div('e339').max(1).log(10)
-                                                                                                .softcap(61, 5, 'mul')) : N(0)
+                                                                                                .softcap(61, 5, 'mul'))
                                                             .times(fs.upgradesEffect('universe_generators'))
                                                             .times(fs.milestonesEffect('universe_generators'))
                                                             .pow(fs.upgradesEffectPow('universe_generators'))
-                                                            .times(nosave.universe_generators_multi);
+                                                            .times(nosave.universe_generators_multi) : N(0)
+                                                            .softcap(nosave.universe_generator_cap[0], nosave.universe_generator_cap[1], 'pow');
+
     },
     ug_gain: N('0e0'),
 
@@ -379,15 +386,32 @@ main_functions.get = { // Update and get currencies that are based on formulas
                                             .softcap('1e28', 2, 'pow')
                                             .softcap('1e33', 2, 'pow')
                                             .softcap('1e40', 2, 'pow')
-                                            .softcap('1e80', 0.5, 'pow');
+                                            .softcap('1e80', 0.5, 'pow')
+                                            .softcap('e1000', 0.4, 'pow');
     },
     u_d: N('1e0'),
+
+    updateUSEffect()
+    {
+        this.u_s = player.universes.gte('e29') && nosave.milestones.rebuild_milestones[9].isEnough() ? 
+                        N(1).plus(player.universes.div('e29').log(10).div(25)).pow(.5)
+                                    .softcap(1.25, .3, 'pow')
+                                    .softcap(1.5, .7, 'pow')
+         : N('1');
+    },
+    u_s: N('1e0'),
 
     updateRebuildRankRequirement()
     {
         this.rr_req = N(100).times(Decimal.pow(100, player.rebuild_rank));
     },
     rr_req: N('1e1000'),
+
+    updateRebuildRankBulk()
+    {
+        this.rr_bulk = player.universes.div(100).log(100).minus(player.rebuild_rank).max(0).plus(1).floor();
+    },
+    rr_bulk: N('0e0'),
 
     updateRebuildMilestonesValues()
     {
@@ -398,8 +422,37 @@ main_functions.get = { // Update and get currencies that are based on formulas
         })
     },
 
+    uniquePlace(currency) {
+        return player.unique_place ? currency.overflow(1, 0.4, 2) : currency;
+    },
+    uniquePlace2(currency) {
+        return player.unique_place ? currency.overflow(1, 0.62175, 2) : currency;
+    },
+
+    updateWhiteHoleGain()
+    {
+        this.wh = player.stage.lt('1e2') ? N(0) : Decimal.pow(5, player.stage.div(100 / 1.17).log(1.17))
+                                                .times(fs.upgradesEffect('white_holes'))
+                                                .times(fs.milestonesEffect('white_holes'))
+                                                .pow(fs.upgradesEffectPow('white_holes'))
+                                                .softcap(20, 1.1, 'pow')
+                                                .softcap(50, 1.1, 'pow')
+                                                .softcap('2e15', 0.25, 'pow');
+    },
+    wh: N('0e0'),
+
+    updateWHBHEffect()
+    {
+        this.wh_bh = Decimal.pow(1.1, N(1).plus(player.white_holes.max(0)).log10())
+                                            .softcap(5, 0.5, 'pow');
+    },
+    wh_bh: N('1e0'),
+
     updateAll()
     {
+        this.updateWhiteHoleGain();
+        this.updateWHBHEffect();
+        this.updateRebuildRankBulk()
         this.updateRebuildMilestonesValues();
         this.updateCollapseMilestonesValues();
         this.updateMasterMilestonesValues();
@@ -431,6 +484,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
         this.updateNeonLuck();
         this.updateGalaxySEffect();
         this.updateGalaxyPEffect();
+        this.updateUSEffect();
         this.updateStarGain();
         this.updateGalaxiesGain();
         this.updateUGGain();

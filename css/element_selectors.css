@@ -49,7 +49,6 @@ body {
 }
 
 .body-collapse-realm::after,
-.body-rebuild-realm::after,
 .body-rebuild-realm::before {
     content: '';
     display: flex;
@@ -60,6 +59,9 @@ body {
     left: 0%;
     margin: 0;
     padding: 0;
+    transform: translate3d(0,0,0); 
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
 .body-collapse-realm::after {
@@ -86,17 +88,6 @@ body {
     }
 }
 
-.body-rebuild-realm::after {
-    background-image: url('../images/rebuild.png');
-    background-size: auto 1080px;
-
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7483%) hue-rotate(268deg) brightness(106%) contrast(105%);
-
-    opacity: 0.025;
-    z-index: -5;
-    animation: linear brra 6s infinite;
-}
-
 .body-rebuild-realm::before {
     background-image: url('../images/rebuild.png');
     background-size: auto 200px;
@@ -105,9 +96,8 @@ body {
 
     
 
-    opacity: 0.025;
+    opacity: 0.075;
     z-index: -5;
-    animation: linear brra 24s infinite;
 }
 
 /* taken and edited from https://awwhy.github.io/Fundamental/

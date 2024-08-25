@@ -40,11 +40,13 @@ fs = {
                 let width = container[0].scrollWidth - container[0].clientWidth, more = false, less = false;
                 if (e.deltaY > 0) {
                     if (container[0].scrollLeft === width) more = true;
-                    container.animate({scrollLeft: container[0].scrollLeft + 100}, 0);
+                    container.stop();
+                    container.animate({scrollLeft: container[0].scrollLeft + 200}, 200);
                 }
                 else {
                     if (container[0].scrollLeft === 0) less = true;
-                    container.animate({scrollLeft: container[0].scrollLeft - 100}, 0);
+                    container.stop();
+                    container.animate({scrollLeft: container[0].scrollLeft - 200}, 200);
                 }
                 if (!(more || less)) e.preventDefault();
             });
@@ -193,7 +195,7 @@ fs = {
     {
         if (condition)
         {
-            if (element.is(':hidden')) fs.show(element, animate);
+            /* if (element.is(':hidden'))  */fs.show(element, animate);
         }
         else fs.hide(element)
     },
@@ -202,11 +204,11 @@ fs = {
         if (condition)
         {
             locked.hide();
-            if (unlocked.is(':hidden')) unlocked.show();
+            /* if (unlocked.is(':hidden')) */ unlocked.show();
         }
         else
         {
-            if (locked.is(':hidden')) locked.show();
+            /* if (locked.is(':hidden')) */ locked.show();
             unlocked.hide();
         }
     }

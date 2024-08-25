@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 4, 1, ''],
+    game_version: [0, 5, '', ''],
     savefile_name: "Squareixion save",
     fps: 'later...',
     save: true,
@@ -23,7 +23,7 @@ const settings = {
     cube_name_postfixes: ['-', '', '+', '++' ],
     cube_size_start: 50,
     unlock_content_transition: 1000,
-    intro: true
+    intro: true,
 }
 ,
 unlocks = {

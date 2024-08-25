@@ -286,7 +286,8 @@ main_functions.add_events = function()
     elements.galaxy_button.on('click', this.gameFunctions.galaxy);
     elements.black_hole_button.on('click', this.gameFunctions.strangePlace);
     elements.rebuild_button.on('click', gameFunctions.rebuild);
-    elements.rebuild_rank_button.on('click', gameFunctions.rebuildRank)
+    elements.rebuild_rank_button.on('click', gameFunctions.rebuildRank);
+    elements.white_hole_button.on('click', this.gameFunctions.uniquePlace);
 
     elements.portal.on('click', function(){ gameFunctions.realm(1); })
     elements.portal_2.on('click', function(){ gameFunctions.realm(0); })

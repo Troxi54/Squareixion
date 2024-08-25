@@ -64,6 +64,8 @@ function getDefaultPlayerValues()
     Player.universe_generators = N('0e0');
     Player.universes = N('0e0');
     Player.rebuild_rank = N('0e0');
+    Player.unique_place = false;
+    Player.white_holes = N('0e0');
 
     Player.isUnlocked = {
         prestige_reached: false,
@@ -85,7 +87,9 @@ function getDefaultPlayerValues()
         strangeplace: false,
         strangeplace_once: false,
         rebuild_reached: false,
-        rebuild: false
+        rebuild: false,
+        uniqueplace: false,
+        uniqueplace_once: false,
     };
 
     Player.always_play_normal_realm_music = false;
@@ -161,9 +165,13 @@ function setNosaveValues()
     nosave.master_cap = [N('1e35'), N(0.3)];
     nosave.master_cap_2 = [N('1e46'), N(0.3)];
     nosave.star_cap = [N(2).pow(1024), N(0.5)];
+    nosave.star_cap_2 = ['e50000', N(0.175)];
     nosave.galaxy_cap = [N('e1000'), N(0.5)];
+    nosave.universe_generator_cap = [N('e200'), N(0.4)];
+    nosave.black_hole_cap = [N('ee4'), N(0.4)];
     nosave.master_average = [];
     nosave.bulk_master = true;
+    nosave.bulk_rr = true;
     nosave.milestones = {
         master_milestones: [
             new Milestone(1, function(){ return Decimal.pow(5, player.master_level).pow(nosave.milestones.master_milestones[13].effect); }, 'prestige_points', 'master_level', function() { return `<span class="size-75">Multiplies your ${fs.abbCurrency(this.boosts_what)} by 5 each master level and prestige upgrades no longer take ${fs.abbCurrency('prestige_points')}</span>`}, 0, ()=>nosave.milestones.master_milestones),
@@ -194,7 +202,7 @@ function setNosaveValues()
             new Milestone('1e2', function(){ return 1; }, '-', 'galaxies', function() { return `Master milestone 16 effect<sup>1 + log10(${fs.abbCurrency('collapsed_times')}) * 0.125</sup>`}, 5, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1e2')} galaxies`),
             new Milestone('6e2', function(){ return Decimal.pow(2, player.stage.log(10).times(0.25)); }, 'stars', 'galaxies', function() { return `Multiplies your stars by 2<sup>1 + log10(stage) * 0.25</sup>`}, 6, ()=>nosave.milestones.collapse_milestones, `${abb_abs('6e2')} galaxies`),
             new Milestone('1.05e4', function(){ return 1; }, '-', 'galaxies', function() { return `Unlocks <span class="black-holes-stroke">The Strange Place</span>`}, 7, ()=>nosave.milestones.collapse_milestones, `${abb_abs('1.05e4')} galaxies`),
-            new Milestone('1e22', function(){ return N(50); }, 'stars', 'collapsed_times', function() { return `50x stars`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed ${abb_abs('1e22')} times`),
+            new Milestone('1e22', function(){ return N(100); }, 'stars', 'collapsed_times', function() { return `100x stars`}, 8, ()=>nosave.milestones.collapse_milestones, `Collapsed ${abb_abs('1e22')} times`),
             new Milestone('1e100', function(){ return 1; }, '-', 'best_stage_on_collapse', function() { return `Unlocks <span class="rebuild-stroke">the fifth reset layer</span>`}, 9, ()=>nosave.milestones.collapse_milestones, `Collapsed with ${abb_abs_int('1e100')} stage`)
         ],
         rebuild_milestones: [
@@ -205,7 +213,13 @@ function setNosaveValues()
             new Milestone(5, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep collapse milestone 5`}, 4, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(5)}`),
             new Milestone(7, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks the galaxy generator 100(rebuild rank - 6)%`}, 5, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(7)}`),
             new Milestone(8, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Keep 10 galaxies on rebuild`}, 6, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(8)}`),
-            new Milestone(9, function(){ return 1; }, '-', 'rebuild_rank', function() { return `The endgame and unlocks the collapsed times generator 500%`}, 7, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(9)}`),
+            new Milestone(9, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks the collapsed times generator 500%`}, 7, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(9)}`),
+            new Milestone(10, function(){ return 1; }, '-', 'rebuild_rank', function() { return `No longer have nerfs in The Strange Place`}, 8, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(10)}`),
+            new Milestone(15, function(){ return 1; }, '-', 'rebuild_rank', function() { return `<span class="size-75">Revamp the normal realm, unlocks new universe effect and unlocks the black hole generator</span>`}, 9, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(15)}`),
+            new Milestone(16, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Automatically enter The Strange Place on reset`}, 10, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(16)}`),
+            new Milestone(140, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks <span class="white-holes-stroke">The Unique Place</span> and bulk rebuild ranks`}, 11, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(140)}`),
+            new Milestone(170, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks the universe generator generator 1%`}, 12, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(170)}`),
+            new Milestone(320, function(){ return 1; }, '-', 'rebuild_rank', function() { return `The endgame and unlocks the universe generator generator 10%`}, 13, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(320)}`)
         ]
     }
 
@@ -256,6 +270,9 @@ function setNosaveValues()
         'keep5cm' : new Auto(()=>nosave.milestones.rebuild_milestones[4].enough, function(){nosave.milestones.collapse_milestones[4].always_works = true}, ()=>getLoopInterval()),
         'galaxy_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[5].enough, function(multi=1){if (get.galaxies.gt(0)) changeValue('galaxies', player.galaxies.plus(get.galaxies.div(settings.fps).times(player.rebuild_rank.minus(6)).times(multi)))}, ()=>getLoopInterval()),
         'collapsed_times_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[7].enough, function(multi=1){if (get.ct_g.gt(0)) changeValue('collapsed_times', player.collapsed_times.plus(get.ct_g.div(settings.fps).times(5).times(multi)))}, ()=>getLoopInterval()),
+        'blackhole_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[9].enough && player.strange_place, function(){if (get.bh.gt(0)) changeValue('black_holes', player.black_holes.lt(get.bh) ? get.bh : player.black_holes)}, ()=>getLoopInterval()),
+        'ug_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[12].enough, function(){if (get.ug_gain.gt(0)) changeValue('universe_generators', player.universe_generators.plus(get.ug_gain.div(settings.fps).div(100)))}, ()=>getLoopInterval()),
+        'ug_generator2' : new Auto(()=>nosave.milestones.rebuild_milestones[13].enough, function(){if (get.ug_gain.gt(0)) changeValue('universe_generators', player.universe_generators.plus(get.ug_gain.div(settings.fps).div(10)))}, ()=>getLoopInterval()),
     };
 
     

@@ -103,6 +103,10 @@
     --frame-color: 0, 140, 255;
 }
 
+.frame.white-hole-frame {
+    --frame-color: 255, 255, 255;
+}
+
 .frame-noglow {
     --frame-noglow-color: 255, 255, 255;
     background-color: black;
@@ -156,6 +160,10 @@
 
 .frame-noglow.rebuild-m-frame {
     --frame-noglow-color: 0, 140, 255;
+}
+
+.frame-noglow.white-holes-frame {
+    --frame-noglow-color: 255, 255, 255;
 }
 
 .icon {
@@ -427,6 +435,24 @@
     color: rgb(0, 63, 134);
 }
 
+.white-holes {
+    background: linear-gradient(to right,rgb(255, 255, 255), rgb(177, 177, 177), rgb(255, 255, 255));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.white-holes-stroke {
+    -webkit-text-stroke: 1px transparent;
+    background: linear-gradient(to right,rgb(255, 255, 255), rgb(177, 177, 177), rgb(255, 255, 255));
+    background-clip: text;
+    text-transform: capitalize;
+    -webkit-text-fill-color: transparent;
+}
+.white-holes-dark {
+    background: linear-gradient(to right,rgb(255, 255, 255), rgb(177, 177, 177), rgb(255, 255, 255));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .cap {
     background: linear-gradient(45deg,#ff8400, #ffc800, #ff8400);
     font-style: italic;
@@ -453,6 +479,12 @@
     font-style: italic;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.no-gradient {
+    background: none;
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
 }
 
 
@@ -796,22 +828,29 @@
 
 .spoiler {
     pointer-events: auto !important;
-    position: relative;
-    display: inline-flex;
-}
-
-.spoiler::after {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    content: "";
+    color: transparent;
+    transition: 250ms;
+    transition-property: background-color, color;
     background-color: rgb(20, 20, 20);
-    transition: opacity 250ms;
-    flex-wrap: wrap;
 }
 
-.spoiler:hover::after {
-    opacity: 0.25;
+.spoiler:hover {
+    color: white;
+    background-color: transparent;
+}
+
+.rebuild-milestone-2 {
+    border-color: rgb(255, 85, 85);
+}
+
+.rebuild-milestone-2:hover {
+    background-color: rgb(35, 12, 12);
+}
+
+.rebuild-milestone-2 > .milestone-requirement {
+    color: rgb(255, 85, 85);
+}
+
+.rebuild-milestone-2 > .milestone-info {
+    color: rgb(156, 59, 56);
 }

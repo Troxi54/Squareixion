@@ -197,7 +197,8 @@ main_functions.updates = {  // update HTML
         fs.update(elements.collapse_button_text, player.stage.lte(unlocks.collapse) ? `Square required:
                                                                   ${gameFunctions.getCubeNameWithStage(unlocks.collapse)}`
                                                                  : `You can earn <span class="stars">${abb_abs(get.star_gain)}</span> ${get.star_gain.eq(1) ? 'star': 'stars'}`
-                                                                 + (get.star_gain.gte(nosave.star_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
+                                                                 + (get.star_gain.gte(nosave.star_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
+                                                                        get.star_gain.gte(nosave.star_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (player.stage.lt(unlocks.collapse)) { elements.collapse_button_text.addClass('layer-button-text-cannot'); elements.collapse_button.addClass('button-cannot'); }
         else { elements.collapse_button_text.removeClass('layer-button-text-cannot'); elements.collapse_button.removeClass('button-cannot'); }
     },
@@ -284,7 +285,7 @@ main_functions.updates = {  // update HTML
             if (elements.black_hole_info.hasClass('black-holes')) elements.black_hole_info.removeClass('black-holes');
             if (!elements.black_hole_info.hasClass('black-holes-dark')) elements.black_hole_info.addClass('black-holes-dark')
         }
-        fs.update(elements.black_hole_info, player.isUnlocked.strangeplace_once ? `<span class="size-125">Black holes: <span class="white-text-important">${abb(player.black_holes, 2, true)}</span>\
+        fs.update(elements.black_hole_info, player.isUnlocked.strangeplace_once && player.black_holes.gt(0) ? `<span class="size-125">Black holes: <span class="white-text-important">${abb(player.black_holes, 2, true)}</span>\
                                                                                    <br><span class="white-text-important">${abb_abs(get.bh_s)}x</span> <span class="stars">stars</span>\
                                                                                    <br><span class="white-text-important">${abb_abs(get.bh_ct)}x</span> <span class="collapse-text">collapsed times</span></span>`
                                                 : 'Entering the strange place forces collapse.\
@@ -292,7 +293,8 @@ main_functions.updates = {  // update HTML
     },
     blackHoleButtonInfo()
     {
-        fs.update(elements.black_hole_button_text, player.strange_place ? `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}` : `Enter the strange place`);
+        fs.update(elements.black_hole_button_text, player.strange_place ? (nosave.Autoclickers.blackhole_generator.isWorking() ? `Setting your black holes to ${abb_abs(get.bh)}` : ( `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}`))
+                        + (get.bh.gte(nosave.black_hole_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : '') : `Enter the strange place`);
     },
     fpsChangerInfo()
     {
@@ -310,17 +312,20 @@ main_functions.updates = {  // update HTML
     {
         fs.update(elements.rebuild_button_text, player.stage.lte(unlocks.rebuild) ? `Square required:
                                                 ${gameFunctions.getCubeNameWithStage(unlocks.rebuild)}` : 
-                                                `You can earn <span class="rebuild">${abb(get.ug_gain)}</span> universe generators`);
+                                                `You can earn <span class="rebuild">${abb(get.ug_gain)}</span> universe generators`
+                                                + (get.ug_gain.gte(nosave.universe_generator_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (player.stage.lt(unlocks.rebuild)) { elements.rebuild_button_text.addClass('layer-button-text-cannot'); elements.rebuild_button.addClass('button-cannot'); }
         else { elements.rebuild_button_text.removeClass('layer-button-text-cannot'); elements.rebuild_button.removeClass('button-cannot'); }
     },
     UGInfo()
     {
-        fs.update(elements.ug_info, `<span class="rebuild">Universe generators:</span> <span class="white-text">${abb_abs(player.universe_generators)}</span> <span class="dark-text">|</span> <span class="rebuild">${abb_abs(player.universe_generators.pow(3))}x universes</span>\
-                                     <br><br><span class="rebuild">Universes:</span> <span class="white-text">${abb_abs(player.universes)}</span> <span class="darker-text">(+${abb_abs(get.universe_gain)}/sec)</span><br><br>\
+        fs.update(elements.ug_info, `<span class="rebuild">Universe generators:</span> <span class="white-text">${abb_abs(player.universe_generators)}</span> <span class="dark-text">|</span> <span class="rebuild">${abb_abs(player.universe_generators.pow(3))}x universes</span>`
+                                    + (nosave.Autoclickers.ug_generator.isWorking() ? `<br><span class="darker-text">(+${abb_abs(get.ug_gain.div(nosave.Autoclickers.ug_generator2.isWorking() ? (10/(11/10)) : 100))}/sec)</span>` : '<br>') +
+                                     `<br><span class="rebuild">Universes:</span> <span class="white-text">${abb_abs(player.universes)}</span> <span class="darker-text">(+${abb_abs(get.universe_gain)}/sec)</span><br><br>\
                                      <div class="line"></div><br>\
-                                     <span class="white-text">Raises your <span class="damage">damage</span> by <span class="pow">${abb_abs(get.u_d)}</span></span>\
-                                     <br><div class="line"></div>`);
+                                     <span class="white-text size-75">Raises your <span class="damage">damage</span> to the power of <span class="pow">${abb_abs(get.u_d)}</span>` +
+                                     (nosave.milestones.rebuild_milestones[9].isEnough() ? `<br><span class="white-text">Raises your <span class="stars">stars</span> to the power of <span class="pow">${abb(get.u_s, 4, true)}</span>` : '')
+                                     + `<br><div class="line"></div>`);
     },
     rebuildMilestonesInfo()
     {
@@ -328,7 +333,7 @@ main_functions.updates = {  // update HTML
     },
     rebuildRankButtonText()
     {
-        fs.update(elements.rebuild_rank_button_text, player.universes.gte(get.rr_req) ? `You can increase rebuild rank` : `Universes required: <span class="rebuild">${abb_abs(get.rr_req)}</span>`)
+        fs.update(elements.rebuild_rank_button_text, player.universes.gte(get.rr_req) ? (nosave.milestones.rebuild_milestones[11].isEnough() ? `You can increase rebuild rank by +${abb_abs_int(get.rr_bulk)}` : `You can increase rebuild rank`) : `Universes required: <span class="rebuild">${abb_abs(get.rr_req)}</span>`)
         if (player.universes.lt(get.rr_req)) { elements.rebuild_rank_button_text.addClass('layer-button-text-cannot'); elements.rebuild_rank_button.addClass('button-cannot'); }
         else { elements.rebuild_rank_button_text.removeClass('layer-button-text-cannot'); elements.rebuild_rank_button.removeClass('button-cannot'); }
     },
@@ -338,6 +343,36 @@ main_functions.updates = {  // update HTML
         {
             milestone.updateHTML();
         })
+    },
+    rebuildNormalRealm()
+    {
+        if (nosave.milestones.rebuild_milestones[9].isEnough()) {
+            if (!elements.master_area.hasClass('rebuilt')) elements.master_area.addClass('rebuilt');
+            if (!elements.portal.hasClass('rebuilt')) elements.portal.addClass('rebuilt');
+            if (!elements.rebuild_portal_normal.hasClass('rebuilt')) elements.rebuild_portal_normal.addClass('rebuilt');
+            if (!elements.portals.hasClass('rebuilt')) elements.portals.addClass('rebuilt');
+            if (elements.portals.find(elements.portal).length === 0) elements.portals.append(elements.portal);
+            if (elements.portals.find(elements.rebuild_portal_normal).length === 0) elements.portals.append(elements.rebuild_portal_normal);
+        }
+        else {
+            if (elements.master_area.hasClass('rebuilt')) elements.master_area.removeClass('rebuilt');
+            if (elements.portal.hasClass('rebuilt')) elements.portal.removeClass('rebuilt');
+            if (elements.rebuild_portal_normal.hasClass('rebuilt')) elements.rebuild_portal_normal.removeClass('rebuilt');
+            if (elements.portals.hasClass('rebuilt')) elements.portals.removeClass('rebuilt');
+            if (elements.portals.find(elements.portal).length > 0) elements.main_realm.append(elements.portal);
+            if (elements.portals.find(elements.rebuild_portal_normal).length > 0) elements.main_realm.append(elements.rebuild_portal_normal);
+        }
+    },
+
+    whiteHoleInfo()
+    {
+        fs.update(elements.white_hole_info, player.isUnlocked.uniqueplace_once && player.white_holes.gt(0) ? `<span class="size-125"><span class="white-holes-dark">White holes:</span> <span class="white-text no-gradient">${abb(player.white_holes, 3, true)}</span>\
+                                                                                   <br><span class="white-text">Raises your <span class="black-holes">black holes</span> to the power of <span class="pow">${abb(get.wh_bh, 4, true)}</span></span>`
+                                                : "<span class='white-holes-dark'>Entering the unique place place forces rebuild. All pre-rebuild currency's overflow starts immediately. Leaving the unique place gives you white holes based on your stage starting at 100.</span>")
+    },
+    whiteHoleButtonInfo()
+    {
+        fs.update(elements.white_hole_button_text, player.unique_place ? (`You ${get.wh.gt(player.white_holes) ? "can" : "can't"} set your white holes to ${abb(get.wh, 3, true)}`) : `Enter the unique place`);
     },
 
     updateAll()

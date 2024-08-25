@@ -63,10 +63,13 @@ main_functions.gameFunctions = {
     },
     spawnCube(setHP = true)
     {
-        elements.cube.removeClass();
-        elements.cube.addClass('cube');
+        if (!elements.cube.hasClass(get.cube_style)) {
+            elements.cube.removeClass();
+            elements.cube.addClass('cube');
+            
+            elements.cube.addClass(get.cube_style);
+        }
         
-        elements.cube.addClass(get.cube_style);
         elements.cube.css('width', this.getCubeSize() + 'px');
         if (setHP) player.cube_hp = get.cube_total_hp;
 
@@ -140,7 +143,7 @@ main_functions.gameFunctions = {
             //console.log(stage_cube)
             return cube_stat.name + ' ' + romanize(Math.floor(stage_cube.toNumber()));
         }
-        else return cube_stat.name + ' ' + abb_abs_int(stage_cube)
+        else return cube_stat.name + ' ' + (stage_cube.lt('e1000') ? abb_abs_int(stage_cube) : '');
     },
     getCubeNameWithStage(stage)
     {
@@ -156,7 +159,7 @@ main_functions.gameFunctions = {
             }
             return false;
         })
-        let result = cubes[index].name.toLowerCase().replace(/ /g, '-');
+        let result = cubes[index].name.toLowerCase().replace(/ /g, '-').replaceAll('+', '-p');
         return isCharNumber(result[0]) ? '_' + result : result;
     },
     getFullCubeStyleName(stage)
@@ -675,7 +678,6 @@ main_functions.gameFunctions = {
                     elements.currencies_place.animate({'opacity': '0'}, 1e4);
                     elements.frame.animate({'opacity': '1'}, 10 * 1e3, function()
                     {
-                        /* elements.main_realm.hide(); */
                         setTimeout(function()
                         {
                             data();
@@ -746,7 +748,7 @@ main_functions.gameFunctions = {
                     changeValue('ruby', N('0e0'));
                     changeValue('giga_squares', N('0e0'));
                     changeValue('neon_tier', N('0e0'));
-                    player.strange_place = false;
+                    player.strange_place = nosave.milestones.rebuild_milestones[10].isEnough();
                     gameFunctions.spawnNeonSquare(true);
                     nosave.neon_rng = N(0);
 
@@ -763,7 +765,32 @@ main_functions.gameFunctions = {
     {
         if (player.universes.gte(get.rr_req)) {
             player.universes = N(0);
-            player.rebuild_rank = player.rebuild_rank.plus(1);
+            if (nosave.bulk_rr && nosave.milestones.rebuild_milestones[11].isEnough())
+            {
+                changeValue('rebuild_rank', player.rebuild_rank.plus(get.rr_bulk));
+            }
+            else changeValue('rebuild_rank', player.rebuild_rank.plus(1));
+
+            if (nosave.milestones.rebuild_milestones[11].isEnough() && !player.isUnlocked.uniqueplace) {
+                player.isUnlocked.uniqueplace = true;
+                gameFunctions.unlockedFrame(`You unlocked <span class="white-holes">The Unique Place</span>!`)
+            }
+        }
+    },
+    uniquePlace()
+    { 
+        if (player.isUnlocked.uniqueplace) {
+            if (!player.unique_place) {
+                gameFunctions.rebuild();
+                player.unique_place = true;
+                console.log('entered')
+            }
+            else {
+                if (get.wh.gt(player.white_holes)) player.white_holes = get.wh;
+                gameFunctions.rebuild();
+                player.unique_place = false;
+                player.isUnlocked.uniqueplace_once = true;
+            }
         }
     },
     afkGenerators()
@@ -784,7 +811,7 @@ main_functions.gameFunctions = {
             'background-color': 'rgba(0, 0, 0, .5)',
             opacity: 1
         });
-        elements.frame.show()
+        elements.frame.show();
     },
     updateCubePart()
     {
@@ -809,14 +836,15 @@ main_functions.gameFunctions = {
     hideAndShowContent(animate = true)
     {
         const toggleLocking = fs.toggleLocking,
-              hide_and_show = fs.hide_and_show;
-        
+              hide_and_show = fs.hide_and_show,
+              rebuilt = nosave.milestones.rebuild_milestones[9].isEnough();
         toggleLocking(elements.prestige_locked_div, elements.prestige_unlocked_div, player.isUnlocked.prestige_reached);
         hide_and_show(elements.prestige_upgrades_div, player.isUnlocked.prestige, animate);
+        hide_and_show(elements.light_area, !rebuilt, animate);
         hide_and_show(elements.light_div, player.isUnlocked.prestige, animate);
         toggleLocking(elements.light_locked_div, elements.light_unlocked_div, player.isUnlocked.light_reached);
         hide_and_show(elements.light_upgrades_div, player.isUnlocked.light, animate);
-        hide_and_show(elements.minicube_div, player.isUnlocked.light, animate);
+        hide_and_show(elements.minicube_div, player.isUnlocked.light && !rebuilt, animate);
         toggleLocking(elements.minicube_locked_div, elements.minicube_unlocked_div, player.isUnlocked.minicubes);
         hide_and_show(elements.minicube_info_div, player.isUnlocked.light, animate);
         hide_and_show(elements.minicube_place, player.isUnlocked.minicubes, animate);
@@ -824,11 +852,11 @@ main_functions.gameFunctions = {
         hide_and_show(elements.master, player.isUnlocked.master, animate);
         hide_and_show(elements.master_area, player.isUnlocked.minicubes, animate);
         hide_and_show(elements.master_milestones_div, player.isUnlocked.master, animate);
-        hide_and_show(elements.neon_area, player.isUnlocked.neonsquare, animate);
+        hide_and_show(elements.neon_area, player.isUnlocked.neonsquare && !rebuilt, animate);
         hide_and_show(elements.neon_square, player.isUnlocked.hasNSquare, animate);
         hide_and_show(elements.neon_info, player.isUnlocked.hasNSquare, animate);
-        hide_and_show(elements.giantcube_area, player.isUnlocked.giantcube, animate);
-        hide_and_show(elements.giga_area, player.isUnlocked.giantcube, animate);
+        hide_and_show(elements.giantcube_area, player.isUnlocked.giantcube && !rebuilt, animate);
+        hide_and_show(elements.giga_area, player.isUnlocked.giantcube && !rebuilt, animate);
         toggleLocking(elements.giga_locked_div, elements.giga_unlocked_div, player.isUnlocked.gigacube_reached);
         hide_and_show(elements.giga_upgrades_div, player.isUnlocked.gigacube, animate);
         hide_and_show(elements.collapse_layer_area, player.isUnlocked.neonsquare, animate);
@@ -842,6 +870,7 @@ main_functions.gameFunctions = {
         hide_and_show(elements.rebuild_layer_area, player.isUnlocked.rebuild_reached, animate);
         hide_and_show(elements.portal_to_realm_3, player.isUnlocked.rebuild, animate);
         hide_and_show(elements.rebuild_rank, player.isUnlocked.rebuild, animate);
+        hide_and_show(elements.white_holes_div, player.isUnlocked.uniqueplace, animate);
     },
     roundValues()
     {
