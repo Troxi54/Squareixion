@@ -205,7 +205,7 @@ main_functions.updates = {  // update HTML
 
     replaceCollapse()
     {
-        if (player.isUnlocked.galaxyhave && elements.collapse_area.find(elements.collapse_layer_area).length === 0) {
+        if (player.isUnlocked.galaxyhave && elements.collapse_area_second.find(elements.collapse_layer_area).length === 0) {
             elements.collapse_area_second.append(elements.collapse_layer_area);
         }
         else if (!player.isUnlocked.galaxyhave && elements.main_realm.find(elements.collapse_layer_area).length === 0) {
@@ -320,7 +320,7 @@ main_functions.updates = {  // update HTML
     UGInfo()
     {
         fs.update(elements.ug_info, `<span class="rebuild">Universe generators:</span> <span class="white-text">${abb_abs(player.universe_generators)}</span> <span class="dark-text">|</span> <span class="rebuild">${abb_abs(player.universe_generators.pow(3))}x universes</span>`
-                                    + (nosave.Autoclickers.ug_generator.isWorking() ? `<br><span class="darker-text">(+${abb_abs(get.ug_gain.div(nosave.Autoclickers.ug_generator2.isWorking() ? (10/(11/10)) : 100))}/sec)</span>` : '<br>') +
+                                    + (nosave.Autoclickers.ug_generator.isWorking() ? `<br><span class="darker-text">(+${abb_abs(get.ug_gain.div(nosave.Autoclickers.ug_generator2.isWorking() ? (100/3) : 100))}/sec)</span>` : '<br>') +
                                      `<br><span class="rebuild">Universes:</span> <span class="white-text">${abb_abs(player.universes)}</span> <span class="darker-text">(+${abb_abs(get.universe_gain)}/sec)</span><br><br>\
                                      <div class="line"></div><br>\
                                      <span class="white-text size-75">Raises your <span class="damage">damage</span> to the power of <span class="pow">${abb_abs(get.u_d)}</span>` +
@@ -373,6 +373,17 @@ main_functions.updates = {  // update HTML
     whiteHoleButtonInfo()
     {
         fs.update(elements.white_hole_button_text, player.unique_place ? (`You ${get.wh.gt(player.white_holes) ? "can" : "can't"} set your white holes to ${abb(get.wh, 3, true)}`) : `Enter the unique place`);
+    },
+    replaceRebuild()
+    {
+        if (nosave.milestones.rebuild_milestones[11].isEnough() && elements.rebuild_area_main.find(elements.rebuild_layer_area).length === 0) {
+            elements.rebuild_area_main.append(elements.rebuild_layer_area);
+            if (!elements.rebuild_layer_area.hasClass('moved')) elements.rebuild_layer_area.addClass('moved');
+        }
+        else if (!nosave.milestones.rebuild_milestones[11].isEnough() && elements.galaxy_area_main.find(elements.rebuild_layer_area).length === 0) {
+            elements.galaxy_area_main.append(elements.rebuild_layer_area);
+            if (elements.rebuild_layer_area.hasClass('moved')) elements.rebuild_layer_area.removeClass('moved');
+        }
     },
 
     updateAll()

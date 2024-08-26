@@ -30,7 +30,7 @@ function restartGame()
     gameFunctions.spawnGCube(true);
 
     fs.update(elements.change_realm_music_text, `Always play normal realm music: ${player.always_play_normal_realm_music ? `ON` : `OFF`}`);
-    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `ON` : `OFF`}`)
+    fs.update(elements.outside_music_text, `Play music outside the page: ${player.outside_music ? `ON` : `OFF`}`);
 
     gameFunctions.hideAndShowContent(false); gameFunctions.hideAndShowContent(false);
 
@@ -50,7 +50,7 @@ function abb(num, acc = 2, absolute = false)
     };
     if (absolute && num.lt(N('0e0'))) num = N('0e0');
     // taken and edited from: https://lngi-incremental.glitch.me
-    const abbs = ['', 'k', 'M', 'B', 'T', 'Q', 'q', 'S', 's'];
+    const abbs = ['', 'k', 'M', 'B', 'T', 'Qd', 'Qn', 'Sx', 'Sp', 'Oc', 'No', 'Dc', 'Ud', 'Dd', 'Td'];
     if (num.eq("0")) {
         return "0";
     } else if (num.lt("1e3")) {
@@ -61,19 +61,15 @@ function abb(num, acc = 2, absolute = false)
         const log = num.log(1e3).abs().floor();
         const numm = num.div(Decimal.pow(1e3, log));
         return numm.toFixed(3 - +numm.log(10).floor()) + abbs[log.toNumber()];
-    } else if(num.lt("ee6"))  {
+    } else if (num.lt("ee6")) {
         let exp = num.log10();
             exp = exp.plus(exp.div(1e9)).floor();
         return num.div(N(10).pow(exp)).toNumber().toFixed(2) + "e" + abb(exp, 0);
-    } else {
+    } else if (num.lt("eeee10")) {
         return "e" + abb(num.log10(), acc);
+    } else {
+        return "F" + abb(num.slog(10), acc);
     }
-    // this causes lags for some reason
-    /* else if(num.slog(10).lt(10)) {
-        // return "e" + abb(num.log10(), acc);
-    } else if(num.slog(10).gte(10)) {
-        return "10^^" + abb(num.slog(10), acc);
-    } */
 }
 
 function abb_int(num) { return abb(num, 0); }

@@ -217,9 +217,9 @@ function setNosaveValues()
             new Milestone(10, function(){ return 1; }, '-', 'rebuild_rank', function() { return `No longer have nerfs in The Strange Place`}, 8, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(10)}`),
             new Milestone(15, function(){ return 1; }, '-', 'rebuild_rank', function() { return `<span class="size-75">Revamp the normal realm, unlocks new universe effect and unlocks the black hole generator</span>`}, 9, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(15)}`),
             new Milestone(16, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Automatically enter The Strange Place on reset`}, 10, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(16)}`),
-            new Milestone(140, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks <span class="white-holes-stroke">The Unique Place</span> and bulk rebuild ranks`}, 11, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(140)}`),
+            new Milestone(140, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks <span class="white-holes-stroke">The Unique Place</span>, moves rebuild reset here and bulk rebuild ranks`}, 11, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(140)}`),
             new Milestone(170, function(){ return 1; }, '-', 'rebuild_rank', function() { return `Unlocks the universe generator generator 1%`}, 12, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(170)}`),
-            new Milestone(320, function(){ return 1; }, '-', 'rebuild_rank', function() { return `The endgame and unlocks the universe generator generator 10%`}, 13, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(320)}`)
+            new Milestone(320, function(){ return 1; }, '-', 'rebuild_rank', function() { return `The endgame and unlocks the universe generator generator 2%`}, 13, ()=>nosave.milestones.rebuild_milestones, `Rebuild rank ${abb_abs_int(320)}`)
         ]
     }
 
@@ -272,7 +272,7 @@ function setNosaveValues()
         'collapsed_times_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[7].enough, function(multi=1){if (get.ct_g.gt(0)) changeValue('collapsed_times', player.collapsed_times.plus(get.ct_g.div(settings.fps).times(5).times(multi)))}, ()=>getLoopInterval()),
         'blackhole_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[9].enough && player.strange_place, function(){if (get.bh.gt(0)) changeValue('black_holes', player.black_holes.lt(get.bh) ? get.bh : player.black_holes)}, ()=>getLoopInterval()),
         'ug_generator' : new Auto(()=>nosave.milestones.rebuild_milestones[12].enough, function(){if (get.ug_gain.gt(0)) changeValue('universe_generators', player.universe_generators.plus(get.ug_gain.div(settings.fps).div(100)))}, ()=>getLoopInterval()),
-        'ug_generator2' : new Auto(()=>nosave.milestones.rebuild_milestones[13].enough, function(){if (get.ug_gain.gt(0)) changeValue('universe_generators', player.universe_generators.plus(get.ug_gain.div(settings.fps).div(10)))}, ()=>getLoopInterval()),
+        'ug_generator2' : new Auto(()=>nosave.milestones.rebuild_milestones[13].enough, function(){if (get.ug_gain.gt(0)) changeValue('universe_generators', player.universe_generators.plus(get.ug_gain.div(settings.fps).div(100/2)))}, ()=>getLoopInterval()),
     };
 
     

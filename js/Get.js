@@ -426,7 +426,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
         return player.unique_place ? currency.overflow(1, 0.4, 2) : currency;
     },
     uniquePlace2(currency) {
-        return player.unique_place ? currency.overflow(1, 0.62175, 2) : currency;
+        return player.unique_place ? currency.overflow(1, 0.62213, 2) : currency;
     },
 
     updateWhiteHoleGain()

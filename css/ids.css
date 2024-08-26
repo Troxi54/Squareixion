@@ -386,6 +386,12 @@
     gap: 25px;
 }
 
+#rebuild-area-main {
+    width: fit-content;
+    height: 100%;
+    gap: 25px;
+}
+
 #collapse-layer-area.when-animation {
     z-index: 11;
 }
@@ -457,7 +463,7 @@
 }
 
 #intro * {
-    font-family:"Inconsolata", monospace;
+    font-family: monospace;
 }
 
 @keyframes intro {
