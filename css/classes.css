@@ -11,6 +11,7 @@
 }
 
 .frame {
+    position: relative;
     width: 414px;
     aspect-ratio: 1.42 / 1;
     background-color: black;
@@ -201,6 +202,7 @@
 .lock-info {
     font-size: 22px;
     text-wrap: wrap;
+    width: 90%;
 }
 
 .button {
@@ -521,6 +523,8 @@
 .layer-button-text {
     font-size: 19px;
     color: var(--darker-color);
+    width: 90%;
+    line-height: 100%;
 }
 
 .layer-button:active > .layer-button-text:not(.layer-button-text-cannot) {
@@ -529,6 +533,7 @@
 
 .layer-button:active > .layer-button-text-cannot {
     color: rgb(255, 0, 0) !important;
+    -webkit-text-fill-color: red !important;
 }
 
 .layer-upgrades-div {
@@ -586,30 +591,31 @@
     position: relative;
     background-color: black;
 }
-.upgrade * {
-    pointer-events: none;
-}
 
 .upgrade:active {
     background-color: var(--darker-color-2);
 }
 
+.upgrade > p {
+  margin: 0;
+}
+
 .upgrade-name {
     font-size: .75em;
-    top: -5%;
+    top: 5%;
 }
 
 .upgrade-info {
     font-size: .75em;
-    top: 20%;
     text-wrap: wrap;
+    transform: translateY(5%);
+    width: 90%;
 }
 
 .upgrade-cost {
-    font-size: .75em;
-    top: 72.5%;
+    font-size: .7em;
     text-wrap: nowrap;
-    text-align: center;
+    bottom: 2.5%;
 }
 
 .milestone-container {
@@ -681,7 +687,7 @@
     top: 55%;
     transform: translateY(-50%);
     word-wrap: break-word;
-    width: 95%;
+    width: 90%;
 }
 
 .milestone-info span.size-75  {

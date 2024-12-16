@@ -64,7 +64,8 @@ function abb(num, acc = 2, absolute = false)
     } else if (num.lt("ee6")) {
         let exp = num.log10();
             exp = exp.plus(exp.div(1e9)).floor();
-        return num.div(N(10).pow(exp)).toNumber().toFixed(2) + "e" + abb(exp, 0);
+        let prec = 2;
+        return num.div(N(10).pow(exp)).toNumber().toFixed(prec) + "e" + abb(exp, 0);
     } else if (num.lt("eeee10")) {
         return "e" + abb(num.log10(), acc);
     } else {

@@ -10,7 +10,7 @@ let elements = {},
 
 const settings = {
     game_name: "Squareixion",
-    game_version: [0, 5, 1, ''],
+    game_version: [0, 5, 2, ''],
     savefile_name: "Squareixion save",
     fps: 'later...',
     save: true,
@@ -39,10 +39,12 @@ unlocks = {
 ,
 events = {
     isCubeHeld: false,
+    isGSHeld: false,
 }
 ,
 times = {
-    cubeHold: [.1, Date.now()]
+    cubeHold: [.016, Date.now()],
+    GSHold: [.016, Date.now()]
 }
 ,
 hotkeys = {

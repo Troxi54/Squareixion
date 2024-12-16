@@ -263,9 +263,9 @@ main_functions.add_events = function()
         }
         gameFunctions.damageCube();
     })
-    elements.cube.on('mousedown', function(){ events.isCubeHeld = true; }); elements.cube.on('touchstart', function(){ events.isCubeHeld = true; });
-    $(document.body).on('mouseup', function(){ events.isCubeHeld = false; }); $(document.body).on('touchend', function(){ events.isCubeHeld = false; });
-    $(document.body).on('mouseleave', function(){ events.isCubeHeld = false; });
+    elements.cube.on('mousedown touchstart', function(){ events.isCubeHeld = true; });
+    elements.giantcube.on('mousedown touchstart', function(){ events.isGSHeld = true; });
+    $(document.body).on('mouseup touchend mouseleave', function(){ events.isCubeHeld = false; events.isGSHeld = false; });
 
     elements.giantcube.on('click contextmenu', function(e)
     {
@@ -279,6 +279,7 @@ main_functions.add_events = function()
 
     elements.prestige_button.on('click', gameFunctions.prestige);
     elements.light_button.on('click', gameFunctions.light);
+    elements.minicube_place.on('mousedown touchstart', function(event){gameFunctions.miniCube(event, true)});
     elements.master_button.on('click', gameFunctions.master);
     elements.giga_button.on('click', this.gameFunctions.gigalize);
     elements.neon_button.on('click', function(){gameFunctions.spawnNeonSquare()});

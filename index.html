@@ -48,9 +48,18 @@
                     <span id="title-info" class="darker-text"><br>An incremental game about squares!</span>
                 </p>
                 <div id="changelog">
-                    <p id="changelog-title">Version 0.5.1</p>
+                    <p id="changelog-title">Version 0.5.2</p>
                     <p id="changelog-info">The Unique Place update | Endgame at ~stage e14,500</p>
                     <div id="changelogs">
+                        <p>&emsp;&emsp;v0.5.2<br>
+                          - Added new effect for <span class="spoiler">master</span> milestone 10. <br>
+                          - The text no longer goes beyond the borders of each upgrade. <br>
+                          - The 64-square was removed and replaced with X-square. <br>
+                          - The rate of damage to squares while holding has been significantly increased. <br>
+                          - The collapse upgrade 7 was removed (because it didn't even work). <br>
+                          - Added epilepsy warning. <br>
+                          - Many other small changes.
+                        </p>
                         <p>&emsp;&emsp;v0.5.1<br>
                             - Some changes in the rebuild gameplay. <br>
                             - Changed number format.
@@ -147,6 +156,7 @@
                         <button title="Play the game without sounds" id="play-without" class="button"><p>Without sounds</p></button>
                     </div>
                 </div>
+                <div id="epilepsy-warning"><p>This game contains flashing lights and patterns that may potentially trigger seizures in individuals with photosensitive epilepsy. Player discretion is advised.</p><div><p>!</p></div></div>
             </div>
             <div id="currencies-place">
                 <p id="stage">hi</p>
@@ -254,7 +264,7 @@
                                 <p id="minicube-info"></p>
                             </div>
                         </div>
-                        <button id="minicube-place" class="button" onclick="gameFunctions.miniCube(event, true)"></button>
+                        <button id="minicube-place" class="button"></button>
                     </div>
                     <div id="master-area" class="area">
                         <div id="master-div" class="frame master-frame column-flex layer-div">
@@ -459,11 +469,6 @@
                                 <p id="collapse-upgrades-info" class="absolute layer-upgrades-info"></p>
                                 <p id="collapse-upgrades-name" class="layer-upgrades-name">Upgrades</p>
                                 <div id="collapse-upgrades-container" class="upgrades-container frame-noglow basic-frame">
-                                    <button class="button upgrade frame-noglow basic-frame">
-                                        <p class="upgrade-name"></p>
-                                        <p class="upgrade-info"></p>
-                                        <p class="upgrade-cost"></p>
-                                    </button>
                                     <button class="button upgrade frame-noglow basic-frame">
                                         <p class="upgrade-name"></p>
                                         <p class="upgrade-info"></p>

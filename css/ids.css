@@ -80,7 +80,7 @@
     top: 0%;
     width: 100%;
     height: 100%;
-    background-image: url("../images/background.jpg");
+    background-image: url("../images/background.webp");
     background-repeat: repeat;
     z-index: -5;
     pointer-events: none;
@@ -190,8 +190,9 @@
 }
 
 #minicube-info {
-    font-size: 30px;
-    line-height: 50px;
+    font-size: 26px;
+    line-height: 25px;
+    width: 90%;
 }
 
 #minicube-place {
@@ -587,6 +588,33 @@
     text-align: start;
 }
 
+#epilepsy-warning {
+  font-size: .1em;
+  position: absolute;
+  right: 1%;
+  width: 10%;
+  bottom: 1%;
+  background-color: black;
+  border: .25vmin white solid;
+  padding: 0.5vmin;
+}
+
+#epilepsy-warning > div {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2vmin;
+  height: 2vmin;
+  background-color: white;
+  border-radius: 100%;
+  transform: translate(50%, -50%);
+  font-size: 2em;
+}
+
+#epilepsy-warning > div > p {
+  color: black;
+}
+
 #collapse-area {
     width: 1000px;
     gap: 25px;
@@ -858,6 +886,10 @@
     width: 1000px;
 }
 
+#rebuild-milestones {
+  height: 400px;
+}
+
 #rebuild-milestones-info {
     position: absolute;
     top: 2.5%;
@@ -865,8 +897,8 @@
 
 #rebuild-milestones-container {
     position: absolute;
-    height: 45%;
-    top: 25%;
+    height: 55%;
+    top: unset;
 }
 
 /* #rebuild-milestones-container:last-child {
@@ -888,6 +920,8 @@
 
 #rebuild-rank-button {
     border-color: rgb(0, 119, 255);
+    bottom: 5%;
+    top: unset;
 }
 
 #rebuild-rank-button:hover {

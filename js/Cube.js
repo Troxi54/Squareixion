@@ -42,7 +42,7 @@ const cubes = [
     new Cube("God of Electricity", 500),
     new Cube("Quadruple Square", N('1e3')),
     new Cube("Hexadecimal Square", N('2.5e3')),
-    new Cube("64-Square", N('5e3')),
+    new Cube("X-Square", N('5e3')),
     new Cube("Agressive Square", N('1e4')),
     new Cube("Peaceful Square", N('5e4')),
     new Cube("Hidden Square", N('1e6')),

@@ -311,10 +311,11 @@ button.cube:active {
     background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-.cube._64-square {
-    background-color: rgb(180, 180, 180);
+.cube.x-square {
+    background-color: rgb(34, 34, 34);
+    box-shadow: 0 0 25px 0px white, 0 0 25px 0px inset black;
 }
-.cube._64-square::before {
+.cube.x-square::before {
     content: '';
     display: flex;
     position: absolute;
@@ -324,13 +325,13 @@ button.cube:active {
     left: 0%;
     margin: 0;
     padding: 0;
-    background-image: url('../images/4squares.png');
-    background-size: 25% 25%;
-    opacity: .25;
+    background-image: url('../images/x.svg');
+
+    opacity: 1;
 }
 
-.cube-text._64-square-text {
-    background: linear-gradient(to right, rgb(82, 82, 82), rgb(134, 134, 134),rgb(82, 82, 82));
+.cube-text.x-square-text {
+    background: linear-gradient(to right, rgb(231, 213, 213), rgb(77, 77, 77) 45%, rgb(0, 0, 0) 50%, rgb(77, 77, 77) 55%,rgb(255, 255, 255));
     background-clip: text; -webkit-text-fill-color: transparent;
 }
 

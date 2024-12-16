@@ -1,7 +1,7 @@
 main_functions.updates = {  // update HTML
     version()
     {
-        fs.update(elements.version, `<span class="white-text">v${settings.game_version[0]}.${settings.game_version[1]}${settings.game_version[2] ? '.' + settings.game_version[2] : ''}${settings.game_version[3] ? '.' + settings.game_version[3] : ''}</span>`);
+        fs.update(elements.version, `<span class="white-text">${settings.game_version[0]}.${settings.game_version[1]}${settings.game_version[2] ? '.' + settings.game_version[2] : ''}${settings.game_version[3] ? '.' + settings.game_version[3] : ''}</span>`);
     },
     changelogVersion()
     {
@@ -28,7 +28,6 @@ main_functions.updates = {  // update HTML
         fs.update(elements.cube_info, `<span class="white-text">Rank: </span><span class="cube-text ${ get.cube_style + settings.cube_text_plus_style }">${ get.cube_name }</span><br>
                                        <span class="white-text">HP: ${ abb_abs(player.cube_hp) }/${ abb_abs(get.cube_total_hp) } </span><br>
                                        <span class="damage">Damage:</span> ${ abb(get.damage) }`);
-        this.stage();
     },
     prestigeLockedInfo()
     {
@@ -95,7 +94,7 @@ main_functions.updates = {  // update HTML
                                     + (get.mini_cubes.gte(nosave.ms_cap_3[0]) ? `<br><span class="cap-3">(Hardcapped)</span>` :
                                         get.mini_cubes.gte(nosave.ms_cap_2[0]) ? `<br><span class="cap-2">(Capped)</span>` :
                                             get.mini_cubes.gte(nosave.ms_cap[0]) ? `<br><span class="cap">(Softcapped)</span>` : '') +
-                                           `<br>${ abb_abs(get.mc_pp) }x <span class="prestige">prestige points</span><br>
+                                           `<br><br>${ abb_abs(get.mc_pp) }x <span class="prestige">prestige points</span><br><br>
                                            ${ abb_abs(get.mc_lp) }x <span class="light">light points</span>`);
     },
     masterLockedInfo()
@@ -108,7 +107,7 @@ main_functions.updates = {  // update HTML
                                                                   ${gameFunctions.getCubeNameWithStage(get.master_requirement)}`
                                                                  : nosave.Autoclickers.master_autoclicker.isWorking() ? `+${abb_abs_int(get.master_average)}/s master levels` :
                                                                     nosave.milestones.collapse_milestones[0].isEnough() ? 
-                                                                                    `You can increase master level by +${abb_abs_int(get.master_bulk)}` : `You can increase master level`)
+                                                                                    `You can increase master level by +${abb_abs_int(get.master_bulk)}<br>${get.master_bulk.lt(100) ? `For next: Stage ${abb_abs_int(get.updateMasterRequirement(player.master_level.plus(get.master_bulk)))}` : ''}` : `You can increase master level`)
                                                                     + (player.master_level.gte(nosave.master_cap_2[0]) ? ` <span class="cap-2">(Capped)</span>` :
                                                                             player.master_level.gte(nosave.master_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : ''));
         if (player.stage.lt(get.master_requirement)) { elements.master_button_text.addClass('layer-button-text-cannot'); elements.master_button.addClass('button-cannot'); }
@@ -289,12 +288,15 @@ main_functions.updates = {  // update HTML
                                                                                    <br><span class="white-text-important">${abb_abs(get.bh_s)}x</span> <span class="stars">stars</span>\
                                                                                    <br><span class="white-text-important">${abb_abs(get.bh_ct)}x</span> <span class="collapse-text">collapsed times</span></span>`
                                                 : 'Entering the strange place forces collapse.\
-                                                All pre-collapse currency gain<sup>0.5</sup>. Leaving the strange place gives you black holes based on your stage.')
+                                                All pre-collapse currency gain<sup>0.5</sup>. Leaving the strange place gives you black holes based on your stage.');
     },
     blackHoleButtonInfo()
     {
         fs.update(elements.black_hole_button_text, player.strange_place ? (nosave.Autoclickers.blackhole_generator.isWorking() ? `Setting your black holes to ${abb_abs(get.bh)}` : ( `You ${get.bh.gt(player.black_holes) ? "can" : "can't"} set your black holes to ${abb_abs(get.bh)}`))
                         + (get.bh.gte(nosave.black_hole_cap[0]) ? ` <span class="cap">(Softcapped)</span>` : '') : `Enter the strange place`);
+        if (player.strange_place) elements.black_hole_button.removeClass('button-cannot');
+        else if (player.stage.lt(unlocks.collapse) || !nosave.milestones.collapse_milestones[7].isEnough()) elements.black_hole_button.addClass('button-cannot');
+        else elements.black_hole_button.removeClass('button-cannot');
     },
     fpsChangerInfo()
     {
@@ -373,6 +375,14 @@ main_functions.updates = {  // update HTML
     whiteHoleButtonInfo()
     {
         fs.update(elements.white_hole_button_text, player.unique_place ? (`You ${get.wh.gt(player.white_holes) ? "can" : "can't"} set your white holes to ${abb(get.wh, 3, true)}`) : `Enter the unique place`);
+        if (player.unique_place) {
+          console.log(get.wh.lte(player.white_holes))
+          if (get.wh.lte(player.white_holes)) { elements.white_hole_button_text.addClass('layer-button-text-cannot'); }
+          else { elements.white_hole_button_text.removeClass('layer-button-text-cannot'); }
+        } else {
+          elements.white_hole_button_text.removeClass('layer-button-text-cannot');
+        }
+        
     },
     replaceRebuild()
     {

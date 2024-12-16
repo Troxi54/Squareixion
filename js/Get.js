@@ -213,9 +213,9 @@ main_functions.get = { // Update and get currencies that are based on formulas
     updateGigaSquareGain()
     {
         this.giga_squares = this.uniquePlace(Decimal.pow(player.giant_cube_stage.gte(unlocks.giga_squares) ? player.giant_cube_stage.log(10) : 1, player.giant_cube_stage.minus(unlocks.giga_squares).max(0).pow(0.75))  
-                                                                    .times(fs.upgradesEffect('giga_square'))
-                                                                    .times(fs.milestonesEffect('giga_square'))
-                                                                    .pow(fs.upgradesEffectPow('giga_square'))
+                                                                    .times(fs.upgradesEffect('giga_squares'))
+                                                                    .times(fs.milestonesEffect('giga_squares'))
+                                                                    .pow(fs.upgradesEffectPow('giga_squares'))
                                                                     .times(nosave.giga_square_multi)
                                                                     .pow(get.bh_effect)
                                                                     .times(+player.giant_cube_stage.gte(unlocks.giga_squares))
@@ -450,6 +450,11 @@ main_functions.get = { // Update and get currencies that are based on formulas
 
     updateAll()
     {
+        this.updatePrestigeUpgradesValues();
+        this.updateLightUpgradesValues();
+        this.updateRubyUpgradesValues();
+        this.updateGigaUpgradesValues();
+        this.updateStarUpgradesValues();
         this.updateWhiteHoleGain();
         this.updateWHBHEffect();
         this.updateRebuildRankBulk()
@@ -463,11 +468,7 @@ main_functions.get = { // Update and get currencies that are based on formulas
         this.updateBHCTEffect();
         this.updateBHSEffect();
         this.updateCollapsedTimesGain();
-        this.updatePrestigeUpgradesValues();
-        this.updateLightUpgradesValues();
-        this.updateRubyUpgradesValues();
-        this.updateGigaUpgradesValues();
-        this.updateStarUpgradesValues();
+        
         this.updateCubeStat();
         this.updateMasterBulk();
         this.updateMasterRequirement();

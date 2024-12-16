@@ -441,7 +441,7 @@ main_functions.gameFunctions = {
             let rng = N('1e0').div(Math.random()).times(get.neon_luck),
                 should = rng.log(3.5).floor(),
                 tier = first ? player.neon_tier : should;
-            if (nosave.milestones.collapse_milestones[0].isEnough() && !first) tier = should.gt(player.neon_tier) ? should : player.neon_tier;
+            if (!first) tier = should.gt(player.neon_tier) ? should : player.neon_tier;
             //if (should.gt(player.neon_tier)) tier = should;
             (function() // color part
             {
@@ -645,19 +645,18 @@ main_functions.gameFunctions = {
     },
     strangePlace()
     { 
+      if (!player.strange_place) {
         if (player.stage.gte(unlocks.collapse) && nosave.milestones.collapse_milestones[7].isEnough()) {
-            if (!player.strange_place) {
-                gameFunctions.collapse();
-                player.strange_place = true;
-                console.log('entered')
-            }
-            else {
-                if (get.bh.gt(player.black_holes)) player.black_holes = get.bh;
-                gameFunctions.collapse();
-                player.strange_place = false;
-                player.isUnlocked.strangeplace_once = true;
-            }
+          gameFunctions.collapse();
+          player.strange_place = true;
         }
+      }
+      else {
+          if (get.bh.gt(player.black_holes)) player.black_holes = get.bh;
+          gameFunctions.collapse();
+          player.strange_place = false;
+          player.isUnlocked.strangeplace_once = true;
+      }
     },
     rebuild()
     {
@@ -783,7 +782,6 @@ main_functions.gameFunctions = {
             if (!player.unique_place) {
                 gameFunctions.rebuild();
                 player.unique_place = true;
-                console.log('entered')
             }
             else {
                 if (get.wh.gt(player.white_holes)) player.white_holes = get.wh;
