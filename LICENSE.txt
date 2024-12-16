@@ -1,0 +1,15 @@
+License for Squareixion
+The game Squareixion is the intellectual property of Troxi. You are granted permission to:
+
+Host and Share — Distribute or host this game on platforms or services, under these conditions:
+
+The game must be made freely accessible to all users (no payment required for access).
+No advertisements may be shown to users as a condition for playing the game.
+The platform hosting the game must not charge users or monetize the game in any way (e.g., no paywalls or "watch ads for access").
+Modify — Create and distribute modifications to this game, under these conditions:
+
+The original license file must be included in the modified version.
+Clear attribution to the original author, Troxi, must remain visible.
+Modifications must not claim to replace or overwrite the original author's rights.
+
+For inquiries about commercial use or permissions, please contact troxidev@gmail.com.
